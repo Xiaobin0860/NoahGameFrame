@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: yu.tang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,14 +34,14 @@
 class NFMemoryCounter
 {
 private:
-	NFMemoryCounter() {}
+    NFMemoryCounter() {}
 
     std::string mclassName;
 
     struct Data
     {
         Data(NFMemoryCounter* p, int d)
-            :deep(d)
+            : deep(d)
         {
             data.insert(std::map<NFMemoryCounter*, int>::value_type(p, d));
         }
@@ -52,17 +52,17 @@ private:
 
 
 public:
-	static std::map<std::string, Data>* mxCounter;
+    static std::map<std::string, Data>* mxCounter;
 
-	NFMemoryCounter(const std::string& className, const int deep = 0)
-	{
-		mclassName = className;
+    NFMemoryCounter(const std::string& className, const int deep = 0)
+    {
+        mclassName = className;
 
         if (!mxCounter)
         {
             mxCounter = NF_NEW std::map<std::string, Data>();
         }
-		
+
         auto it = mxCounter->find(mclassName);
         if (it == mxCounter->end())
         {
@@ -72,10 +72,10 @@ public:
         {
             it->second.data.insert(std::map<NFMemoryCounter*, int>::value_type(this, deep));
         }
-	}
+    }
 
-	virtual ~NFMemoryCounter()
-	{
+    virtual ~NFMemoryCounter()
+    {
         auto it = mxCounter->find(mclassName);
         if (it != mxCounter->end())
         {
@@ -85,7 +85,7 @@ public:
                 it->second.data.erase(it2);
             }
         }
-	}
+    }
 
     virtual void ToMemoryCounterString(std::string& info) = 0;
 
@@ -100,7 +100,7 @@ public:
 
             if (deep && it->second.deep)
             {
-                for  (auto data : it->second.data)
+                for (auto data : it->second.data)
                 {
                     data.first->ToMemoryCounterString(info);
                 }

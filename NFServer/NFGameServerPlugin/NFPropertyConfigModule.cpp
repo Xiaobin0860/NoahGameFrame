@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -55,11 +55,11 @@ bool NFPropertyConfigModule::AfterInit()
 const std::string& NFPropertyConfigModule::GetInitPropertyID(const int nJob,  const int nLevel)
 {
     std::map<NFGUID, std::string>& propertyData = GetData();
-	auto it = propertyData.find(NFGUID(nJob, nLevel));
-	if (it != propertyData.end())
-	{
+    auto it = propertyData.find(NFGUID(nJob, nLevel));
+    if (it != propertyData.end())
+    {
         return it->second;
-	}
+    }
 
     return NULL_STR;
 }
@@ -74,11 +74,11 @@ void NFPropertyConfigModule::AddInitPropertyID(const int nJob, const int nLevel,
 {
     std::map<NFGUID, std::string>& propertyData = GetData();
 
-	auto it = propertyData.find(NFGUID(nJob, nLevel));
-	if (it != propertyData.end())
-	{
+    auto it = propertyData.find(NFGUID(nJob, nLevel));
+    if (it != propertyData.end())
+    {
         propertyData.insert(std::make_pair(NFGUID(nJob, nLevel), data));
-	}
+    }
 }
 
 void NFPropertyConfigModule::SetEx(const bool b)
@@ -91,10 +91,10 @@ void NFPropertyConfigModule::Load()
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::InitProperty::ThisName());
     if (xLogicClass)
     {
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
 
             NF_SHARE_PTR<NFIPropertyManager> pPropertyManager = m_pElementModule->GetPropertyManager(strId);
             if (pPropertyManager)
@@ -104,11 +104,11 @@ void NFPropertyConfigModule::Load()
 
                 std::map<NFGUID, std::string>& propertyData = GetData();
 
-				auto it = propertyData.find(NFGUID(nJob, nLevel));
-				if (it == propertyData.end())
-				{
+                auto it = propertyData.find(NFGUID(nJob, nLevel));
+                if (it == propertyData.end())
+                {
                     propertyData.insert(std::make_pair(NFGUID(nJob, nLevel), strId));
-				}
+                }
             }
         }
     }
@@ -121,11 +121,11 @@ std::map<NFGUID, std::string>& NFPropertyConfigModule::GetData()
 
 bool NFPropertyConfigModule::LegalLevel(const int nJob, const int nLevel)
 {
-	auto it = mhtCoefficientData.find(NFGUID(nJob, nLevel));
-	if (it != mhtCoefficientData.end())
-	{
-		return true;
-	}
+    auto it = mhtCoefficientData.find(NFGUID(nJob, nLevel));
+    if (it != mhtCoefficientData.end())
+    {
+        return true;
+    }
 
 
     return false;

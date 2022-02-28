@@ -86,7 +86,10 @@ struct OptionalIndex
 
     // Observers
 
-    inline bool has_value() const { return m_index != invalid_index; }
+    inline bool has_value() const
+    {
+        return m_index != invalid_index;
+    }
 
     inline int value() const
     {
@@ -102,15 +105,30 @@ struct OptionalIndex
         return *this;
     }
 
-    inline void reset() { m_index = invalid_index; }
+    inline void reset()
+    {
+        m_index = invalid_index;
+    }
 
-    inline bool operator==(const OptionalIndex& rhs) const { return m_index == rhs.m_index; }
+    inline bool operator==(const OptionalIndex& rhs) const
+    {
+        return m_index == rhs.m_index;
+    }
 
-    inline bool operator==(const int rhs) const { return m_index == rhs; }
+    inline bool operator==(const int rhs) const
+    {
+        return m_index == rhs;
+    }
 
-    inline bool operator!=(const OptionalIndex& rhs) const { return m_index != rhs.m_index; }
+    inline bool operator!=(const OptionalIndex& rhs) const
+    {
+        return m_index != rhs.m_index;
+    }
 
-    inline bool operator!=(const int rhs) const { return m_index != rhs; }
+    inline bool operator!=(const int rhs) const
+    {
+        return m_index != rhs;
+    }
 
     static const int invalid_index = -1;
 
@@ -128,7 +146,7 @@ struct NodeData
     struct
     {
         ImU32 background, background_hovered, background_selected, outline, titlebar,
-            titlebar_hovered, titlebar_selected;
+              titlebar_hovered, titlebar_selected;
     } color_style;
 
     struct
@@ -148,7 +166,10 @@ struct NodeData
     {
     }
 
-    ~NodeData() { id = INT_MIN; }
+    ~NodeData()
+    {
+        id = INT_MIN;
+    }
 };
 
 struct PinData
@@ -352,10 +373,10 @@ inline ImVec2 eval_bezier(float t, const BezierCurve& bezier)
 {
     // B(t) = (1-t)**3 p0 + 3(1 - t)**2 t P1 + 3(1-t)t**2 P2 + t**3 P3
     return ImVec2(
-        (1 - t) * (1 - t) * (1 - t) * bezier.p0.x + 3 * (1 - t) * (1 - t) * t * bezier.p1.x +
-            3 * (1 - t) * t * t * bezier.p2.x + t * t * t * bezier.p3.x,
-        (1 - t) * (1 - t) * (1 - t) * bezier.p0.y + 3 * (1 - t) * (1 - t) * t * bezier.p1.y +
-            3 * (1 - t) * t * t * bezier.p2.y + t * t * t * bezier.p3.y);
+               (1 - t) * (1 - t) * (1 - t) * bezier.p0.x + 3 * (1 - t) * (1 - t) * t * bezier.p1.x +
+               3 * (1 - t) * t * t * bezier.p2.x + t * t * t * bezier.p3.x,
+               (1 - t) * (1 - t) * (1 - t) * bezier.p0.y + 3 * (1 - t) * (1 - t) * t * bezier.p1.y +
+               3 * (1 - t) * t * t * bezier.p2.y + t * t * t * bezier.p3.y);
 }
 
 // Calculates the closest point along each bezier curve segment.
@@ -438,7 +459,10 @@ inline float eval_implicit_line_eq(const ImVec2& p1, const ImVec2& p2, const ImV
     return (p2.y - p1.y) * p.x + (p1.x - p2.x) * p.y + (p2.x * p1.y - p1.x * p2.y);
 }
 
-inline int sign(float val) { return int(val > 0.0f) - int(val < 0.0f); }
+inline int sign(float val)
+{
+    return int(val > 0.0f) - int(val < 0.0f);
+}
 
 inline bool rectangle_overlaps_line_segment(const ImRect& rect, const ImVec2& p1, const ImVec2& p2)
 {
@@ -470,11 +494,13 @@ inline bool rectangle_overlaps_line_segment(const ImRect& rect, const ImVec2& p1
         return false;
     }
 
-    const int corner_signs[4] = {
+    const int corner_signs[4] =
+    {
         sign(eval_implicit_line_eq(p1, p2, flip_rect.Min)),
         sign(eval_implicit_line_eq(p1, p2, ImVec2(flip_rect.Max.x, flip_rect.Min.y))),
         sign(eval_implicit_line_eq(p1, p2, ImVec2(flip_rect.Min.x, flip_rect.Max.y))),
-        sign(eval_implicit_line_eq(p1, p2, flip_rect.Max))};
+        sign(eval_implicit_line_eq(p1, p2, flip_rect.Max))
+    };
 
     int sum = 0;
     int sum_abs = 0;
@@ -959,7 +985,7 @@ ImVec2 get_screen_space_pin_coordinates(
 {
     assert(type == AttributeType_Input || type == AttributeType_Output);
     const float x = type == AttributeType_Input ? (node_rect.Min.x - g->style.pin_offset)
-                                                : (node_rect.Max.x + g->style.pin_offset);
+                    : (node_rect.Max.x + g->style.pin_offset);
     return ImVec2(x, 0.5f * (attribute_rect.Min.y + attribute_rect.Max.y));
 }
 
@@ -1047,8 +1073,8 @@ void begin_link_interaction(EditorContext& editor, const int link_idx)
     else
     {
         const bool modifier_pressed = g->io.link_detach_with_modifier_click.modifier == NULL
-                                          ? false
-                                          : *g->io.link_detach_with_modifier_click.modifier;
+                                      ? false
+                                      : *g->io.link_detach_with_modifier_click.modifier;
 
         if (modifier_pressed)
         {
@@ -1159,9 +1185,9 @@ void box_selector_update_selection(EditorContext& editor, ImRect box_rect)
             const ImRect& node_end_rect = editor.nodes.pool[pin_end.parent_node_idx].rect;
 
             const ImVec2 start = get_screen_space_pin_coordinates(
-                node_start_rect, pin_start.attribute_rect, pin_start.type);
+                                     node_start_rect, pin_start.attribute_rect, pin_start.type);
             const ImVec2 end = get_screen_space_pin_coordinates(
-                node_end_rect, pin_end.attribute_rect, pin_end.type);
+                                   node_end_rect, pin_end.attribute_rect, pin_end.type);
 
             // Test
             if (rectangle_overlaps_link(box_rect, start, end, pin_start.type))
@@ -1244,179 +1270,179 @@ void click_interaction_update(EditorContext& editor)
 {
     switch (editor.click_interaction_type)
     {
-    case ClickInteractionType_BoxSelection:
-    {
-        ImRect& box_rect = editor.click_interaction_state.box_selector.rect;
-        box_rect.Max = g->mouse_pos;
-
-        box_selector_update_selection(editor, box_rect);
-
-        const ImU32 box_selector_color = g->style.colors[ColorStyle_BoxSelector];
-        const ImU32 box_selector_outline = g->style.colors[ColorStyle_BoxSelectorOutline];
-        g->canvas_draw_list->AddRectFilled(box_rect.Min, box_rect.Max, box_selector_color);
-        g->canvas_draw_list->AddRect(box_rect.Min, box_rect.Max, box_selector_outline);
-
-        if (g->left_mouse_released)
+        case ClickInteractionType_BoxSelection:
         {
-            ImVector<int>& depth_stack = editor.node_depth_order;
-            const ImVector<int>& selected_idxs = editor.selected_node_indices;
+            ImRect& box_rect = editor.click_interaction_state.box_selector.rect;
+            box_rect.Max = g->mouse_pos;
 
-            // Bump the selected node indices, in order, to the top of the depth stack.
-            // NOTE: this algorithm has worst case time complexity of O(N^2), if the node selection
-            // is ~ N (due to selected_idxs.contains()).
+            box_selector_update_selection(editor, box_rect);
 
-            if ((selected_idxs.Size > 0) && (selected_idxs.Size < depth_stack.Size))
+            const ImU32 box_selector_color = g->style.colors[ColorStyle_BoxSelector];
+            const ImU32 box_selector_outline = g->style.colors[ColorStyle_BoxSelectorOutline];
+            g->canvas_draw_list->AddRectFilled(box_rect.Min, box_rect.Max, box_selector_color);
+            g->canvas_draw_list->AddRect(box_rect.Min, box_rect.Max, box_selector_outline);
+
+            if (g->left_mouse_released)
             {
-                int num_moved = 0; // The number of indices moved. Stop after selected_idxs.Size
-                for (int i = 0; i < depth_stack.Size - selected_idxs.Size; ++i)
-                {
-                    for (int node_idx = depth_stack[i]; selected_idxs.contains(node_idx);
-                         node_idx = depth_stack[i])
-                    {
-                        depth_stack.erase(depth_stack.begin() + static_cast<size_t>(i));
-                        depth_stack.push_back(node_idx);
-                        ++num_moved;
-                    }
+                ImVector<int>& depth_stack = editor.node_depth_order;
+                const ImVector<int>& selected_idxs = editor.selected_node_indices;
 
-                    if (num_moved == selected_idxs.Size)
+                // Bump the selected node indices, in order, to the top of the depth stack.
+                // NOTE: this algorithm has worst case time complexity of O(N^2), if the node selection
+                // is ~ N (due to selected_idxs.contains()).
+
+                if ((selected_idxs.Size > 0) && (selected_idxs.Size < depth_stack.Size))
+                {
+                    int num_moved = 0; // The number of indices moved. Stop after selected_idxs.Size
+                    for (int i = 0; i < depth_stack.Size - selected_idxs.Size; ++i)
                     {
-                        break;
+                        for (int node_idx = depth_stack[i]; selected_idxs.contains(node_idx);
+                             node_idx = depth_stack[i])
+                        {
+                            depth_stack.erase(depth_stack.begin() + static_cast<size_t>(i));
+                            depth_stack.push_back(node_idx);
+                            ++num_moved;
+                        }
+
+                        if (num_moved == selected_idxs.Size)
+                        {
+                            break;
+                        }
                     }
                 }
+
+                editor.click_interaction_type = ClickInteractionType_None;
             }
-
-            editor.click_interaction_type = ClickInteractionType_None;
         }
-    }
-    break;
-    case ClickInteractionType_Node:
-    {
-        translate_selected_nodes(editor);
-
-        if (g->left_mouse_released)
+        break;
+        case ClickInteractionType_Node:
         {
-            editor.click_interaction_type = ClickInteractionType_None;
-        }
-    }
-    break;
-    case ClickInteractionType_Link:
-    {
-        if (g->left_mouse_released)
-        {
-            editor.click_interaction_type = ClickInteractionType_None;
-        }
-    }
-    break;
-    case ClickInteractionType_LinkCreation:
-    {
-        const PinData& start_pin =
-            editor.pins.pool[editor.click_interaction_state.link_creation.start_pin_idx];
+            translate_selected_nodes(editor);
 
-        const OptionalIndex maybe_duplicate_link_idx =
-            g->hovered_pin_idx.has_value()
+            if (g->left_mouse_released)
+            {
+                editor.click_interaction_type = ClickInteractionType_None;
+            }
+        }
+        break;
+        case ClickInteractionType_Link:
+        {
+            if (g->left_mouse_released)
+            {
+                editor.click_interaction_type = ClickInteractionType_None;
+            }
+        }
+        break;
+        case ClickInteractionType_LinkCreation:
+        {
+            const PinData& start_pin =
+                editor.pins.pool[editor.click_interaction_state.link_creation.start_pin_idx];
+
+            const OptionalIndex maybe_duplicate_link_idx =
+                g->hovered_pin_idx.has_value()
                 ? find_duplicate_link(
-                      editor,
-                      editor.click_interaction_state.link_creation.start_pin_idx,
-                      g->hovered_pin_idx.value())
+                    editor,
+                    editor.click_interaction_state.link_creation.start_pin_idx,
+                    g->hovered_pin_idx.value())
                 : OptionalIndex();
 
-        const bool should_snap =
-            g->hovered_pin_idx.has_value() &&
-            should_link_snap_to_pin(
-                editor, start_pin, g->hovered_pin_idx.value(), maybe_duplicate_link_idx);
+            const bool should_snap =
+                g->hovered_pin_idx.has_value() &&
+                should_link_snap_to_pin(
+                    editor, start_pin, g->hovered_pin_idx.value(), maybe_duplicate_link_idx);
 
-        // If we created on snap and the hovered pin is empty or changed, then we need signal that
-        // the link's state has changed.
-        const bool snapping_pin_changed =
-            editor.click_interaction_state.link_creation.end_pin_idx.has_value() &&
-            !(g->hovered_pin_idx == editor.click_interaction_state.link_creation.end_pin_idx);
+            // If we created on snap and the hovered pin is empty or changed, then we need signal that
+            // the link's state has changed.
+            const bool snapping_pin_changed =
+                editor.click_interaction_state.link_creation.end_pin_idx.has_value() &&
+                !(g->hovered_pin_idx == editor.click_interaction_state.link_creation.end_pin_idx);
 
-        // Detach the link that was created by this link event if it's no longer in snap range
-        if (snapping_pin_changed && g->snap_link_idx.has_value())
-        {
-            begin_link_detach(
-                editor,
-                g->snap_link_idx.value(),
-                editor.click_interaction_state.link_creation.end_pin_idx.value());
-        }
+            // Detach the link that was created by this link event if it's no longer in snap range
+            if (snapping_pin_changed && g->snap_link_idx.has_value())
+            {
+                begin_link_detach(
+                    editor,
+                    g->snap_link_idx.value(),
+                    editor.click_interaction_state.link_creation.end_pin_idx.value());
+            }
 
-        const ImVec2 start_pos = get_screen_space_pin_coordinates(editor, start_pin);
-        // If we are within the hover radius of a receiving pin, snap the link
-        // endpoint to it
-        const ImVec2 end_pos = should_snap
+            const ImVec2 start_pos = get_screen_space_pin_coordinates(editor, start_pin);
+            // If we are within the hover radius of a receiving pin, snap the link
+            // endpoint to it
+            const ImVec2 end_pos = should_snap
                                    ? get_screen_space_pin_coordinates(
-                                         editor, editor.pins.pool[g->hovered_pin_idx.value()])
+                                       editor, editor.pins.pool[g->hovered_pin_idx.value()])
                                    : g->mouse_pos;
 
-        const LinkBezierData link_data = get_link_renderable(
-            start_pos, end_pos, start_pin.type, g->style.link_line_segments_per_length);
+            const LinkBezierData link_data = get_link_renderable(
+                                                 start_pos, end_pos, start_pin.type, g->style.link_line_segments_per_length);
 #if IMGUI_VERSION_NUM < 18000
-        g->canvas_draw_list->AddBezierCurve(
+            g->canvas_draw_list->AddBezierCurve(
 #else
-        g->canvas_draw_list->AddBezierCubic(
+            g->canvas_draw_list->AddBezierCubic(
 #endif
-            link_data.bezier.p0,
-            link_data.bezier.p1,
-            link_data.bezier.p2,
-            link_data.bezier.p3,
-            g->style.colors[ColorStyle_Link],
-            g->style.link_thickness,
-            link_data.num_segments);
+                link_data.bezier.p0,
+                link_data.bezier.p1,
+                link_data.bezier.p2,
+                link_data.bezier.p3,
+                g->style.colors[ColorStyle_Link],
+                g->style.link_thickness,
+                link_data.num_segments);
 
-        const bool link_creation_on_snap =
-            g->hovered_pin_idx.has_value() && (editor.pins.pool[g->hovered_pin_idx.value()].flags &
-                                               AttributeFlags_EnableLinkCreationOnSnap);
+            const bool link_creation_on_snap =
+                g->hovered_pin_idx.has_value() && (editor.pins.pool[g->hovered_pin_idx.value()].flags &
+                                                   AttributeFlags_EnableLinkCreationOnSnap);
 
-        if (!should_snap)
-        {
-            editor.click_interaction_state.link_creation.end_pin_idx.reset();
-        }
-
-        const bool create_link = should_snap && (g->left_mouse_released || link_creation_on_snap);
-
-        if (create_link && !maybe_duplicate_link_idx.has_value())
-        {
-            // Avoid send OnLinkCreated() events every frame if the snap link is not saved
-            // (only applies for EnableLinkCreationOnSnap)
-            if (!g->left_mouse_released &&
-                editor.click_interaction_state.link_creation.end_pin_idx == g->hovered_pin_idx)
+            if (!should_snap)
             {
-                break;
+                editor.click_interaction_state.link_creation.end_pin_idx.reset();
             }
 
-            g->element_state_change |= ElementStateChange_LinkCreated;
-            editor.click_interaction_state.link_creation.end_pin_idx = g->hovered_pin_idx.value();
-        }
+            const bool create_link = should_snap && (g->left_mouse_released || link_creation_on_snap);
 
-        if (g->left_mouse_released)
-        {
-            editor.click_interaction_type = ClickInteractionType_None;
-            if (!create_link)
+            if (create_link && !maybe_duplicate_link_idx.has_value())
             {
-                g->element_state_change |= ElementStateChange_LinkDropped;
+                // Avoid send OnLinkCreated() events every frame if the snap link is not saved
+                // (only applies for EnableLinkCreationOnSnap)
+                if (!g->left_mouse_released &&
+                    editor.click_interaction_state.link_creation.end_pin_idx == g->hovered_pin_idx)
+                {
+                    break;
+                }
+
+                g->element_state_change |= ElementStateChange_LinkCreated;
+                editor.click_interaction_state.link_creation.end_pin_idx = g->hovered_pin_idx.value();
+            }
+
+            if (g->left_mouse_released)
+            {
+                editor.click_interaction_type = ClickInteractionType_None;
+                if (!create_link)
+                {
+                    g->element_state_change |= ElementStateChange_LinkDropped;
+                }
             }
         }
-    }
-    break;
-    case ClickInteractionType_Panning:
-    {
-        const bool dragging = g->middle_mouse_dragging;
+        break;
+        case ClickInteractionType_Panning:
+        {
+            const bool dragging = g->middle_mouse_dragging;
 
-        if (dragging)
-        {
-            editor.panning += ImGui::GetIO().MouseDelta;
+            if (dragging)
+            {
+                editor.panning += ImGui::GetIO().MouseDelta;
+            }
+            else
+            {
+                editor.click_interaction_type = ClickInteractionType_None;
+            }
         }
-        else
-        {
-            editor.click_interaction_type = ClickInteractionType_None;
-        }
-    }
-    break;
-    case ClickInteractionType_None:
         break;
-    default:
-        assert(!"Unreachable code!");
-        break;
+        case ClickInteractionType_None:
+            break;
+        default:
+            assert(!"Unreachable code!");
+            break;
     }
 }
 
@@ -1562,7 +1588,7 @@ OptionalIndex resolve_hovered_link(
         // rendering the links
 
         const LinkBezierData link_data = get_link_renderable(
-            start_pin.pos, end_pin.pos, start_pin.type, g->style.link_line_segments_per_length);
+                                             start_pin.pos, end_pin.pos, start_pin.type, g->style.link_line_segments_per_length);
 
         // The distance test
         {
@@ -1573,7 +1599,7 @@ OptionalIndex resolve_hovered_link(
             if (link_rect.Contains(g->mouse_pos))
             {
                 const float distance = get_distance_to_cubic_bezier(
-                    g->mouse_pos, link_data.bezier, link_data.num_segments);
+                                           g->mouse_pos, link_data.bezier, link_data.num_segments);
 
                 // TODO: g->style.link_hover_distance could be also copied into LinkData, since
                 // we're not calling this function in the same scope as imnodes::Link(). The
@@ -1618,7 +1644,10 @@ inline ImVec2 editor_space_to_screen_space(const ImVec2& v)
     return g->canvas_origin_screen_space + v;
 }
 
-inline ImRect get_item_rect() { return ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax()); }
+inline ImRect get_item_rect()
+{
+    return ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+}
 
 inline ImVec2 get_node_title_bar_origin(const NodeData& node)
 {
@@ -1638,9 +1667,9 @@ inline ImRect get_node_title_rect(const NodeData& node)
     expanded_title_rect.Expand(node.layout_style.padding);
 
     return ImRect(
-        expanded_title_rect.Min,
-        expanded_title_rect.Min + ImVec2(node.rect.GetWidth(), 0.f) +
-            ImVec2(0.f, expanded_title_rect.GetHeight()));
+               expanded_title_rect.Min,
+               expanded_title_rect.Min + ImVec2(node.rect.GetWidth(), 0.f) +
+               ImVec2(0.f, expanded_title_rect.GetHeight()));
 }
 
 void draw_grid(EditorContext& editor, const ImVec2& canvas_size)
@@ -1720,75 +1749,75 @@ void draw_pin_shape(const ImVec2& pin_pos, const PinData& pin, const ImU32 pin_c
 
     switch (pin.shape)
     {
-    case PinShape_Circle:
-    {
-        g->canvas_draw_list->AddCircle(
-            pin_pos,
-            g->style.pin_circle_radius,
-            pin_color,
-            circle_num_segments,
-            g->style.pin_line_thickness);
-    }
-    break;
-    case PinShape_CircleFilled:
-    {
-        g->canvas_draw_list->AddCircleFilled(
-            pin_pos, g->style.pin_circle_radius, pin_color, circle_num_segments);
-    }
-    break;
-    case PinShape_Quad:
-    {
-        const QuadOffsets offset = calculate_quad_offsets(g->style.pin_quad_side_length);
-        g->canvas_draw_list->AddQuad(
-            pin_pos + offset.top_left,
-            pin_pos + offset.bottom_left,
-            pin_pos + offset.bottom_right,
-            pin_pos + offset.top_right,
-            pin_color,
-            g->style.pin_line_thickness);
-    }
-    break;
-    case PinShape_QuadFilled:
-    {
-        const QuadOffsets offset = calculate_quad_offsets(g->style.pin_quad_side_length);
-        g->canvas_draw_list->AddQuadFilled(
-            pin_pos + offset.top_left,
-            pin_pos + offset.bottom_left,
-            pin_pos + offset.bottom_right,
-            pin_pos + offset.top_right,
-            pin_color);
-    }
-    break;
-    case PinShape_Triangle:
-    {
-        const TriangleOffsets offset =
-            calculate_triangle_offsets(g->style.pin_triangle_side_length);
-        g->canvas_draw_list->AddTriangle(
-            pin_pos + offset.top_left,
-            pin_pos + offset.bottom_left,
-            pin_pos + offset.right,
-            pin_color,
-            // NOTE: for some weird reason, the line drawn by AddTriangle is
-            // much thinner than the lines drawn by AddCircle or AddQuad.
-            // Multiplying the line thickness by two seemed to solve the
-            // problem at a few different thickness values.
-            2.f * g->style.pin_line_thickness);
-    }
-    break;
-    case PinShape_TriangleFilled:
-    {
-        const TriangleOffsets offset =
-            calculate_triangle_offsets(g->style.pin_triangle_side_length);
-        g->canvas_draw_list->AddTriangleFilled(
-            pin_pos + offset.top_left,
-            pin_pos + offset.bottom_left,
-            pin_pos + offset.right,
-            pin_color);
-    }
-    break;
-    default:
-        assert(!"Invalid PinShape value!");
+        case PinShape_Circle:
+        {
+            g->canvas_draw_list->AddCircle(
+                pin_pos,
+                g->style.pin_circle_radius,
+                pin_color,
+                circle_num_segments,
+                g->style.pin_line_thickness);
+        }
         break;
+        case PinShape_CircleFilled:
+        {
+            g->canvas_draw_list->AddCircleFilled(
+                pin_pos, g->style.pin_circle_radius, pin_color, circle_num_segments);
+        }
+        break;
+        case PinShape_Quad:
+        {
+            const QuadOffsets offset = calculate_quad_offsets(g->style.pin_quad_side_length);
+            g->canvas_draw_list->AddQuad(
+                pin_pos + offset.top_left,
+                pin_pos + offset.bottom_left,
+                pin_pos + offset.bottom_right,
+                pin_pos + offset.top_right,
+                pin_color,
+                g->style.pin_line_thickness);
+        }
+        break;
+        case PinShape_QuadFilled:
+        {
+            const QuadOffsets offset = calculate_quad_offsets(g->style.pin_quad_side_length);
+            g->canvas_draw_list->AddQuadFilled(
+                pin_pos + offset.top_left,
+                pin_pos + offset.bottom_left,
+                pin_pos + offset.bottom_right,
+                pin_pos + offset.top_right,
+                pin_color);
+        }
+        break;
+        case PinShape_Triangle:
+        {
+            const TriangleOffsets offset =
+                calculate_triangle_offsets(g->style.pin_triangle_side_length);
+            g->canvas_draw_list->AddTriangle(
+                pin_pos + offset.top_left,
+                pin_pos + offset.bottom_left,
+                pin_pos + offset.right,
+                pin_color,
+                // NOTE: for some weird reason, the line drawn by AddTriangle is
+                // much thinner than the lines drawn by AddCircle or AddQuad.
+                // Multiplying the line thickness by two seemed to solve the
+                // problem at a few different thickness values.
+                2.f * g->style.pin_line_thickness);
+        }
+        break;
+        case PinShape_TriangleFilled:
+        {
+            const TriangleOffsets offset =
+                calculate_triangle_offsets(g->style.pin_triangle_side_length);
+            g->canvas_draw_list->AddTriangleFilled(
+                pin_pos + offset.top_left,
+                pin_pos + offset.bottom_left,
+                pin_pos + offset.right,
+                pin_color);
+        }
+        break;
+        default:
+            assert(!"Invalid PinShape value!");
+            break;
     }
 }
 
@@ -1914,7 +1943,7 @@ void draw_link(EditorContext& editor, const int link_idx)
     const PinData& end_pin = editor.pins.pool[link.end_pin_idx];
 
     const LinkBezierData link_data = get_link_renderable(
-        start_pin.pos, end_pin.pos, start_pin.type, g->style.link_line_segments_per_length);
+                                         start_pin.pos, end_pin.pos, start_pin.type, g->style.link_line_segments_per_length);
 
     const bool link_hovered = g->hovered_link_idx == link_idx &&
                               editor.click_interaction_type != ClickInteractionType_BoxSelection;
@@ -2035,7 +2064,10 @@ void initialize(Context* context)
     StyleColorsDark();
 }
 
-void shutdown(Context* ctx) { EditorContextFree(ctx->default_editor_ctx); }
+void shutdown(Context* ctx)
+{
+    EditorContextFree(ctx->default_editor_ctx);
+}
 } // namespace
 
 // [SECTION] API implementation
@@ -2060,7 +2092,9 @@ Context* CreateContext()
 {
     Context* ctx = IM_NEW(Context)();
     if (g == NULL)
+    {
         SetCurrentContext(ctx);
+    }
     initialize(ctx);
     return ctx;
 }
@@ -2068,16 +2102,26 @@ Context* CreateContext()
 void DestroyContext(Context* ctx)
 {
     if (ctx == NULL)
+    {
         ctx = g;
+    }
     shutdown(ctx);
     if (g == ctx)
+    {
         SetCurrentContext(NULL);
+    }
     IM_DELETE(ctx);
 }
 
-Context* GetCurrentContext() { return g; }
+Context* GetCurrentContext()
+{
+    return g;
+}
 
-void SetCurrentContext(Context* ctx) { g = ctx; }
+void SetCurrentContext(Context* ctx)
+{
+    g = ctx;
+}
 
 EditorContext* EditorContextCreate()
 {
@@ -2092,7 +2136,10 @@ void EditorContextFree(EditorContext* ctx)
     ImGui::MemFree(ctx);
 }
 
-void EditorContextSet(EditorContext* ctx) { g->editor_ctx = ctx; }
+void EditorContextSet(EditorContext* ctx)
+{
+    g->editor_ctx = ctx;
+}
 
 ImVec2 EditorContextGetPanning()
 {
@@ -2115,11 +2162,20 @@ void EditorContextMoveToNode(const int node_id)
     editor.panning.y = -node.origin.y;
 }
 
-void SetImGuiContext(ImGuiContext* ctx) { ImGui::SetCurrentContext(ctx); }
+void SetImGuiContext(ImGuiContext* ctx)
+{
+    ImGui::SetCurrentContext(ctx);
+}
 
-IO& GetIO() { return g->io; }
+IO& GetIO()
+{
+    return g->io;
+}
 
-Style& GetStyle() { return g->style; }
+Style& GetStyle()
+{
+    return g->style;
+}
 
 void StyleColorsDark()
 {
@@ -2238,7 +2294,7 @@ void BeginNodeEditor()
             ImVec2(0.f, 0.f),
             true,
             ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove |
-                ImGuiWindowFlags_NoScrollWithMouse);
+            ImGuiWindowFlags_NoScrollWithMouse);
         g->canvas_origin_screen_space = ImGui::GetCursorScreenPos();
 
         // NOTE: we have to fetch the canvas draw list *after* we call
@@ -2249,8 +2305,8 @@ void BeginNodeEditor()
         {
             const ImVec2 canvas_size = ImGui::GetWindowSize();
             g->canvas_rect_screen_space = ImRect(
-                editor_space_to_screen_space(ImVec2(0.f, 0.f)),
-                editor_space_to_screen_space(canvas_size));
+                                              editor_space_to_screen_space(ImVec2(0.f, 0.f)),
+                                              editor_space_to_screen_space(canvas_size));
 
             if (g->style.flags & StyleFlags_GridLines)
             {
@@ -2439,14 +2495,20 @@ void BeginInputAttribute(const int id, const PinShape shape)
     begin_pin_attribute(id, AttributeType_Input, shape, g->current_node_idx);
 }
 
-void EndInputAttribute() { end_pin_attribute(); }
+void EndInputAttribute()
+{
+    end_pin_attribute();
+}
 
 void BeginOutputAttribute(const int id, const PinShape shape)
 {
     begin_pin_attribute(id, AttributeType_Output, shape, g->current_node_idx);
 }
 
-void EndOutputAttribute() { end_pin_attribute(); }
+void EndOutputAttribute()
+{
+    end_pin_attribute();
+}
 
 void BeginStaticAttribute(const int id)
 {
@@ -2540,50 +2602,50 @@ float& lookup_style_var(const StyleVar item)
     float* style_var = 0;
     switch (item)
     {
-    case StyleVar_GridSpacing:
-        style_var = &g->style.grid_spacing;
-        break;
-    case StyleVar_NodeCornerRounding:
-        style_var = &g->style.node_corner_rounding;
-        break;
-    case StyleVar_NodePaddingHorizontal:
-        style_var = &g->style.node_padding_horizontal;
-        break;
-    case StyleVar_NodePaddingVertical:
-        style_var = &g->style.node_padding_vertical;
-        break;
-    case StyleVar_NodeBorderThickness:
-        style_var = &g->style.node_border_thickness;
-        break;
-    case StyleVar_LinkThickness:
-        style_var = &g->style.link_thickness;
-        break;
-    case StyleVar_LinkLineSegmentsPerLength:
-        style_var = &g->style.link_line_segments_per_length;
-        break;
-    case StyleVar_LinkHoverDistance:
-        style_var = &g->style.link_hover_distance;
-        break;
-    case StyleVar_PinCircleRadius:
-        style_var = &g->style.pin_circle_radius;
-        break;
-    case StyleVar_PinQuadSideLength:
-        style_var = &g->style.pin_quad_side_length;
-        break;
-    case StyleVar_PinTriangleSideLength:
-        style_var = &g->style.pin_triangle_side_length;
-        break;
-    case StyleVar_PinLineThickness:
-        style_var = &g->style.pin_line_thickness;
-        break;
-    case StyleVar_PinHoverRadius:
-        style_var = &g->style.pin_hover_radius;
-        break;
-    case StyleVar_PinOffset:
-        style_var = &g->style.pin_offset;
-        break;
-    default:
-        assert(!"Invalid StyleVar value!");
+        case StyleVar_GridSpacing:
+            style_var = &g->style.grid_spacing;
+            break;
+        case StyleVar_NodeCornerRounding:
+            style_var = &g->style.node_corner_rounding;
+            break;
+        case StyleVar_NodePaddingHorizontal:
+            style_var = &g->style.node_padding_horizontal;
+            break;
+        case StyleVar_NodePaddingVertical:
+            style_var = &g->style.node_padding_vertical;
+            break;
+        case StyleVar_NodeBorderThickness:
+            style_var = &g->style.node_border_thickness;
+            break;
+        case StyleVar_LinkThickness:
+            style_var = &g->style.link_thickness;
+            break;
+        case StyleVar_LinkLineSegmentsPerLength:
+            style_var = &g->style.link_line_segments_per_length;
+            break;
+        case StyleVar_LinkHoverDistance:
+            style_var = &g->style.link_hover_distance;
+            break;
+        case StyleVar_PinCircleRadius:
+            style_var = &g->style.pin_circle_radius;
+            break;
+        case StyleVar_PinQuadSideLength:
+            style_var = &g->style.pin_quad_side_length;
+            break;
+        case StyleVar_PinTriangleSideLength:
+            style_var = &g->style.pin_triangle_side_length;
+            break;
+        case StyleVar_PinLineThickness:
+            style_var = &g->style.pin_line_thickness;
+            break;
+        case StyleVar_PinHoverRadius:
+            style_var = &g->style.pin_hover_radius;
+            break;
+        case StyleVar_PinOffset:
+            style_var = &g->style.pin_offset;
+            break;
+        default:
+            assert(!"Invalid StyleVar value!");
     }
 
     return *style_var;
@@ -2660,7 +2722,10 @@ ImVec2 GetNodeGridSpacePos(int node_id)
     return node.origin;
 }
 
-bool IsEditorHovered() { return mouse_in_canvas(); }
+bool IsEditorHovered()
+{
+    return mouse_in_canvas();
+}
 
 bool IsNodeHovered(int* const node_id)
 {
@@ -2810,7 +2875,7 @@ bool IsLinkDropped(int* const started_at_id, const bool including_detached_links
     const bool link_dropped = (g->element_state_change & ElementStateChange_LinkDropped) != 0 &&
                               (including_detached_links ||
                                editor.click_interaction_state.link_creation.link_creation_type !=
-                                   LinkCreationType_FromDetach);
+                               LinkCreationType_FromDetach);
 
     if (link_dropped && started_at_id)
     {

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -56,14 +56,14 @@ const int NFConfigPlugin::GetPluginVersion()
 
 const std::string NFConfigPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFConfigPlugin);
+    return GET_CLASS_NAME(NFConfigPlugin);
 }
 
 void NFConfigPlugin::Install()
 {
     REGISTER_MODULE(pPluginManager, NFIClassModule, NFClassModule)
     REGISTER_MODULE(pPluginManager, NFIElementModule, NFElementModule)
-	REGISTER_MODULE(pPluginManager, NFICommonConfigModule, NFCommonConfigModule);
+    REGISTER_MODULE(pPluginManager, NFICommonConfigModule, NFCommonConfigModule);
 
 }
 
@@ -71,5 +71,5 @@ void NFConfigPlugin::Uninstall()
 {
     UNREGISTER_MODULE(pPluginManager, NFIElementModule, NFElementModule)
     UNREGISTER_MODULE(pPluginManager, NFIClassModule, NFClassModule)
-	UNREGISTER_MODULE(pPluginManager, NFICommonConfigModule, NFCommonConfigModule);
+    UNREGISTER_MODULE(pPluginManager, NFICommonConfigModule, NFCommonConfigModule);
 }

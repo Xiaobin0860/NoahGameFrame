@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -43,45 +43,45 @@ class NFILoginNet_HttpServerModule : public NFIModule
 };
 
 class NFLoginNet_HttpServerModule
-	: public NFILoginNet_HttpServerModule
+    : public NFILoginNet_HttpServerModule
 {
 public:
-	NFLoginNet_HttpServerModule(NFIPluginManager* p)
-	{
-		pPluginManager = p;
+    NFLoginNet_HttpServerModule(NFIPluginManager* p)
+    {
+        pPluginManager = p;
         m_bIsExecute = true;
-	}
+    }
 
-	virtual bool Init();
-	virtual bool Shut();
+    virtual bool Init();
+    virtual bool Shut();
 
-	virtual bool AfterInit();
-	virtual bool Execute();
+    virtual bool AfterInit();
+    virtual bool Execute();
 
 protected:
-	bool OnLogin(NF_SHARE_PTR<NFHttpRequest> req);
-	bool OnWorldView(NF_SHARE_PTR<NFHttpRequest> req);
-	bool OnWorldSelect(NF_SHARE_PTR<NFHttpRequest>req);
+    bool OnLogin(NF_SHARE_PTR<NFHttpRequest> req);
+    bool OnWorldView(NF_SHARE_PTR<NFHttpRequest> req);
+    bool OnWorldSelect(NF_SHARE_PTR<NFHttpRequest>req);
 
-	bool OnCommonQuery(NF_SHARE_PTR<NFHttpRequest> req);
+    bool OnCommonQuery(NF_SHARE_PTR<NFHttpRequest> req);
 
-	NFWebStatus OnFilter(NF_SHARE_PTR<NFHttpRequest> req);
+    NFWebStatus OnFilter(NF_SHARE_PTR<NFHttpRequest> req);
 
-	std::string GetUserID(NF_SHARE_PTR<NFHttpRequest> req);
-	std::string GetUserJWT(NF_SHARE_PTR<NFHttpRequest> req);
-	bool CheckUserJWT(const std::string & user, const std::string & jwt);
+    std::string GetUserID(NF_SHARE_PTR<NFHttpRequest> req);
+    std::string GetUserJWT(NF_SHARE_PTR<NFHttpRequest> req);
+    bool CheckUserJWT(const std::string& user, const std::string& jwt);
 
 
-	std::map<std::string, std::string> mToken;
+    std::map<std::string, std::string> mToken;
 
 private:
-	NFINetClientModule* m_pNetClientModule;
-	NFIKernelModule* m_pKernelModule;
-	NFIHttpServerModule* m_pHttpNetModule;
-	NFILoginNet_ServerModule* m_pLoginServerModule;
-	NFILoginToMasterModule* m_pLoginToMasterModule;
-	NFIClassModule* m_pLogicClassModule;
-	NFIElementModule* m_pElementModule;
+    NFINetClientModule* m_pNetClientModule;
+    NFIKernelModule* m_pKernelModule;
+    NFIHttpServerModule* m_pHttpNetModule;
+    NFILoginNet_ServerModule* m_pLoginServerModule;
+    NFILoginToMasterModule* m_pLoginToMasterModule;
+    NFIClassModule* m_pLogicClassModule;
+    NFIElementModule* m_pElementModule;
 };
 
 #endif

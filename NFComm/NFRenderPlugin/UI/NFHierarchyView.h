@@ -1,7 +1,7 @@
 /*
-			This file is part of:
-				NoahFrame
-			https://github.com/ketoo/NoahGameFrame
+            This file is part of:
+                NoahFrame
+            https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
@@ -14,7 +14,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-	   http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,54 +36,54 @@
 class NFHierarchyView : public NFIView
 {
 public:
-	NFHierarchyView(NFIPluginManager* p, NFViewType vt);
-	virtual bool Execute();
+    NFHierarchyView(NFIPluginManager* p, NFViewType vt);
+    virtual bool Execute();
 
-   virtual void SubRender();
-
-private:
-	void GodViewSubRender();
-	void GameViewSubRender();
-	void ProjectViewSubRender();
-	void BluePrintViewSubRender();
-
-	void BluePrintViewSubRenderForLogicBlock();
-	void BluePrintViewSubRenderForMonitor();
-	void BluePrintViewSubRenderForBranch();
-	void BluePrintViewSubRenderForExecutor();
-	void BluePrintViewSubRenderForVariable();
-	void BluePrintViewSubRenderForModifier();
-	void BluePrintViewSubRenderForLogger();
-	void BluePrintViewSubRenderForArithmetic();
-
-	void BluePrintViewSubRenderForMonitorHead(NF_SHARE_PTR<NFIMonitor> monitor);
-	void BluePrintViewSubRenderForMonitorBody(NF_SHARE_PTR<NFIMonitor> monitor);
-	void BluePrintViewSubRenderForMonitorBot(NF_SHARE_PTR<NFIMonitor> monitor);
-
-	void BluePrintViewSubRenderForBranchHead(NF_SHARE_PTR<NFIBranch> branch);
-	void BluePrintViewSubRenderForBranchBody(NF_SHARE_PTR<NFIBranch> branch);
-	void BluePrintViewSubRenderForBranchBot(NF_SHARE_PTR<NFIBranch> branch);
-
-	void InitBluePrintMonitorArgs(NF_SHARE_PTR<NFIMonitor> monitor);
-	void InitBluePrintJudgementArgs(NF_SHARE_PTR<NFIBranch> branch);
-	void InitBluePrintExecutorArgs(NF_SHARE_PTR<NFIExecutor> executer);
-
-	void RenderForModifyProperty();
-	void RenderForModifyRecord();
+    virtual void SubRender();
 
 private:
-   	std::string modifyPropertyName;
-	char modifyPropertyValue[128] = "";
+    void GodViewSubRender();
+    void GameViewSubRender();
+    void ProjectViewSubRender();
+    void BluePrintViewSubRender();
 
-	std::string modifyRecordName;
-	int modifyRecordRow = 0;
-	int modifyRecordCol = 0;
-	char modifyRecordValue[128] = "";
+    void BluePrintViewSubRenderForLogicBlock();
+    void BluePrintViewSubRenderForMonitor();
+    void BluePrintViewSubRenderForBranch();
+    void BluePrintViewSubRenderForExecutor();
+    void BluePrintViewSubRenderForVariable();
+    void BluePrintViewSubRenderForModifier();
+    void BluePrintViewSubRenderForLogger();
+    void BluePrintViewSubRenderForArithmetic();
+
+    void BluePrintViewSubRenderForMonitorHead(NF_SHARE_PTR<NFIMonitor> monitor);
+    void BluePrintViewSubRenderForMonitorBody(NF_SHARE_PTR<NFIMonitor> monitor);
+    void BluePrintViewSubRenderForMonitorBot(NF_SHARE_PTR<NFIMonitor> monitor);
+
+    void BluePrintViewSubRenderForBranchHead(NF_SHARE_PTR<NFIBranch> branch);
+    void BluePrintViewSubRenderForBranchBody(NF_SHARE_PTR<NFIBranch> branch);
+    void BluePrintViewSubRenderForBranchBot(NF_SHARE_PTR<NFIBranch> branch);
+
+    void InitBluePrintMonitorArgs(NF_SHARE_PTR<NFIMonitor> monitor);
+    void InitBluePrintJudgementArgs(NF_SHARE_PTR<NFIBranch> branch);
+    void InitBluePrintExecutorArgs(NF_SHARE_PTR<NFIExecutor> executer);
+
+    void RenderForModifyProperty();
+    void RenderForModifyRecord();
 
 private:
-	NFIClassModule* m_pClassModule;
-	NFIElementModule* m_pElementModule;
-	NFIKernelModule* m_pKernelModule;
+    std::string modifyPropertyName;
+    char modifyPropertyValue[128] = "";
+
+    std::string modifyRecordName;
+    int modifyRecordRow = 0;
+    int modifyRecordCol = 0;
+    char modifyRecordValue[128] = "";
+
+private:
+    NFIClassModule* m_pClassModule;
+    NFIElementModule* m_pElementModule;
+    NFIKernelModule* m_pKernelModule;
     NFIEventModule* m_pEventModule;
     NFIBluePrintModule* m_pBluePrintModule;
     NFIBPVirtualMachineModule* m_pBPVirtualMachineModule;

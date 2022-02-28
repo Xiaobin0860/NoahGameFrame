@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -92,27 +92,27 @@ public:
 
     bool Push(const T& object)
     {
-		this->enqueue(object);
+        this->enqueue(object);
 
         return true;
     }
 
-	bool PushBulk(const T& object)
-	{
-		this->enqueue(object);
+    bool PushBulk(const T& object)
+    {
+        this->enqueue(object);
 
-		return true;
-	}
+        return true;
+    }
 
     bool TryPop(T& object)
     {
-		return this->try_dequeue(object);
+        return this->try_dequeue(object);
     }
-	
-	bool TryPopBulk(T& object)
-	{
-		return this->try_dequeue(object);
-	}
+
+    bool TryPopBulk(T& object)
+    {
+        return this->try_dequeue(object);
+    }
 };
 
 #endif

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -40,7 +40,7 @@ public:
     virtual bool Save() = 0;
     virtual bool Clear() = 0;
 
-	virtual NFIElementModule* GetThreadElementModule() = 0;
+    virtual NFIElementModule* GetThreadElementModule() = 0;
 
     //special
     virtual bool LoadSceneInfo(const std::string& fileName, const std::string& className) = 0;
@@ -52,14 +52,14 @@ public:
     virtual std::shared_ptr<NFIRecordManager> GetRecordManager(const std::string& configName) = 0;
 
     virtual NFINT64 GetPropertyInt(const std::string& configName, const std::string& propertyName) = 0;
-	virtual int GetPropertyInt32(const std::string& configName, const std::string& propertyName) = 0;
+    virtual int GetPropertyInt32(const std::string& configName, const std::string& propertyName) = 0;
     virtual double GetPropertyFloat(const std::string& configName, const std::string& propertyName) = 0;
     virtual const std::string& GetPropertyString(const std::string& configName, const std::string& propertyName) = 0;
-	virtual const NFVector2 GetPropertyVector2(const std::string& configName, const std::string& propertyName) = 0;
-	virtual const NFVector3 GetPropertyVector3(const std::string& configName, const std::string& propertyName) = 0;
+    virtual const NFVector2 GetPropertyVector2(const std::string& configName, const std::string& propertyName) = 0;
+    virtual const NFVector3 GetPropertyVector3(const std::string& configName, const std::string& propertyName) = 0;
 
-	virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const NFINT64 nValue) = 0;
-	virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const std::string& nValue) = 0;
+    virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const NFINT64 nValue) = 0;
+    virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const std::string& nValue) = 0;
 
 };
 #endif

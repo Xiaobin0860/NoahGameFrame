@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: Stonexin
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -77,24 +77,24 @@ public:
     }
 
     template<typename BaseType>
-    NFHttpServer(BaseType* pBaseType, bool (BaseType::*handleReceiver)(NF_SHARE_PTR<NFHttpRequest> req), NFWebStatus (BaseType::*handleFilter)(NF_SHARE_PTR<NFHttpRequest> req))
+    NFHttpServer(BaseType* pBaseType, bool (BaseType::*handleReceiver)(NF_SHARE_PTR<NFHttpRequest> req), NFWebStatus(BaseType::*handleFilter)(NF_SHARE_PTR<NFHttpRequest> req))
     {
         mxBase = NULL;
-		mReceiveCB = std::bind(handleReceiver, pBaseType, std::placeholders::_1);
-		mFilter = std::bind(handleFilter, pBaseType, std::placeholders::_1);
+        mReceiveCB = std::bind(handleReceiver, pBaseType, std::placeholders::_1);
+        mFilter = std::bind(handleFilter, pBaseType, std::placeholders::_1);
     }
 
     virtual ~NFHttpServer()
-	{
-		if (mxBase)
-		{
-			event_base_free(mxBase);
-			mxBase = NULL;
-		}
+    {
+        if (mxBase)
+        {
+            event_base_free(mxBase);
+            mxBase = NULL;
+        }
 
         mxHttpRequestMap.ClearAll();
         mxHttpRequestPool.clear();
-	};
+    };
 
 
     virtual bool Execute();
@@ -108,17 +108,17 @@ public:
 private:
     static void listener_cb(struct evhttp_request* req, void* arg);
 
-	NF_SHARE_PTR<NFHttpRequest> AllocHttpRequest();
+    NF_SHARE_PTR<NFHttpRequest> AllocHttpRequest();
 
 private:
     int64_t mIndex = 0;
 
     struct event_base* mxBase;
-	HTTP_RECEIVE_FUNCTOR mReceiveCB;
-	HTTP_FILTER_FUNCTOR mFilter;
+    HTTP_RECEIVE_FUNCTOR mReceiveCB;
+    HTTP_FILTER_FUNCTOR mFilter;
 
-	NFMapEx<int64_t, NFHttpRequest> mxHttpRequestMap;
-	std::list<NF_SHARE_PTR<NFHttpRequest>> mxHttpRequestPool;
+    NFMapEx<int64_t, NFHttpRequest> mxHttpRequestMap;
+    std::list<NF_SHARE_PTR<NFHttpRequest>> mxHttpRequestPool;
 };
 
 #endif

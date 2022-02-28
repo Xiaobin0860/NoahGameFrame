@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,60 +37,60 @@ typedef std::function<void(NFThreadTask&)> TASK_PROCESS_FUNCTOR;
 class NFThreadTask
 {
 public:
-	void Reset()
-	{
-		nTaskID = NFGUID();
-		data = "";
-		if (xThreadFunc)
-		{
-			xThreadFunc = TASK_PROCESS_FUNCTOR();
-		}
+    void Reset()
+    {
+        nTaskID = NFGUID();
+        data = "";
+        if (xThreadFunc)
+        {
+            xThreadFunc = TASK_PROCESS_FUNCTOR();
+        }
 
-		if (xEndFunc)
-		{
-			xEndFunc = TASK_PROCESS_FUNCTOR();
-		}
-	}
+        if (xEndFunc)
+        {
+            xEndFunc = TASK_PROCESS_FUNCTOR();
+        }
+    }
 
-	NFGUID nTaskID;
-	std::string data;
-	TASK_PROCESS_FUNCTOR xThreadFunc;
-	TASK_PROCESS_FUNCTOR xEndFunc;
+    NFGUID nTaskID;
+    std::string data;
+    TASK_PROCESS_FUNCTOR xThreadFunc;
+    TASK_PROCESS_FUNCTOR xEndFunc;
 };
 
 
 class NFIThreadPoolModule : public NFIModule
 {
 public:
-	virtual int GetThreadCount() = 0;
+    virtual int GetThreadCount() = 0;
 
-	template<typename BaseType>
-	void DoAsyncTask(const NFGUID taskID, const std::string& data, BaseType* pBase, void (BaseType::*handler_begin)(NFThreadTask&))
-	{
+    template<typename BaseType>
+    void DoAsyncTask(const NFGUID taskID, const std::string& data, BaseType* pBase, void (BaseType::*handler_begin)(NFThreadTask&))
+    {
         TASK_PROCESS_FUNCTOR functor_begin = std::bind(handler_begin, pBase, std::placeholders::_1);
 
-		DoAsyncTask(taskID, data, functor_begin, nullptr);
-	}
+        DoAsyncTask(taskID, data, functor_begin, nullptr);
+    }
 
-	template<typename BaseType>
-	void DoAsyncTask(const NFGUID taskID, const std::string& data, BaseType* pBase, void (BaseType::*handler_begin)(NFThreadTask&), void (BaseType::*handler_end)(NFThreadTask&))
-	{
+    template<typename BaseType>
+    void DoAsyncTask(const NFGUID taskID, const std::string& data, BaseType* pBase, void (BaseType::*handler_begin)(NFThreadTask&), void (BaseType::*handler_end)(NFThreadTask&))
+    {
         TASK_PROCESS_FUNCTOR functor_begin = std::bind(handler_begin, pBase, std::placeholders::_1);
-		TASK_PROCESS_FUNCTOR functor_end = std::bind(handler_end, pBase, std::placeholders::_1);
+        TASK_PROCESS_FUNCTOR functor_end = std::bind(handler_end, pBase, std::placeholders::_1);
 
-		DoAsyncTask(taskID, data, functor_begin, functor_end);
-	}
+        DoAsyncTask(taskID, data, functor_begin, functor_end);
+    }
 
     void DoAsyncTask(const NFGUID taskID, const std::string& data, TASK_PROCESS_FUNCTOR asyncFunctor)
-	{
-		TASK_PROCESS_FUNCTOR functor_end;
-		DoAsyncTask(taskID, data, asyncFunctor, functor_end);
-	}
+    {
+        TASK_PROCESS_FUNCTOR functor_end;
+        DoAsyncTask(taskID, data, asyncFunctor, functor_end);
+    }
 
-	virtual void DoAsyncTask(const NFGUID taskID, const std::string& data, TASK_PROCESS_FUNCTOR asyncFunctor, TASK_PROCESS_FUNCTOR functor_end) = 0;
+    virtual void DoAsyncTask(const NFGUID taskID, const std::string& data, TASK_PROCESS_FUNCTOR asyncFunctor, TASK_PROCESS_FUNCTOR functor_end) = 0;
 
-	/////repush the result
-	virtual void TaskResult(const NFThreadTask& task) = 0;
+    /////repush the result
+    virtual void TaskResult(const NFThreadTask& task) = 0;
 };
 
 #endif

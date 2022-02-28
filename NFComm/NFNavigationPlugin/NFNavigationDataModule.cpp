@@ -1,6 +1,6 @@
 /*
     Copyright 2009 - 2021 NoahGameFrame/NoahFrame
-    
+
    This source file is part of NoahGameFrame/NoahFrame.
    NoahGameFrame/NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
@@ -28,15 +28,15 @@
 
 bool NFNavigationDataModule::Init()
 {
-	m_pNetModule = pPluginManager->FindModule<NFINetModule>();
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-	m_pEventModule = pPluginManager->FindModule<NFIEventModule>();
-	m_pSceneModule = pPluginManager->FindModule<NFISceneModule>();
+    m_pNetModule = pPluginManager->FindModule<NFINetModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pEventModule = pPluginManager->FindModule<NFIEventModule>();
+    m_pSceneModule = pPluginManager->FindModule<NFISceneModule>();
 
-	return true;
+    return true;
 }
 
 bool NFNavigationDataModule::AfterInit()
@@ -53,7 +53,7 @@ bool NFNavigationDataModule::AfterInit()
     }
     */
 
-   // public Dictionary<int, Dictionary<NFGUID, NFVoxel>> data;
+    // public Dictionary<int, Dictionary<NFGUID, NFVoxel>> data;
     auto sceneElement = m_pClassModule->GetElement(NFrame::Scene::ThisName());
     auto sceneList = sceneElement->GetIDList();
     for (auto it = sceneList.begin(); it != sceneList.end(); ++it)
@@ -73,7 +73,7 @@ bool NFNavigationDataModule::AfterInit()
         mGroupNavigationData.AddElement(NFGUID(scene, 0), groupData);
     }
 
-	return true;
+    return true;
 }
 
 const std::string& NFNavigationDataModule::GetDefaultMapData(const int scene)
@@ -174,15 +174,15 @@ bool NFNavigationDataModule::SetMapDataLayer(const int scene, const int group, c
 bool NFNavigationDataModule::Shut()
 {
 
-	return true;
+    return true;
 }
 
 bool NFNavigationDataModule::Execute()
 {
-	return true;
+    return true;
 }
 
 const NF_SHARE_PTR<GroupNavigationData> NFNavigationDataModule::GetMapData(const int scene)
 {
-	return GetMapData(scene, 0);
+    return GetMapData(scene, 0);
 }

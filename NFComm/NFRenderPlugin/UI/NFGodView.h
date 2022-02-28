@@ -1,7 +1,7 @@
 /*
-			This file is part of:
-				NoahFrame
-			https://github.com/ketoo/NoahGameFrame
+            This file is part of:
+                NoahFrame
+            https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
@@ -14,7 +14,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-	   http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,19 +38,19 @@
 class NFGodView : public NFIView
 {
 public:
-	NFGodView(NFIPluginManager* p, NFViewType vt);
-   ~NFGodView();
-   
-	virtual bool Execute();
+    NFGodView(NFIPluginManager* p, NFViewType vt);
+    ~NFGodView();
 
-   virtual void SubRender();
+    virtual bool Execute();
 
-   NFGUID GetCurrentObjectID();
-   void SetCurrentObjectID(const NFGUID& id);
+    virtual void SubRender();
+
+    NFGUID GetCurrentObjectID();
+    void SetCurrentObjectID(const NFGUID& id);
 
 private:
-	void RenderScene(const int sceneID, const int groupID);
-	void HandlerSelected(const NFGUID& id, const bool doubleClick);
+    void RenderScene(const int sceneID, const int groupID);
+    void HandlerSelected(const NFGUID& id, const bool doubleClick);
     void DrawMapData();
     void DrawToolBar();
     void OnMapClicked(const NFVector3& pos);
@@ -72,17 +72,17 @@ private:
     NFVector2 mClickedPos;
 
 private:
-	int mGroupID = -1;
-	int mSceneID = -1;
-	NFGUID mCurrentObjectID;
-   
-	NodeSystem::NFNodeSystem mNodeSystem;
-	NFTreeView mTreeView;
+    int mGroupID = -1;
+    int mSceneID = -1;
+    NFGUID mCurrentObjectID;
+
+    NodeSystem::NFNodeSystem mNodeSystem;
+    NFTreeView mTreeView;
 private:
-	NFIUIModule* m_pUIModule;
-	NFIClassModule* m_pClassModule;
-	NFIElementModule* m_pElementModule;
-	NFISceneModule* m_pSceneModule;
+    NFIUIModule* m_pUIModule;
+    NFIClassModule* m_pClassModule;
+    NFIElementModule* m_pElementModule;
+    NFISceneModule* m_pSceneModule;
     NFIKernelModule* m_pKernelModule;
     NFINavigationDataModule* m_pNavigationDataModule;
 };

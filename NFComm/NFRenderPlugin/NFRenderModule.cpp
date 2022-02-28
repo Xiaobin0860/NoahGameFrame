@@ -1,12 +1,12 @@
 ﻿/*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,63 +29,63 @@ bool NFRenderModule::Awake()
 {
     SetupRenderer();
 
-	return true;
+    return true;
 }
 
 bool NFRenderModule::Init()
 {
-   
-	return true;
+
+    return true;
 }
 
 bool NFRenderModule::AfterInit()
 {
 
 
-	return true;
+    return true;
 }
 
 bool NFRenderModule::CheckConfig()
 {
 
-	return true;
+    return true;
 }
 
 bool NFRenderModule::ReadyExecute()
 {
 
-	return true;
+    return true;
 }
 
 bool NFRenderModule::Execute()
 {
-	return true;
+    return true;
 }
 
 bool NFRenderModule::BeforeShut()
 {
 
 
-	return true;
+    return true;
 }
 
 bool NFRenderModule::Shut()
 {
 
-	return true;
+    return true;
 }
 
 bool NFRenderModule::Finalize()
 {
 
 
-	return true;
+    return true;
 }
 
 bool NFRenderModule::OnReloadPlugin()
 {
 
-	return true;
+    return true;
 }
 
 int NFRenderModule::SetupRenderer()

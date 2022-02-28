@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,7 +29,7 @@
 NFActorModule::NFActorModule(NFIPluginManager* p)
 {
     m_bIsExecute = true;
-	pPluginManager = p;
+    pPluginManager = p;
 
     srand((unsigned)time(NULL));
 }
@@ -40,8 +40,8 @@ NFActorModule::~NFActorModule()
 
 bool NFActorModule::Init()
 {
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pThreadPoolModule = pPluginManager->FindModule<NFIThreadPoolModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pThreadPoolModule = pPluginManager->FindModule<NFIThreadPoolModule>();
 
     return true;
 }
@@ -54,20 +54,20 @@ bool NFActorModule::AfterInit()
 
 bool NFActorModule::BeforeShut()
 {
-	mxActorMap.clear();
+    mxActorMap.clear();
     return true;
 }
 
 bool NFActorModule::Shut()
 {
- 
+
     return true;
 }
 
 bool NFActorModule::Execute()
 {
-	ExecuteEvent();
-	ExecuteResultEvent();
+    ExecuteEvent();
+    ExecuteResultEvent();
 
     return true;
 }
@@ -75,93 +75,93 @@ bool NFActorModule::Execute()
 
 NF_SHARE_PTR<NFIActor> NFActorModule::RequireActor()
 {
-	NF_SHARE_PTR<NFIActor> pActor = NF_SHARE_PTR<NFIActor>(NF_NEW NFActor(m_pKernelModule->CreateGUID(), this));
-	mxActorMap.insert(std::map<NFGUID, NF_SHARE_PTR<NFIActor>>::value_type(pActor->ID(), pActor));
+    NF_SHARE_PTR<NFIActor> pActor = NF_SHARE_PTR<NFIActor>(NF_NEW NFActor(m_pKernelModule->CreateGUID(), this));
+    mxActorMap.insert(std::map<NFGUID, NF_SHARE_PTR<NFIActor>>::value_type(pActor->ID(), pActor));
 
-	return pActor;
+    return pActor;
 }
 
 NF_SHARE_PTR<NFIActor> NFActorModule::GetActor(const NFGUID nActorIndex)
 {
-	auto it = mxActorMap.find(nActorIndex);
-	if (it != mxActorMap.end())
-	{
-		return it->second;
-	}
+    auto it = mxActorMap.find(nActorIndex);
+    if (it != mxActorMap.end())
+    {
+        return it->second;
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
-bool NFActorModule::AddResult(const NFActorMessage & message)
+bool NFActorModule::AddResult(const NFActorMessage& message)
 {
-	return mxResultQueue.Push(message);
+    return mxResultQueue.Push(message);
 }
 
 bool NFActorModule::ExecuteEvent()
 {
-	static int64_t lastTime = 0;
-	int64_t nowTime = NFGetTimeMS();
-	if (nowTime < lastTime + 10)
-	{
-		return false;
-	}
+    static int64_t lastTime = 0;
+    int64_t nowTime = NFGetTimeMS();
+    if (nowTime < lastTime + 10)
+    {
+        return false;
+    }
 
-	lastTime = nowTime;
+    lastTime = nowTime;
 
-	for (auto it : mxActorMap)
-	{
-		NF_SHARE_PTR<NFIActor> pActor = it.second;
-		if (pActor)
-		{
-			if (test)
-			{
-				pActor->Execute();
-			}
-			else
-			{
-				m_pThreadPoolModule->DoAsyncTask(pActor->ID(), "",
-					[pActor](NFThreadTask& threadTask) -> void
-					{
-						pActor->Execute();
-					});
-			}
-		}
-	}
+    for (auto it : mxActorMap)
+    {
+        NF_SHARE_PTR<NFIActor> pActor = it.second;
+        if (pActor)
+        {
+            if (test)
+            {
+                pActor->Execute();
+            }
+            else
+            {
+                m_pThreadPoolModule->DoAsyncTask(pActor->ID(), "",
+                                                 [pActor](NFThreadTask & threadTask) -> void
+                {
+                    pActor->Execute();
+                });
+            }
+        }
+    }
 
-	return true;
+    return true;
 }
 
 bool NFActorModule::ExecuteResultEvent()
 {
-	NFActorMessage actorMessage;
-	while (mxResultQueue.try_dequeue(actorMessage))
-	{
-		ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end = mxEndFunctor.GetElement(actorMessage.msgID);
-		if (functorPtr_end)
-		{
-			functorPtr_end->operator()(actorMessage);
-		}
-	}
-	
-	return true;
+    NFActorMessage actorMessage;
+    while (mxResultQueue.try_dequeue(actorMessage))
+    {
+        ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end = mxEndFunctor.GetElement(actorMessage.msgID);
+        if (functorPtr_end)
+        {
+            functorPtr_end->operator()(actorMessage);
+        }
+    }
+
+    return true;
 }
 
 bool NFActorModule::SendMsgToActor(const NFGUID actorIndex, const NFGUID who, const int eventID, const std::string& data, const std::string& arg)
 {
-	static uint64_t index = 0;
+    static uint64_t index = 0;
     NF_SHARE_PTR<NFIActor> pActor = GetActor(actorIndex);
     if (nullptr != pActor)
     {
         NFActorMessage xMessage;
 
-		xMessage.id = who;
-		xMessage.index	= index++;
+        xMessage.id = who;
+        xMessage.index  = index++;
         xMessage.data = data;
-		xMessage.msgID = eventID;
-		xMessage.arg = arg;
+        xMessage.msgID = eventID;
+        xMessage.arg = arg;
 
 
-		return this->SendMsgToActor(actorIndex, xMessage);
+        return this->SendMsgToActor(actorIndex, xMessage);
     }
 
     return false;
@@ -169,30 +169,30 @@ bool NFActorModule::SendMsgToActor(const NFGUID actorIndex, const NFGUID who, co
 
 bool NFActorModule::ReleaseActor(const NFGUID nActorIndex)
 {
-	auto it = mxActorMap.find(nActorIndex);
-	if (it != mxActorMap.end())
-	{
-		mxActorMap.erase(it);
-	
-		return true;
-	}
-	
-	return false;
+    auto it = mxActorMap.find(nActorIndex);
+    if (it != mxActorMap.end())
+    {
+        mxActorMap.erase(it);
+
+        return true;
+    }
+
+    return false;
 }
 
 bool NFActorModule::AddEndFunc(const int subMessageID, ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end)
 {
-	return mxEndFunctor.AddElement(subMessageID, functorPtr_end);
+    return mxEndFunctor.AddElement(subMessageID, functorPtr_end);
 }
 
-bool NFActorModule::SendMsgToActor(const NFGUID actorIndex, const NFActorMessage &message)
+bool NFActorModule::SendMsgToActor(const NFGUID actorIndex, const NFActorMessage& message)
 {
-	auto it = mxActorMap.find(actorIndex);
-	if (it != mxActorMap.end())
-	{
-		//std::cout << "send message " << message.msgID << " to " << actorIndex.ToString() << " and msg index is " << message.index << std::endl;
-		return it->second->SendMsg(message);
-	}
+    auto it = mxActorMap.find(actorIndex);
+    if (it != mxActorMap.end())
+    {
+        //std::cout << "send message " << message.msgID << " to " << actorIndex.ToString() << " and msg index is " << message.index << std::endl;
+        return it->second->SendMsg(message);
+    }
 
-	return false;
+    return false;
 }

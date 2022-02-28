@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,21 +29,21 @@
 NFPluginServer::NFPluginServer(const std::string& strArgv)
 {
     this->strArgvList = strArgv;
-    
+
 #if NF_PLATFORM != NF_PLATFORM_WIN
-	NF_CRASH_TRY_ROOT
-#endif  
+    NF_CRASH_TRY_ROOT
+#endif
 }
 
 void NFPluginServer::Execute()
 {
-	pPluginManager->Execute();
+    pPluginManager->Execute();
 }
 
 void NFPluginServer::PrintfLogo()
 {
 #if NF_PLATFORM == NF_PLATFORM_WIN
-    
+
 #endif
 
     std::cout << "\n" << std::endl;
@@ -66,14 +66,14 @@ void NFPluginServer::PrintfLogo()
 #endif
 }
 
-void NFPluginServer::SetBasicWareLoader(std::function<void(NFIPluginManager * p)> fun)
+void NFPluginServer::SetBasicWareLoader(std::function<void(NFIPluginManager* p)> fun)
 {
-	externalBasicWarePluginLoader = fun;
+    externalBasicWarePluginLoader = fun;
 }
 
-void NFPluginServer::SetMidWareLoader(std::function<void(NFIPluginManager * p)> fun)
+void NFPluginServer::SetMidWareLoader(std::function<void(NFIPluginManager* p)> fun)
 {
-	externalMidWarePluginLoader = fun;
+    externalMidWarePluginLoader = fun;
 }
 
 void NFPluginServer::Init()
@@ -88,10 +88,10 @@ void NFPluginServer::Init()
     pPluginManager->SetConfigPath("../");
 
 
-	if (externalBasicWarePluginLoader)
-	{
-		externalBasicWarePluginLoader(pPluginManager.get());
-	}
+    if (externalBasicWarePluginLoader)
+    {
+        externalBasicWarePluginLoader(pPluginManager.get());
+    }
 
 
     if (externalMidWarePluginLoader)
@@ -99,7 +99,7 @@ void NFPluginServer::Init()
         externalMidWarePluginLoader(pPluginManager.get());
     }
 
-	pPluginManager->LoadPluginConfig();
+    pPluginManager->LoadPluginConfig();
     pPluginManager->LoadPlugin();
 
     pPluginManager->Awake();
@@ -132,29 +132,29 @@ void NFPluginServer::ProcessParameter()
 #endif
 
     std::vector<std::string> argList;
-	std::string token;
-	std::istringstream tokenStream(this->strArgvList);
-	while (std::getline(tokenStream, token, ' '))
-	{
-		argList.push_back(token);
-	}
+    std::string token;
+    std::istringstream tokenStream(this->strArgvList);
+    while (std::getline(tokenStream, token, ' '))
+    {
+        argList.push_back(token);
+    }
 
     pPluginManager->SetConfigName(FindParameterValue(argList, "Plugin="));
-	pPluginManager->SetAppName(FindParameterValue(argList, "Server="));
+    pPluginManager->SetAppName(FindParameterValue(argList, "Server="));
 
-	std::string strAppID = FindParameterValue(argList, "ID=");
+    std::string strAppID = FindParameterValue(argList, "ID=");
     int appID = 0;
     if (NF_StrTo(strAppID, appID))
     {
         pPluginManager->SetAppID(appID);
     }
 
-	std::string strDockerFlag = FindParameterValue(argList, "Docker=");
-	int nDockerFlag = 0;
-	if (NF_StrTo(strDockerFlag, nDockerFlag))
-	{
-		pPluginManager->SetRunningDocker(nDockerFlag);
-	}
+    std::string strDockerFlag = FindParameterValue(argList, "Docker=");
+    int nDockerFlag = 0;
+    if (NF_StrTo(strDockerFlag, nDockerFlag))
+    {
+        pPluginManager->SetRunningDocker(nDockerFlag);
+    }
 
     // NoSqlServer.xml:IP=\"127.0.0.1\"==IP=\"192.168.1.1\"
     if (strArgvList.find(".xml:") != string::npos)
@@ -179,11 +179,11 @@ void NFPluginServer::ProcessParameter()
     if (!strTitleName.empty())
     {
         size_t pos = strTitleName.find("Server");
-		if (pos != string::npos)
-		{
-			strTitleName.replace(pos, 6, "");
-			strTitleName = "NF" + strTitleName;
-		}
+        if (pos != string::npos)
+        {
+            strTitleName.replace(pos, 6, "");
+            strTitleName = "NF" + strTitleName;
+        }
     }
     else
     {
@@ -248,16 +248,16 @@ bool NFPluginServer::GetFileContent(NFIPluginManager* p, const std::string& strF
 
 std::string NFPluginServer::FindParameterValue(const std::vector<std::string>& argList, const std::string& header)
 {
-	for (int i = 0; i < argList.size(); i++)
-	{
-		std::string name = argList[i];
-		if (name.find(header) != string::npos)
-		{
-			name.erase(0, header.length());
-			return name;
-		}
+    for (int i = 0; i < argList.size(); i++)
+    {
+        std::string name = argList[i];
+        if (name.find(header) != string::npos)
+        {
+            name.erase(0, header.length());
+            return name;
+        }
 
-	}
+    }
 
-	return "";
+    return "";
 }

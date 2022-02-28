@@ -108,7 +108,7 @@ char* ByteToHex(const unsigned char* vByte, const int vLen)
         return NULL;
     }
 
-    char* tmp = new char[vLen * 2 + 1]; 
+    char* tmp = new char[vLen * 2 + 1];
 
     int tmp2;
     for (int i = 0; i < vLen; i++)
@@ -138,7 +138,7 @@ unsigned char* HexToByte(const char* szHex)
         return NULL;
     }
 
-    unsigned char* pbBuf = new unsigned char[iLen / 2]; 
+    unsigned char* pbBuf = new unsigned char[iLen / 2];
 
     int tmp1, tmp2;
     for (int i = 0; i < iLen / 2; i++)

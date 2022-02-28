@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,9 +35,9 @@
 class NFRedisCommand
 {
 public:
-    NFRedisCommand( const std::string& cmd )
+    NFRedisCommand(const std::string& cmd)
     {
-        mxParam.push_back( cmd );
+        mxParam.push_back(cmd);
     }
 
     ~NFRedisCommand()
@@ -46,7 +46,7 @@ public:
     }
 
     template <typename T>
-    NFRedisCommand& operator<<( const T& t )
+    NFRedisCommand& operator<<(const T& t)
     {
         std::stringstream str;
         str << t;
@@ -59,7 +59,7 @@ public:
         std::stringstream xDataString;
         xDataString << '*' << mxParam.size() << NFREDIS_CRLF;
         std::vector<std::string>::const_iterator it = mxParam.begin();
-        for ( ; it != mxParam.end(); ++it )
+        for (; it != mxParam.end(); ++it)
         {
             xDataString << '$' << it->size() << NFREDIS_CRLF;
             xDataString << *it << NFREDIS_CRLF;

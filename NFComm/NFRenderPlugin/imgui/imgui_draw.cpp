@@ -386,7 +386,9 @@ ImDrawListSharedData::ImDrawListSharedData()
 void ImDrawListSharedData::SetCircleTessellationMaxError(float max_error)
 {
     if (CircleSegmentMaxError == max_error)
+    {
         return;
+    }
 
     IM_ASSERT(max_error > 0.0f);
     CircleSegmentMaxError = max_error;
@@ -465,10 +467,14 @@ void ImDrawList::AddDrawCmd()
 void ImDrawList::_PopUnusedDrawCmd()
 {
     if (CmdBuffer.Size == 0)
+    {
         return;
+    }
     ImDrawCmd* curr_cmd = &CmdBuffer.Data[CmdBuffer.Size - 1];
     if (curr_cmd->ElemCount == 0 && curr_cmd->UserCallback == NULL)
+    {
         CmdBuffer.pop_back();
+    }
 }
 
 void ImDrawList::AddCallback(ImDrawCallback callback, void* callback_data)
@@ -557,9 +563,13 @@ int ImDrawList::_CalcCircleAutoSegmentCount(float radius) const
     // Automatic segment count
     const int radius_idx = (int)(radius + 0.999999f); // ceil to never reduce accuracy
     if (radius_idx < IM_ARRAYSIZE(_Data->CircleSegmentCounts))
-        return _Data->CircleSegmentCounts[radius_idx]; // Use cached value
+    {
+        return _Data->CircleSegmentCounts[radius_idx];    // Use cached value
+    }
     else
+    {
         return IM_DRAWLIST_CIRCLE_AUTO_SEGMENT_CALC(radius, _Data->CircleSegmentMaxError);
+    }
 }
 
 // Render-level scissoring. This is passed down to your render function but not used for CPU-side coarse clipping. Prefer using higher-level ImGui::PushClipRect() to affect logic (hit-testing and widget culling)
@@ -569,10 +579,22 @@ void ImDrawList::PushClipRect(ImVec2 cr_min, ImVec2 cr_max, bool intersect_with_
     if (intersect_with_current_clip_rect)
     {
         ImVec4 current = _CmdHeader.ClipRect;
-        if (cr.x < current.x) cr.x = current.x;
-        if (cr.y < current.y) cr.y = current.y;
-        if (cr.z > current.z) cr.z = current.z;
-        if (cr.w > current.w) cr.w = current.w;
+        if (cr.x < current.x)
+        {
+            cr.x = current.x;
+        }
+        if (cr.y < current.y)
+        {
+            cr.y = current.y;
+        }
+        if (cr.z > current.z)
+        {
+            cr.z = current.z;
+        }
+        if (cr.w > current.w)
+        {
+            cr.w = current.w;
+        }
     }
     cr.z = ImMax(cr.x, cr.z);
     cr.w = ImMax(cr.y, cr.w);
@@ -652,12 +674,24 @@ void ImDrawList::PrimRect(const ImVec2& a, const ImVec2& c, ImU32 col)
 {
     ImVec2 b(c.x, a.y), d(a.x, c.y), uv(_Data->TexUvWhitePixel);
     ImDrawIdx idx = (ImDrawIdx)_VtxCurrentIdx;
-    _IdxWritePtr[0] = idx; _IdxWritePtr[1] = (ImDrawIdx)(idx+1); _IdxWritePtr[2] = (ImDrawIdx)(idx+2);
-    _IdxWritePtr[3] = idx; _IdxWritePtr[4] = (ImDrawIdx)(idx+2); _IdxWritePtr[5] = (ImDrawIdx)(idx+3);
-    _VtxWritePtr[0].pos = a; _VtxWritePtr[0].uv = uv; _VtxWritePtr[0].col = col;
-    _VtxWritePtr[1].pos = b; _VtxWritePtr[1].uv = uv; _VtxWritePtr[1].col = col;
-    _VtxWritePtr[2].pos = c; _VtxWritePtr[2].uv = uv; _VtxWritePtr[2].col = col;
-    _VtxWritePtr[3].pos = d; _VtxWritePtr[3].uv = uv; _VtxWritePtr[3].col = col;
+    _IdxWritePtr[0] = idx;
+    _IdxWritePtr[1] = (ImDrawIdx)(idx + 1);
+    _IdxWritePtr[2] = (ImDrawIdx)(idx + 2);
+    _IdxWritePtr[3] = idx;
+    _IdxWritePtr[4] = (ImDrawIdx)(idx + 2);
+    _IdxWritePtr[5] = (ImDrawIdx)(idx + 3);
+    _VtxWritePtr[0].pos = a;
+    _VtxWritePtr[0].uv = uv;
+    _VtxWritePtr[0].col = col;
+    _VtxWritePtr[1].pos = b;
+    _VtxWritePtr[1].uv = uv;
+    _VtxWritePtr[1].col = col;
+    _VtxWritePtr[2].pos = c;
+    _VtxWritePtr[2].uv = uv;
+    _VtxWritePtr[2].col = col;
+    _VtxWritePtr[3].pos = d;
+    _VtxWritePtr[3].uv = uv;
+    _VtxWritePtr[3].col = col;
     _VtxWritePtr += 4;
     _VtxCurrentIdx += 4;
     _IdxWritePtr += 6;
@@ -667,12 +701,24 @@ void ImDrawList::PrimRectUV(const ImVec2& a, const ImVec2& c, const ImVec2& uv_a
 {
     ImVec2 b(c.x, a.y), d(a.x, c.y), uv_b(uv_c.x, uv_a.y), uv_d(uv_a.x, uv_c.y);
     ImDrawIdx idx = (ImDrawIdx)_VtxCurrentIdx;
-    _IdxWritePtr[0] = idx; _IdxWritePtr[1] = (ImDrawIdx)(idx+1); _IdxWritePtr[2] = (ImDrawIdx)(idx+2);
-    _IdxWritePtr[3] = idx; _IdxWritePtr[4] = (ImDrawIdx)(idx+2); _IdxWritePtr[5] = (ImDrawIdx)(idx+3);
-    _VtxWritePtr[0].pos = a; _VtxWritePtr[0].uv = uv_a; _VtxWritePtr[0].col = col;
-    _VtxWritePtr[1].pos = b; _VtxWritePtr[1].uv = uv_b; _VtxWritePtr[1].col = col;
-    _VtxWritePtr[2].pos = c; _VtxWritePtr[2].uv = uv_c; _VtxWritePtr[2].col = col;
-    _VtxWritePtr[3].pos = d; _VtxWritePtr[3].uv = uv_d; _VtxWritePtr[3].col = col;
+    _IdxWritePtr[0] = idx;
+    _IdxWritePtr[1] = (ImDrawIdx)(idx + 1);
+    _IdxWritePtr[2] = (ImDrawIdx)(idx + 2);
+    _IdxWritePtr[3] = idx;
+    _IdxWritePtr[4] = (ImDrawIdx)(idx + 2);
+    _IdxWritePtr[5] = (ImDrawIdx)(idx + 3);
+    _VtxWritePtr[0].pos = a;
+    _VtxWritePtr[0].uv = uv_a;
+    _VtxWritePtr[0].col = col;
+    _VtxWritePtr[1].pos = b;
+    _VtxWritePtr[1].uv = uv_b;
+    _VtxWritePtr[1].col = col;
+    _VtxWritePtr[2].pos = c;
+    _VtxWritePtr[2].uv = uv_c;
+    _VtxWritePtr[2].col = col;
+    _VtxWritePtr[3].pos = d;
+    _VtxWritePtr[3].uv = uv_d;
+    _VtxWritePtr[3].col = col;
     _VtxWritePtr += 4;
     _VtxCurrentIdx += 4;
     _IdxWritePtr += 6;
@@ -681,12 +727,24 @@ void ImDrawList::PrimRectUV(const ImVec2& a, const ImVec2& c, const ImVec2& uv_a
 void ImDrawList::PrimQuadUV(const ImVec2& a, const ImVec2& b, const ImVec2& c, const ImVec2& d, const ImVec2& uv_a, const ImVec2& uv_b, const ImVec2& uv_c, const ImVec2& uv_d, ImU32 col)
 {
     ImDrawIdx idx = (ImDrawIdx)_VtxCurrentIdx;
-    _IdxWritePtr[0] = idx; _IdxWritePtr[1] = (ImDrawIdx)(idx+1); _IdxWritePtr[2] = (ImDrawIdx)(idx+2);
-    _IdxWritePtr[3] = idx; _IdxWritePtr[4] = (ImDrawIdx)(idx+2); _IdxWritePtr[5] = (ImDrawIdx)(idx+3);
-    _VtxWritePtr[0].pos = a; _VtxWritePtr[0].uv = uv_a; _VtxWritePtr[0].col = col;
-    _VtxWritePtr[1].pos = b; _VtxWritePtr[1].uv = uv_b; _VtxWritePtr[1].col = col;
-    _VtxWritePtr[2].pos = c; _VtxWritePtr[2].uv = uv_c; _VtxWritePtr[2].col = col;
-    _VtxWritePtr[3].pos = d; _VtxWritePtr[3].uv = uv_d; _VtxWritePtr[3].col = col;
+    _IdxWritePtr[0] = idx;
+    _IdxWritePtr[1] = (ImDrawIdx)(idx + 1);
+    _IdxWritePtr[2] = (ImDrawIdx)(idx + 2);
+    _IdxWritePtr[3] = idx;
+    _IdxWritePtr[4] = (ImDrawIdx)(idx + 2);
+    _IdxWritePtr[5] = (ImDrawIdx)(idx + 3);
+    _VtxWritePtr[0].pos = a;
+    _VtxWritePtr[0].uv = uv_a;
+    _VtxWritePtr[0].col = col;
+    _VtxWritePtr[1].pos = b;
+    _VtxWritePtr[1].uv = uv_b;
+    _VtxWritePtr[1].col = col;
+    _VtxWritePtr[2].pos = c;
+    _VtxWritePtr[2].uv = uv_c;
+    _VtxWritePtr[2].col = col;
+    _VtxWritePtr[3].pos = d;
+    _VtxWritePtr[3].uv = uv_d;
+    _VtxWritePtr[3].col = col;
     _VtxWritePtr += 4;
     _VtxCurrentIdx += 4;
     _IdxWritePtr += 6;
@@ -702,7 +760,9 @@ void ImDrawList::PrimQuadUV(const ImVec2& a, const ImVec2& b, const ImVec2& c, c
 void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32 col, ImDrawFlags flags, float thickness)
 {
     if (points_count < 2)
+    {
         return;
+    }
 
     const bool closed = (flags & ImDrawFlags_Closed) != 0;
     const ImVec2 opaque_uv = _Data->TexUvWhitePixel;
@@ -748,7 +808,9 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
             temp_normals[i1].y = -dx;
         }
         if (!closed)
+        {
             temp_normals[points_count - 1] = temp_normals[points_count - 2];
+        }
 
         // If we are drawing a one-pixel-wide line without a texture, or a textured line of any width, we only need 2 or 3 vertices per point
         if (use_texture || !thick_line)
@@ -768,8 +830,8 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
             {
                 temp_points[0] = points[0] + temp_normals[0] * half_draw_size;
                 temp_points[1] = points[0] - temp_normals[0] * half_draw_size;
-                temp_points[(points_count-1)*2+0] = points[points_count-1] + temp_normals[points_count-1] * half_draw_size;
-                temp_points[(points_count-1)*2+1] = points[points_count-1] - temp_normals[points_count-1] * half_draw_size;
+                temp_points[(points_count - 1) * 2 + 0] = points[points_count - 1] + temp_normals[points_count - 1] * half_draw_size;
+                temp_points[(points_count - 1) * 2 + 1] = points[points_count - 1] - temp_normals[points_count - 1] * half_draw_size;
             }
 
             // Generate the indices to form a number of triangles for each line segment, and the vertices for the line edges
@@ -798,17 +860,29 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
                 if (use_texture)
                 {
                     // Add indices for two triangles
-                    _IdxWritePtr[0] = (ImDrawIdx)(idx2 + 0); _IdxWritePtr[1] = (ImDrawIdx)(idx1 + 0); _IdxWritePtr[2] = (ImDrawIdx)(idx1 + 1); // Right tri
-                    _IdxWritePtr[3] = (ImDrawIdx)(idx2 + 1); _IdxWritePtr[4] = (ImDrawIdx)(idx1 + 1); _IdxWritePtr[5] = (ImDrawIdx)(idx2 + 0); // Left tri
+                    _IdxWritePtr[0] = (ImDrawIdx)(idx2 + 0);
+                    _IdxWritePtr[1] = (ImDrawIdx)(idx1 + 0);
+                    _IdxWritePtr[2] = (ImDrawIdx)(idx1 + 1); // Right tri
+                    _IdxWritePtr[3] = (ImDrawIdx)(idx2 + 1);
+                    _IdxWritePtr[4] = (ImDrawIdx)(idx1 + 1);
+                    _IdxWritePtr[5] = (ImDrawIdx)(idx2 + 0); // Left tri
                     _IdxWritePtr += 6;
                 }
                 else
                 {
                     // Add indexes for four triangles
-                    _IdxWritePtr[0] = (ImDrawIdx)(idx2 + 0); _IdxWritePtr[1] = (ImDrawIdx)(idx1 + 0); _IdxWritePtr[2] = (ImDrawIdx)(idx1 + 2); // Right tri 1
-                    _IdxWritePtr[3] = (ImDrawIdx)(idx1 + 2); _IdxWritePtr[4] = (ImDrawIdx)(idx2 + 2); _IdxWritePtr[5] = (ImDrawIdx)(idx2 + 0); // Right tri 2
-                    _IdxWritePtr[6] = (ImDrawIdx)(idx2 + 1); _IdxWritePtr[7] = (ImDrawIdx)(idx1 + 1); _IdxWritePtr[8] = (ImDrawIdx)(idx1 + 0); // Left tri 1
-                    _IdxWritePtr[9] = (ImDrawIdx)(idx1 + 0); _IdxWritePtr[10] = (ImDrawIdx)(idx2 + 0); _IdxWritePtr[11] = (ImDrawIdx)(idx2 + 1); // Left tri 2
+                    _IdxWritePtr[0] = (ImDrawIdx)(idx2 + 0);
+                    _IdxWritePtr[1] = (ImDrawIdx)(idx1 + 0);
+                    _IdxWritePtr[2] = (ImDrawIdx)(idx1 + 2); // Right tri 1
+                    _IdxWritePtr[3] = (ImDrawIdx)(idx1 + 2);
+                    _IdxWritePtr[4] = (ImDrawIdx)(idx2 + 2);
+                    _IdxWritePtr[5] = (ImDrawIdx)(idx2 + 0); // Right tri 2
+                    _IdxWritePtr[6] = (ImDrawIdx)(idx2 + 1);
+                    _IdxWritePtr[7] = (ImDrawIdx)(idx1 + 1);
+                    _IdxWritePtr[8] = (ImDrawIdx)(idx1 + 0); // Left tri 1
+                    _IdxWritePtr[9] = (ImDrawIdx)(idx1 + 0);
+                    _IdxWritePtr[10] = (ImDrawIdx)(idx2 + 0);
+                    _IdxWritePtr[11] = (ImDrawIdx)(idx2 + 1); // Left tri 2
                     _IdxWritePtr += 12;
                 }
 
@@ -832,8 +906,12 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
                 ImVec2 tex_uv1(tex_uvs.z, tex_uvs.w);
                 for (int i = 0; i < points_count; i++)
                 {
-                    _VtxWritePtr[0].pos = temp_points[i * 2 + 0]; _VtxWritePtr[0].uv = tex_uv0; _VtxWritePtr[0].col = col; // Left-side outer edge
-                    _VtxWritePtr[1].pos = temp_points[i * 2 + 1]; _VtxWritePtr[1].uv = tex_uv1; _VtxWritePtr[1].col = col; // Right-side outer edge
+                    _VtxWritePtr[0].pos = temp_points[i * 2 + 0];
+                    _VtxWritePtr[0].uv = tex_uv0;
+                    _VtxWritePtr[0].col = col; // Left-side outer edge
+                    _VtxWritePtr[1].pos = temp_points[i * 2 + 1];
+                    _VtxWritePtr[1].uv = tex_uv1;
+                    _VtxWritePtr[1].col = col; // Right-side outer edge
                     _VtxWritePtr += 2;
                 }
             }
@@ -842,9 +920,15 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
                 // If we're not using a texture, we need the center vertex as well
                 for (int i = 0; i < points_count; i++)
                 {
-                    _VtxWritePtr[0].pos = points[i];              _VtxWritePtr[0].uv = opaque_uv; _VtxWritePtr[0].col = col;       // Center of line
-                    _VtxWritePtr[1].pos = temp_points[i * 2 + 0]; _VtxWritePtr[1].uv = opaque_uv; _VtxWritePtr[1].col = col_trans; // Left-side outer edge
-                    _VtxWritePtr[2].pos = temp_points[i * 2 + 1]; _VtxWritePtr[2].uv = opaque_uv; _VtxWritePtr[2].col = col_trans; // Right-side outer edge
+                    _VtxWritePtr[0].pos = points[i];
+                    _VtxWritePtr[0].uv = opaque_uv;
+                    _VtxWritePtr[0].col = col;       // Center of line
+                    _VtxWritePtr[1].pos = temp_points[i * 2 + 0];
+                    _VtxWritePtr[1].uv = opaque_uv;
+                    _VtxWritePtr[1].col = col_trans; // Left-side outer edge
+                    _VtxWritePtr[2].pos = temp_points[i * 2 + 1];
+                    _VtxWritePtr[2].uv = opaque_uv;
+                    _VtxWritePtr[2].col = col_trans; // Right-side outer edge
                     _VtxWritePtr += 3;
                 }
             }
@@ -898,12 +982,24 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
                 out_vtx[3].y = points[i2].y - dm_out_y;
 
                 // Add indexes
-                _IdxWritePtr[0]  = (ImDrawIdx)(idx2 + 1); _IdxWritePtr[1]  = (ImDrawIdx)(idx1 + 1); _IdxWritePtr[2]  = (ImDrawIdx)(idx1 + 2);
-                _IdxWritePtr[3]  = (ImDrawIdx)(idx1 + 2); _IdxWritePtr[4]  = (ImDrawIdx)(idx2 + 2); _IdxWritePtr[5]  = (ImDrawIdx)(idx2 + 1);
-                _IdxWritePtr[6]  = (ImDrawIdx)(idx2 + 1); _IdxWritePtr[7]  = (ImDrawIdx)(idx1 + 1); _IdxWritePtr[8]  = (ImDrawIdx)(idx1 + 0);
-                _IdxWritePtr[9]  = (ImDrawIdx)(idx1 + 0); _IdxWritePtr[10] = (ImDrawIdx)(idx2 + 0); _IdxWritePtr[11] = (ImDrawIdx)(idx2 + 1);
-                _IdxWritePtr[12] = (ImDrawIdx)(idx2 + 2); _IdxWritePtr[13] = (ImDrawIdx)(idx1 + 2); _IdxWritePtr[14] = (ImDrawIdx)(idx1 + 3);
-                _IdxWritePtr[15] = (ImDrawIdx)(idx1 + 3); _IdxWritePtr[16] = (ImDrawIdx)(idx2 + 3); _IdxWritePtr[17] = (ImDrawIdx)(idx2 + 2);
+                _IdxWritePtr[0]  = (ImDrawIdx)(idx2 + 1);
+                _IdxWritePtr[1]  = (ImDrawIdx)(idx1 + 1);
+                _IdxWritePtr[2]  = (ImDrawIdx)(idx1 + 2);
+                _IdxWritePtr[3]  = (ImDrawIdx)(idx1 + 2);
+                _IdxWritePtr[4]  = (ImDrawIdx)(idx2 + 2);
+                _IdxWritePtr[5]  = (ImDrawIdx)(idx2 + 1);
+                _IdxWritePtr[6]  = (ImDrawIdx)(idx2 + 1);
+                _IdxWritePtr[7]  = (ImDrawIdx)(idx1 + 1);
+                _IdxWritePtr[8]  = (ImDrawIdx)(idx1 + 0);
+                _IdxWritePtr[9]  = (ImDrawIdx)(idx1 + 0);
+                _IdxWritePtr[10] = (ImDrawIdx)(idx2 + 0);
+                _IdxWritePtr[11] = (ImDrawIdx)(idx2 + 1);
+                _IdxWritePtr[12] = (ImDrawIdx)(idx2 + 2);
+                _IdxWritePtr[13] = (ImDrawIdx)(idx1 + 2);
+                _IdxWritePtr[14] = (ImDrawIdx)(idx1 + 3);
+                _IdxWritePtr[15] = (ImDrawIdx)(idx1 + 3);
+                _IdxWritePtr[16] = (ImDrawIdx)(idx2 + 3);
+                _IdxWritePtr[17] = (ImDrawIdx)(idx2 + 2);
                 _IdxWritePtr += 18;
 
                 idx1 = idx2;
@@ -912,10 +1008,18 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
             // Add vertices
             for (int i = 0; i < points_count; i++)
             {
-                _VtxWritePtr[0].pos = temp_points[i * 4 + 0]; _VtxWritePtr[0].uv = opaque_uv; _VtxWritePtr[0].col = col_trans;
-                _VtxWritePtr[1].pos = temp_points[i * 4 + 1]; _VtxWritePtr[1].uv = opaque_uv; _VtxWritePtr[1].col = col;
-                _VtxWritePtr[2].pos = temp_points[i * 4 + 2]; _VtxWritePtr[2].uv = opaque_uv; _VtxWritePtr[2].col = col;
-                _VtxWritePtr[3].pos = temp_points[i * 4 + 3]; _VtxWritePtr[3].uv = opaque_uv; _VtxWritePtr[3].col = col_trans;
+                _VtxWritePtr[0].pos = temp_points[i * 4 + 0];
+                _VtxWritePtr[0].uv = opaque_uv;
+                _VtxWritePtr[0].col = col_trans;
+                _VtxWritePtr[1].pos = temp_points[i * 4 + 1];
+                _VtxWritePtr[1].uv = opaque_uv;
+                _VtxWritePtr[1].col = col;
+                _VtxWritePtr[2].pos = temp_points[i * 4 + 2];
+                _VtxWritePtr[2].uv = opaque_uv;
+                _VtxWritePtr[2].col = col;
+                _VtxWritePtr[3].pos = temp_points[i * 4 + 3];
+                _VtxWritePtr[3].uv = opaque_uv;
+                _VtxWritePtr[3].col = col_trans;
                 _VtxWritePtr += 4;
             }
         }
@@ -940,14 +1044,30 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
             dx *= (thickness * 0.5f);
             dy *= (thickness * 0.5f);
 
-            _VtxWritePtr[0].pos.x = p1.x + dy; _VtxWritePtr[0].pos.y = p1.y - dx; _VtxWritePtr[0].uv = opaque_uv; _VtxWritePtr[0].col = col;
-            _VtxWritePtr[1].pos.x = p2.x + dy; _VtxWritePtr[1].pos.y = p2.y - dx; _VtxWritePtr[1].uv = opaque_uv; _VtxWritePtr[1].col = col;
-            _VtxWritePtr[2].pos.x = p2.x - dy; _VtxWritePtr[2].pos.y = p2.y + dx; _VtxWritePtr[2].uv = opaque_uv; _VtxWritePtr[2].col = col;
-            _VtxWritePtr[3].pos.x = p1.x - dy; _VtxWritePtr[3].pos.y = p1.y + dx; _VtxWritePtr[3].uv = opaque_uv; _VtxWritePtr[3].col = col;
+            _VtxWritePtr[0].pos.x = p1.x + dy;
+            _VtxWritePtr[0].pos.y = p1.y - dx;
+            _VtxWritePtr[0].uv = opaque_uv;
+            _VtxWritePtr[0].col = col;
+            _VtxWritePtr[1].pos.x = p2.x + dy;
+            _VtxWritePtr[1].pos.y = p2.y - dx;
+            _VtxWritePtr[1].uv = opaque_uv;
+            _VtxWritePtr[1].col = col;
+            _VtxWritePtr[2].pos.x = p2.x - dy;
+            _VtxWritePtr[2].pos.y = p2.y + dx;
+            _VtxWritePtr[2].uv = opaque_uv;
+            _VtxWritePtr[2].col = col;
+            _VtxWritePtr[3].pos.x = p1.x - dy;
+            _VtxWritePtr[3].pos.y = p1.y + dx;
+            _VtxWritePtr[3].uv = opaque_uv;
+            _VtxWritePtr[3].col = col;
             _VtxWritePtr += 4;
 
-            _IdxWritePtr[0] = (ImDrawIdx)(_VtxCurrentIdx); _IdxWritePtr[1] = (ImDrawIdx)(_VtxCurrentIdx + 1); _IdxWritePtr[2] = (ImDrawIdx)(_VtxCurrentIdx + 2);
-            _IdxWritePtr[3] = (ImDrawIdx)(_VtxCurrentIdx); _IdxWritePtr[4] = (ImDrawIdx)(_VtxCurrentIdx + 2); _IdxWritePtr[5] = (ImDrawIdx)(_VtxCurrentIdx + 3);
+            _IdxWritePtr[0] = (ImDrawIdx)(_VtxCurrentIdx);
+            _IdxWritePtr[1] = (ImDrawIdx)(_VtxCurrentIdx + 1);
+            _IdxWritePtr[2] = (ImDrawIdx)(_VtxCurrentIdx + 2);
+            _IdxWritePtr[3] = (ImDrawIdx)(_VtxCurrentIdx);
+            _IdxWritePtr[4] = (ImDrawIdx)(_VtxCurrentIdx + 2);
+            _IdxWritePtr[5] = (ImDrawIdx)(_VtxCurrentIdx + 3);
             _IdxWritePtr += 6;
             _VtxCurrentIdx += 4;
         }
@@ -958,7 +1078,9 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
 void ImDrawList::AddConvexPolyFilled(const ImVec2* points, const int points_count, ImU32 col)
 {
     if (points_count < 3)
+    {
         return;
+    }
 
     const ImVec2 uv = _Data->TexUvWhitePixel;
 
@@ -967,7 +1089,7 @@ void ImDrawList::AddConvexPolyFilled(const ImVec2* points, const int points_coun
         // Anti-aliased Fill
         const float AA_SIZE = _FringeScale;
         const ImU32 col_trans = col & ~IM_COL32_A_MASK;
-        const int idx_count = (points_count - 2)*3 + points_count * 6;
+        const int idx_count = (points_count - 2) * 3 + points_count * 6;
         const int vtx_count = (points_count * 2);
         PrimReserve(idx_count, vtx_count);
 
@@ -976,7 +1098,9 @@ void ImDrawList::AddConvexPolyFilled(const ImVec2* points, const int points_coun
         unsigned int vtx_outer_idx = _VtxCurrentIdx + 1;
         for (int i = 2; i < points_count; i++)
         {
-            _IdxWritePtr[0] = (ImDrawIdx)(vtx_inner_idx); _IdxWritePtr[1] = (ImDrawIdx)(vtx_inner_idx + ((i - 1) << 1)); _IdxWritePtr[2] = (ImDrawIdx)(vtx_inner_idx + (i << 1));
+            _IdxWritePtr[0] = (ImDrawIdx)(vtx_inner_idx);
+            _IdxWritePtr[1] = (ImDrawIdx)(vtx_inner_idx + ((i - 1) << 1));
+            _IdxWritePtr[2] = (ImDrawIdx)(vtx_inner_idx + (i << 1));
             _IdxWritePtr += 3;
         }
 
@@ -1005,13 +1129,23 @@ void ImDrawList::AddConvexPolyFilled(const ImVec2* points, const int points_coun
             dm_y *= AA_SIZE * 0.5f;
 
             // Add vertices
-            _VtxWritePtr[0].pos.x = (points[i1].x - dm_x); _VtxWritePtr[0].pos.y = (points[i1].y - dm_y); _VtxWritePtr[0].uv = uv; _VtxWritePtr[0].col = col;        // Inner
-            _VtxWritePtr[1].pos.x = (points[i1].x + dm_x); _VtxWritePtr[1].pos.y = (points[i1].y + dm_y); _VtxWritePtr[1].uv = uv; _VtxWritePtr[1].col = col_trans;  // Outer
+            _VtxWritePtr[0].pos.x = (points[i1].x - dm_x);
+            _VtxWritePtr[0].pos.y = (points[i1].y - dm_y);
+            _VtxWritePtr[0].uv = uv;
+            _VtxWritePtr[0].col = col;        // Inner
+            _VtxWritePtr[1].pos.x = (points[i1].x + dm_x);
+            _VtxWritePtr[1].pos.y = (points[i1].y + dm_y);
+            _VtxWritePtr[1].uv = uv;
+            _VtxWritePtr[1].col = col_trans;  // Outer
             _VtxWritePtr += 2;
 
             // Add indexes for fringes
-            _IdxWritePtr[0] = (ImDrawIdx)(vtx_inner_idx + (i1 << 1)); _IdxWritePtr[1] = (ImDrawIdx)(vtx_inner_idx + (i0 << 1)); _IdxWritePtr[2] = (ImDrawIdx)(vtx_outer_idx + (i0 << 1));
-            _IdxWritePtr[3] = (ImDrawIdx)(vtx_outer_idx + (i0 << 1)); _IdxWritePtr[4] = (ImDrawIdx)(vtx_outer_idx + (i1 << 1)); _IdxWritePtr[5] = (ImDrawIdx)(vtx_inner_idx + (i1 << 1));
+            _IdxWritePtr[0] = (ImDrawIdx)(vtx_inner_idx + (i1 << 1));
+            _IdxWritePtr[1] = (ImDrawIdx)(vtx_inner_idx + (i0 << 1));
+            _IdxWritePtr[2] = (ImDrawIdx)(vtx_outer_idx + (i0 << 1));
+            _IdxWritePtr[3] = (ImDrawIdx)(vtx_outer_idx + (i0 << 1));
+            _IdxWritePtr[4] = (ImDrawIdx)(vtx_outer_idx + (i1 << 1));
+            _IdxWritePtr[5] = (ImDrawIdx)(vtx_inner_idx + (i1 << 1));
             _IdxWritePtr += 6;
         }
         _VtxCurrentIdx += (ImDrawIdx)vtx_count;
@@ -1019,17 +1153,21 @@ void ImDrawList::AddConvexPolyFilled(const ImVec2* points, const int points_coun
     else
     {
         // Non Anti-aliased Fill
-        const int idx_count = (points_count - 2)*3;
+        const int idx_count = (points_count - 2) * 3;
         const int vtx_count = points_count;
         PrimReserve(idx_count, vtx_count);
         for (int i = 0; i < vtx_count; i++)
         {
-            _VtxWritePtr[0].pos = points[i]; _VtxWritePtr[0].uv = uv; _VtxWritePtr[0].col = col;
+            _VtxWritePtr[0].pos = points[i];
+            _VtxWritePtr[0].uv = uv;
+            _VtxWritePtr[0].col = col;
             _VtxWritePtr++;
         }
         for (int i = 2; i < points_count; i++)
         {
-            _IdxWritePtr[0] = (ImDrawIdx)(_VtxCurrentIdx); _IdxWritePtr[1] = (ImDrawIdx)(_VtxCurrentIdx + i - 1); _IdxWritePtr[2] = (ImDrawIdx)(_VtxCurrentIdx + i);
+            _IdxWritePtr[0] = (ImDrawIdx)(_VtxCurrentIdx);
+            _IdxWritePtr[1] = (ImDrawIdx)(_VtxCurrentIdx + i - 1);
+            _IdxWritePtr[2] = (ImDrawIdx)(_VtxCurrentIdx + i);
             _IdxWritePtr += 3;
         }
         _VtxCurrentIdx += (ImDrawIdx)vtx_count;
@@ -1047,7 +1185,9 @@ void ImDrawList::_PathArcToFastEx(const ImVec2& center, float radius, int a_min_
 
     // Calculate arc auto segment step size
     if (a_step <= 0)
+    {
         a_step = IM_DRAWLIST_ARCFAST_SAMPLE_MAX / _CalcCircleAutoSegmentCount(radius);
+    }
 
     // Make sure we never do steps larger than one quarter of the circle
     a_step = ImClamp(a_step, 1, IM_DRAWLIST_ARCFAST_TABLE_SIZE / 4);
@@ -1057,7 +1197,9 @@ void ImDrawList::_PathArcToFastEx(const ImVec2& center, float radius, int a_min_
     {
         int normalized_sample = a_min_sample % IM_DRAWLIST_ARCFAST_SAMPLE_MAX;
         if (normalized_sample < 0)
+        {
             normalized_sample += IM_DRAWLIST_ARCFAST_SAMPLE_MAX;
+        }
         a_max_sample += (normalized_sample - a_min_sample);
         a_min_sample = normalized_sample;
     }
@@ -1080,7 +1222,9 @@ void ImDrawList::_PathArcToFastEx(const ImVec2& center, float radius, int a_min_
             // When we have overstep to avoid awkwardly looking one long line and one tiny one at the end,
             // distribute first step range evenly between them by reducing first step size.
             if (sample_range > 0)
+            {
                 a_step -= (a_step - overstep) / 2;
+            }
         }
     }
 
@@ -1092,7 +1236,9 @@ void ImDrawList::_PathArcToFastEx(const ImVec2& center, float radius, int a_min_
     {
         // a_step is clamped to IM_DRAWLIST_ARCFAST_SAMPLE_MAX, so we have guaranteed that it will not wrap over range twice or more
         if (sample_index >= IM_DRAWLIST_ARCFAST_SAMPLE_MAX)
+        {
             sample_index -= IM_DRAWLIST_ARCFAST_SAMPLE_MAX;
+        }
 
         const ImVec2 s = _Data->ArcFastVtx[sample_index];
         out_ptr->x = center.x + s.x * radius;
@@ -1104,7 +1250,9 @@ void ImDrawList::_PathArcToFastEx(const ImVec2& center, float radius, int a_min_
     {
         int normalized_max_sample = a_max_sample % IM_DRAWLIST_ARCFAST_SAMPLE_MAX;
         if (normalized_max_sample < 0)
+        {
             normalized_max_sample += IM_DRAWLIST_ARCFAST_SAMPLE_MAX;
+        }
 
         const ImVec2 s = _Data->ArcFastVtx[normalized_max_sample];
         out_ptr->x = center.x + s.x * radius;
@@ -1167,7 +1315,7 @@ void ImDrawList::PathArcTo(const ImVec2& center, float radius, float a_min, floa
         // We are going to use precomputed values for mid samples.
         // Determine first and last sample in lookup table that belong to the arc.
         const int a_min_sample = (int)ImCeil(IM_DRAWLIST_ARCFAST_SAMPLE_MAX * a_min / (IM_PI * 2.0f));
-        const int a_max_sample = (int)(      IM_DRAWLIST_ARCFAST_SAMPLE_MAX * a_max / (IM_PI * 2.0f));
+        const int a_max_sample = (int)(IM_DRAWLIST_ARCFAST_SAMPLE_MAX * a_max / (IM_PI * 2.0f));
         const int a_mid_samples = ImMax(a_max_sample - a_min_sample, 0);
 
         const float a_min_segment_angle = a_min_sample * IM_PI * 2.0f / IM_DRAWLIST_ARCFAST_SAMPLE_MAX;
@@ -1177,11 +1325,17 @@ void ImDrawList::PathArcTo(const ImVec2& center, float radius, float a_min, floa
 
         _Path.reserve(_Path.Size + (a_mid_samples + 1 + (a_emit_start ? 1 : 0) + (a_emit_end ? 1 : 0)));
         if (a_emit_start)
+        {
             _Path.push_back(ImVec2(center.x + ImCos(a_min) * radius, center.y + ImSin(a_min) * radius));
+        }
         if (a_max_sample >= a_min_sample)
+        {
             _PathArcToFastEx(center, radius, a_min_sample, a_max_sample, 0);
+        }
         if (a_emit_end)
+        {
             _Path.push_back(ImVec2(center.x + ImCos(a_max) * radius, center.y + ImSin(a_max) * radius));
+        }
     }
     else
     {
@@ -1266,7 +1420,9 @@ void ImDrawList::PathBezierCubicCurveTo(const ImVec2& p2, const ImVec2& p3, cons
     {
         float t_step = 1.0f / (float)num_segments;
         for (int i_step = 1; i_step <= num_segments; i_step++)
+        {
             _Path.push_back(ImBezierCubicCalc(p1, p2, p3, p4, t_step * i_step));
+        }
     }
 }
 
@@ -1281,7 +1437,9 @@ void ImDrawList::PathBezierQuadraticCurveTo(const ImVec2& p2, const ImVec2& p3, 
     {
         float t_step = 1.0f / (float)num_segments;
         for (int i_step = 1; i_step <= num_segments; i_step++)
+        {
             _Path.push_back(ImBezierQuadraticCalc(p1, p2, p3, t_step * i_step));
+        }
     }
 }
 
@@ -1292,7 +1450,9 @@ static inline ImDrawFlags FixRectCornerFlags(ImDrawFlags flags)
     // Legacy Support for hard coded ~0 (used to be a suggested equivalent to ImDrawCornerFlags_All)
     //   ~0   --> ImDrawFlags_RoundCornersAll or 0
     if (flags == ~0)
+    {
         return ImDrawFlags_RoundCornersAll;
+    }
 
     // Legacy Support for hard coded 0x01 to 0x0F (matching 15 out of 16 old flags combinations)
     //   0x01 --> ImDrawFlags_RoundCornersTopLeft (VALUE 0x01 OVERLAPS ImDrawFlags_Closed but ImDrawFlags_Closed is never valid in this path!)
@@ -1304,7 +1464,9 @@ static inline ImDrawFlags FixRectCornerFlags(ImDrawFlags flags)
     //   0x0F --> ImDrawFlags_RoundCornersAll or 0
     // (See all values in ImDrawCornerFlags_)
     if (flags >= 0x01 && flags <= 0x0F)
+    {
         return (flags << 4);
+    }
 
     // We cannot support hard coded 0x00 with 'float rounding > 0.0f' --> replace with ImDrawFlags_RoundCornersNone or use 'float rounding = 0.0f'
 #endif
@@ -1314,7 +1476,9 @@ static inline ImDrawFlags FixRectCornerFlags(ImDrawFlags flags)
     IM_ASSERT((flags & 0x0F) == 0 && "Misuse of legacy hardcoded ImDrawCornerFlags values!");
 
     if ((flags & ImDrawFlags_RoundCornersMask_) == 0)
+    {
         flags |= ImDrawFlags_RoundCornersAll;
+    }
 
     return flags;
 }
@@ -1322,8 +1486,8 @@ static inline ImDrawFlags FixRectCornerFlags(ImDrawFlags flags)
 void ImDrawList::PathRect(const ImVec2& a, const ImVec2& b, float rounding, ImDrawFlags flags)
 {
     flags = FixRectCornerFlags(flags);
-    rounding = ImMin(rounding, ImFabs(b.x - a.x) * ( ((flags & ImDrawFlags_RoundCornersTop)  == ImDrawFlags_RoundCornersTop)  || ((flags & ImDrawFlags_RoundCornersBottom) == ImDrawFlags_RoundCornersBottom) ? 0.5f : 1.0f ) - 1.0f);
-    rounding = ImMin(rounding, ImFabs(b.y - a.y) * ( ((flags & ImDrawFlags_RoundCornersLeft) == ImDrawFlags_RoundCornersLeft) || ((flags & ImDrawFlags_RoundCornersRight)  == ImDrawFlags_RoundCornersRight)  ? 0.5f : 1.0f ) - 1.0f);
+    rounding = ImMin(rounding, ImFabs(b.x - a.x) * (((flags & ImDrawFlags_RoundCornersTop)  == ImDrawFlags_RoundCornersTop)  || ((flags & ImDrawFlags_RoundCornersBottom) == ImDrawFlags_RoundCornersBottom) ? 0.5f : 1.0f) - 1.0f);
+    rounding = ImMin(rounding, ImFabs(b.y - a.y) * (((flags & ImDrawFlags_RoundCornersLeft) == ImDrawFlags_RoundCornersLeft) || ((flags & ImDrawFlags_RoundCornersRight)  == ImDrawFlags_RoundCornersRight)  ? 0.5f : 1.0f) - 1.0f);
 
     if (rounding <= 0.0f || (flags & ImDrawFlags_RoundCornersMask_) == ImDrawFlags_RoundCornersNone)
     {
@@ -1348,7 +1512,9 @@ void ImDrawList::PathRect(const ImVec2& a, const ImVec2& b, float rounding, ImDr
 void ImDrawList::AddLine(const ImVec2& p1, const ImVec2& p2, ImU32 col, float thickness)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
     PathLineTo(p1 + ImVec2(0.5f, 0.5f));
     PathLineTo(p2 + ImVec2(0.5f, 0.5f));
     PathStroke(col, 0, thickness);
@@ -1359,18 +1525,26 @@ void ImDrawList::AddLine(const ImVec2& p1, const ImVec2& p2, ImU32 col, float th
 void ImDrawList::AddRect(const ImVec2& p_min, const ImVec2& p_max, ImU32 col, float rounding, ImDrawFlags flags, float thickness)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
     if (Flags & ImDrawListFlags_AntiAliasedLines)
+    {
         PathRect(p_min + ImVec2(0.50f, 0.50f), p_max - ImVec2(0.50f, 0.50f), rounding, flags);
+    }
     else
-        PathRect(p_min + ImVec2(0.50f, 0.50f), p_max - ImVec2(0.49f, 0.49f), rounding, flags); // Better looking lower-right corner and rounded non-AA shapes.
+    {
+        PathRect(p_min + ImVec2(0.50f, 0.50f), p_max - ImVec2(0.49f, 0.49f), rounding, flags);    // Better looking lower-right corner and rounded non-AA shapes.
+    }
     PathStroke(col, ImDrawFlags_Closed, thickness);
 }
 
 void ImDrawList::AddRectFilled(const ImVec2& p_min, const ImVec2& p_max, ImU32 col, float rounding, ImDrawFlags flags)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
     if (rounding <= 0.0f || (flags & ImDrawFlags_RoundCornersMask_) == ImDrawFlags_RoundCornersNone)
     {
         PrimReserve(6, 4);
@@ -1387,12 +1561,18 @@ void ImDrawList::AddRectFilled(const ImVec2& p_min, const ImVec2& p_max, ImU32 c
 void ImDrawList::AddRectFilledMultiColor(const ImVec2& p_min, const ImVec2& p_max, ImU32 col_upr_left, ImU32 col_upr_right, ImU32 col_bot_right, ImU32 col_bot_left)
 {
     if (((col_upr_left | col_upr_right | col_bot_right | col_bot_left) & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     const ImVec2 uv = _Data->TexUvWhitePixel;
     PrimReserve(6, 4);
-    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx)); PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 1)); PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 2));
-    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx)); PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 2)); PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 3));
+    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx));
+    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 1));
+    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 2));
+    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx));
+    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 2));
+    PrimWriteIdx((ImDrawIdx)(_VtxCurrentIdx + 3));
     PrimWriteVtx(p_min, uv, col_upr_left);
     PrimWriteVtx(ImVec2(p_max.x, p_min.y), uv, col_upr_right);
     PrimWriteVtx(p_max, uv, col_bot_right);
@@ -1402,7 +1582,9 @@ void ImDrawList::AddRectFilledMultiColor(const ImVec2& p_min, const ImVec2& p_ma
 void ImDrawList::AddQuad(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, const ImVec2& p4, ImU32 col, float thickness)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     PathLineTo(p1);
     PathLineTo(p2);
@@ -1414,7 +1596,9 @@ void ImDrawList::AddQuad(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, c
 void ImDrawList::AddQuadFilled(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, const ImVec2& p4, ImU32 col)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     PathLineTo(p1);
     PathLineTo(p2);
@@ -1426,7 +1610,9 @@ void ImDrawList::AddQuadFilled(const ImVec2& p1, const ImVec2& p2, const ImVec2&
 void ImDrawList::AddTriangle(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, ImU32 col, float thickness)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     PathLineTo(p1);
     PathLineTo(p2);
@@ -1437,7 +1623,9 @@ void ImDrawList::AddTriangle(const ImVec2& p1, const ImVec2& p2, const ImVec2& p
 void ImDrawList::AddTriangleFilled(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, ImU32 col)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     PathLineTo(p1);
     PathLineTo(p2);
@@ -1448,7 +1636,9 @@ void ImDrawList::AddTriangleFilled(const ImVec2& p1, const ImVec2& p2, const ImV
 void ImDrawList::AddCircle(const ImVec2& center, float radius, ImU32 col, int num_segments, float thickness)
 {
     if ((col & IM_COL32_A_MASK) == 0 || radius <= 0.0f)
+    {
         return;
+    }
 
     // Obtain segment count
     if (num_segments <= 0)
@@ -1465,16 +1655,22 @@ void ImDrawList::AddCircle(const ImVec2& center, float radius, ImU32 col, int nu
     // Because we are filling a closed shape we remove 1 from the count of segments/points
     const float a_max = (IM_PI * 2.0f) * ((float)num_segments - 1.0f) / (float)num_segments;
     if (num_segments == 12)
+    {
         PathArcToFast(center, radius - 0.5f, 0, 12 - 1);
+    }
     else
+    {
         PathArcTo(center, radius - 0.5f, 0.0f, a_max, num_segments - 1);
+    }
     PathStroke(col, ImDrawFlags_Closed, thickness);
 }
 
 void ImDrawList::AddCircleFilled(const ImVec2& center, float radius, ImU32 col, int num_segments)
 {
     if ((col & IM_COL32_A_MASK) == 0 || radius <= 0.0f)
+    {
         return;
+    }
 
     // Obtain segment count
     if (num_segments <= 0)
@@ -1491,9 +1687,13 @@ void ImDrawList::AddCircleFilled(const ImVec2& center, float radius, ImU32 col, 
     // Because we are filling a closed shape we remove 1 from the count of segments/points
     const float a_max = (IM_PI * 2.0f) * ((float)num_segments - 1.0f) / (float)num_segments;
     if (num_segments == 12)
+    {
         PathArcToFast(center, radius, 0, 12 - 1);
+    }
     else
+    {
         PathArcTo(center, radius, 0.0f, a_max, num_segments - 1);
+    }
     PathFillConvex(col);
 }
 
@@ -1501,7 +1701,9 @@ void ImDrawList::AddCircleFilled(const ImVec2& center, float radius, ImU32 col, 
 void ImDrawList::AddNgon(const ImVec2& center, float radius, ImU32 col, int num_segments, float thickness)
 {
     if ((col & IM_COL32_A_MASK) == 0 || num_segments <= 2)
+    {
         return;
+    }
 
     // Because we are filling a closed shape we remove 1 from the count of segments/points
     const float a_max = (IM_PI * 2.0f) * ((float)num_segments - 1.0f) / (float)num_segments;
@@ -1513,7 +1715,9 @@ void ImDrawList::AddNgon(const ImVec2& center, float radius, ImU32 col, int num_
 void ImDrawList::AddNgonFilled(const ImVec2& center, float radius, ImU32 col, int num_segments)
 {
     if ((col & IM_COL32_A_MASK) == 0 || num_segments <= 2)
+    {
         return;
+    }
 
     // Because we are filling a closed shape we remove 1 from the count of segments/points
     const float a_max = (IM_PI * 2.0f) * ((float)num_segments - 1.0f) / (float)num_segments;
@@ -1525,7 +1729,9 @@ void ImDrawList::AddNgonFilled(const ImVec2& center, float radius, ImU32 col, in
 void ImDrawList::AddBezierCubic(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, const ImVec2& p4, ImU32 col, float thickness, int num_segments)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     PathLineTo(p1);
     PathBezierCubicCurveTo(p2, p3, p4, num_segments);
@@ -1536,7 +1742,9 @@ void ImDrawList::AddBezierCubic(const ImVec2& p1, const ImVec2& p2, const ImVec2
 void ImDrawList::AddBezierQuadratic(const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, ImU32 col, float thickness, int num_segments)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     PathLineTo(p1);
     PathBezierQuadraticCurveTo(p2, p3, num_segments);
@@ -1546,18 +1754,28 @@ void ImDrawList::AddBezierQuadratic(const ImVec2& p1, const ImVec2& p2, const Im
 void ImDrawList::AddText(const ImFont* font, float font_size, const ImVec2& pos, ImU32 col, const char* text_begin, const char* text_end, float wrap_width, const ImVec4* cpu_fine_clip_rect)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     if (text_end == NULL)
+    {
         text_end = text_begin + strlen(text_begin);
+    }
     if (text_begin == text_end)
+    {
         return;
+    }
 
     // Pull default font/size from the shared ImDrawListSharedData instance
     if (font == NULL)
+    {
         font = _Data->Font;
+    }
     if (font_size == 0.0f)
+    {
         font_size = _Data->FontSize;
+    }
 
     IM_ASSERT(font->ContainerAtlas->TexID == _CmdHeader.TextureId);  // Use high-level ImGui::PushFont() or low-level ImDrawList::PushTextureId() to change font.
 
@@ -1580,39 +1798,53 @@ void ImDrawList::AddText(const ImVec2& pos, ImU32 col, const char* text_begin, c
 void ImDrawList::AddImage(ImTextureID user_texture_id, const ImVec2& p_min, const ImVec2& p_max, const ImVec2& uv_min, const ImVec2& uv_max, ImU32 col)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     const bool push_texture_id = user_texture_id != _CmdHeader.TextureId;
     if (push_texture_id)
+    {
         PushTextureID(user_texture_id);
+    }
 
     PrimReserve(6, 4);
     PrimRectUV(p_min, p_max, uv_min, uv_max, col);
 
     if (push_texture_id)
+    {
         PopTextureID();
+    }
 }
 
 void ImDrawList::AddImageQuad(ImTextureID user_texture_id, const ImVec2& p1, const ImVec2& p2, const ImVec2& p3, const ImVec2& p4, const ImVec2& uv1, const ImVec2& uv2, const ImVec2& uv3, const ImVec2& uv4, ImU32 col)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     const bool push_texture_id = user_texture_id != _CmdHeader.TextureId;
     if (push_texture_id)
+    {
         PushTextureID(user_texture_id);
+    }
 
     PrimReserve(6, 4);
     PrimQuadUV(p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
 
     if (push_texture_id)
+    {
         PopTextureID();
+    }
 }
 
 void ImDrawList::AddImageRounded(ImTextureID user_texture_id, const ImVec2& p_min, const ImVec2& p_max, const ImVec2& uv_min, const ImVec2& uv_max, ImU32 col, float rounding, ImDrawFlags flags)
 {
     if ((col & IM_COL32_A_MASK) == 0)
+    {
         return;
+    }
 
     flags = FixRectCornerFlags(flags);
     if (rounding <= 0.0f || (flags & ImDrawFlags_RoundCornersMask_) == ImDrawFlags_RoundCornersNone)
@@ -1623,7 +1855,9 @@ void ImDrawList::AddImageRounded(ImTextureID user_texture_id, const ImVec2& p_mi
 
     const bool push_texture_id = user_texture_id != _CmdHeader.TextureId;
     if (push_texture_id)
+    {
         PushTextureID(user_texture_id);
+    }
 
     int vert_start_idx = VtxBuffer.Size;
     PathRect(p_min, p_max, rounding, flags);
@@ -1632,7 +1866,9 @@ void ImDrawList::AddImageRounded(ImTextureID user_texture_id, const ImVec2& p_mi
     ImGui::ShadeVertsLinearUV(this, vert_start_idx, vert_end_idx, p_min, p_max, uv_min, uv_max, true);
 
     if (push_texture_id)
+    {
         PopTextureID();
+    }
 }
 
 
@@ -1647,7 +1883,9 @@ void ImDrawListSplitter::ClearFreeMemory()
     for (int i = 0; i < _Channels.Size; i++)
     {
         if (i == _Current)
-            memset(&_Channels[i], 0, sizeof(_Channels[i]));  // Current channel is a copy of CmdBuffer/IdxBuffer, don't destruct again
+        {
+            memset(&_Channels[i], 0, sizeof(_Channels[i]));    // Current channel is a copy of CmdBuffer/IdxBuffer, don't destruct again
+        }
         _Channels[i]._CmdBuffer.clear();
         _Channels[i]._IdxBuffer.clear();
     }
@@ -1690,7 +1928,9 @@ void ImDrawListSplitter::Merge(ImDrawList* draw_list)
 {
     // Note that we never use or rely on _Channels.Size because it is merely a buffer that we never shrink back to 0 to keep all sub-buffers ready for use.
     if (_Count <= 1)
+    {
         return;
+    }
 
     SetCurrentChannel(draw_list, 0);
     draw_list->_PopUnusedDrawCmd();
@@ -1706,7 +1946,9 @@ void ImDrawListSplitter::Merge(ImDrawList* draw_list)
 
         // Equivalent of PopUnusedDrawCmd() for this channel's cmdbuffer and except we don't need to test for UserCallback.
         if (ch._CmdBuffer.Size > 0 && ch._CmdBuffer.back().ElemCount == 0)
+        {
             ch._CmdBuffer.pop_back();
+        }
 
         if (ch._CmdBuffer.Size > 0 && last_cmd != NULL)
         {
@@ -1720,7 +1962,9 @@ void ImDrawListSplitter::Merge(ImDrawList* draw_list)
             }
         }
         if (ch._CmdBuffer.Size > 0)
+        {
             last_cmd = &ch._CmdBuffer.back();
+        }
         new_cmd_buffer_count += ch._CmdBuffer.Size;
         new_idx_buffer_count += ch._IdxBuffer.Size;
         for (int cmd_n = 0; cmd_n < ch._CmdBuffer.Size; cmd_n++)
@@ -1738,21 +1982,35 @@ void ImDrawListSplitter::Merge(ImDrawList* draw_list)
     for (int i = 1; i < _Count; i++)
     {
         ImDrawChannel& ch = _Channels[i];
-        if (int sz = ch._CmdBuffer.Size) { memcpy(cmd_write, ch._CmdBuffer.Data, sz * sizeof(ImDrawCmd)); cmd_write += sz; }
-        if (int sz = ch._IdxBuffer.Size) { memcpy(idx_write, ch._IdxBuffer.Data, sz * sizeof(ImDrawIdx)); idx_write += sz; }
+        if (int sz = ch._CmdBuffer.Size)
+        {
+            memcpy(cmd_write, ch._CmdBuffer.Data, sz * sizeof(ImDrawCmd));
+            cmd_write += sz;
+        }
+        if (int sz = ch._IdxBuffer.Size)
+        {
+            memcpy(idx_write, ch._IdxBuffer.Data, sz * sizeof(ImDrawIdx));
+            idx_write += sz;
+        }
     }
     draw_list->_IdxWritePtr = idx_write;
 
     // Ensure there's always a non-callback draw command trailing the command-buffer
     if (draw_list->CmdBuffer.Size == 0 || draw_list->CmdBuffer.back().UserCallback != NULL)
+    {
         draw_list->AddDrawCmd();
+    }
 
     // If current command is used with different settings we need to add a new command
     ImDrawCmd* curr_cmd = &draw_list->CmdBuffer.Data[draw_list->CmdBuffer.Size - 1];
     if (curr_cmd->ElemCount == 0)
-        ImDrawCmd_HeaderCopy(curr_cmd, &draw_list->_CmdHeader); // Copy ClipRect, TextureId, VtxOffset
+    {
+        ImDrawCmd_HeaderCopy(curr_cmd, &draw_list->_CmdHeader);    // Copy ClipRect, TextureId, VtxOffset
+    }
     else if (ImDrawCmd_HeaderCompare(curr_cmd, &draw_list->_CmdHeader) != 0)
+    {
         draw_list->AddDrawCmd();
+    }
 
     _Count = 1;
 }
@@ -1761,7 +2019,9 @@ void ImDrawListSplitter::SetCurrentChannel(ImDrawList* draw_list, int idx)
 {
     IM_ASSERT(idx >= 0 && idx < _Count);
     if (_Current == idx)
+    {
         return;
+    }
 
     // Overwrite ImVector (12/16 bytes), four times. This is merely a silly optimization instead of doing .swap()
     memcpy(&_Channels.Data[_Current]._CmdBuffer, &draw_list->CmdBuffer, sizeof(draw_list->CmdBuffer));
@@ -1774,11 +2034,17 @@ void ImDrawListSplitter::SetCurrentChannel(ImDrawList* draw_list, int idx)
     // If current command is used with different settings we need to add a new command
     ImDrawCmd* curr_cmd = (draw_list->CmdBuffer.Size == 0) ? NULL : &draw_list->CmdBuffer.Data[draw_list->CmdBuffer.Size - 1];
     if (curr_cmd == NULL)
+    {
         draw_list->AddDrawCmd();
+    }
     else if (curr_cmd->ElemCount == 0)
-        ImDrawCmd_HeaderCopy(curr_cmd, &draw_list->_CmdHeader); // Copy ClipRect, TextureId, VtxOffset
+    {
+        ImDrawCmd_HeaderCopy(curr_cmd, &draw_list->_CmdHeader);    // Copy ClipRect, TextureId, VtxOffset
+    }
     else if (ImDrawCmd_HeaderCompare(curr_cmd, &draw_list->_CmdHeader) != 0)
+    {
         draw_list->AddDrawCmd();
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -1794,10 +2060,14 @@ void ImDrawData::DeIndexAllBuffers()
     {
         ImDrawList* cmd_list = CmdLists[i];
         if (cmd_list->IdxBuffer.empty())
+        {
             continue;
+        }
         new_vtx_buffer.resize(cmd_list->IdxBuffer.Size);
         for (int j = 0; j < cmd_list->IdxBuffer.Size; j++)
+        {
             new_vtx_buffer[j] = cmd_list->VtxBuffer[cmd_list->IdxBuffer[j]];
+        }
         cmd_list->VtxBuffer.swap(new_vtx_buffer);
         cmd_list->IdxBuffer.resize(0);
         TotalVtxCount += cmd_list->VtxBuffer.Size;
@@ -1854,8 +2124,8 @@ void ImGui::ShadeVertsLinearUV(ImDrawList* draw_list, int vert_start_idx, int ve
     const ImVec2 size = b - a;
     const ImVec2 uv_size = uv_b - uv_a;
     const ImVec2 scale = ImVec2(
-        size.x != 0.0f ? (uv_size.x / size.x) : 0.0f,
-        size.y != 0.0f ? (uv_size.y / size.y) : 0.0f);
+                             size.x != 0.0f ? (uv_size.x / size.x) : 0.0f,
+                             size.y != 0.0f ? (uv_size.y / size.y) : 0.0f);
 
     ImDrawVert* vert_start = draw_list->VtxBuffer.Data + vert_start_idx;
     ImDrawVert* vert_end = draw_list->VtxBuffer.Data + vert_end_idx;
@@ -1864,12 +2134,16 @@ void ImGui::ShadeVertsLinearUV(ImDrawList* draw_list, int vert_start_idx, int ve
         const ImVec2 min = ImMin(uv_a, uv_b);
         const ImVec2 max = ImMax(uv_a, uv_b);
         for (ImDrawVert* vertex = vert_start; vertex < vert_end; ++vertex)
+        {
             vertex->uv = ImClamp(uv_a + ImMul(ImVec2(vertex->pos.x, vertex->pos.y) - a, scale), min, max);
+        }
     }
     else
     {
         for (ImDrawVert* vertex = vert_start; vertex < vert_end; ++vertex)
+        {
             vertex->uv = uv_a + ImMul(ImVec2(vertex->pos.x, vertex->pos.y) - a, scale);
+        }
     }
 }
 
@@ -1885,7 +2159,7 @@ ImFontConfig::ImFontConfig()
     OversampleV = 1;
     GlyphMaxAdvanceX = FLT_MAX;
     RasterizerMultiply = 1.0f;
-    EllipsisChar = (ImWchar)-1;
+    EllipsisChar = (ImWchar) - 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -1930,14 +2204,14 @@ static const char FONT_ATLAS_DEFAULT_TEX_DATA_PIXELS[FONT_ATLAS_DEFAULT_TEX_DATA
 static const ImVec2 FONT_ATLAS_DEFAULT_TEX_CURSOR_DATA[ImGuiMouseCursor_COUNT][3] =
 {
     // Pos ........ Size ......... Offset ......
-    { ImVec2( 0,3), ImVec2(12,19), ImVec2( 0, 0) }, // ImGuiMouseCursor_Arrow
-    { ImVec2(13,0), ImVec2( 7,16), ImVec2( 1, 8) }, // ImGuiMouseCursor_TextInput
-    { ImVec2(31,0), ImVec2(23,23), ImVec2(11,11) }, // ImGuiMouseCursor_ResizeAll
-    { ImVec2(21,0), ImVec2( 9,23), ImVec2( 4,11) }, // ImGuiMouseCursor_ResizeNS
-    { ImVec2(55,18),ImVec2(23, 9), ImVec2(11, 4) }, // ImGuiMouseCursor_ResizeEW
-    { ImVec2(73,0), ImVec2(17,17), ImVec2( 8, 8) }, // ImGuiMouseCursor_ResizeNESW
-    { ImVec2(55,0), ImVec2(17,17), ImVec2( 8, 8) }, // ImGuiMouseCursor_ResizeNWSE
-    { ImVec2(91,0), ImVec2(17,22), ImVec2( 5, 0) }, // ImGuiMouseCursor_Hand
+    { ImVec2(0, 3), ImVec2(12, 19), ImVec2(0, 0) }, // ImGuiMouseCursor_Arrow
+    { ImVec2(13, 0), ImVec2(7, 16), ImVec2(1, 8) }, // ImGuiMouseCursor_TextInput
+    { ImVec2(31, 0), ImVec2(23, 23), ImVec2(11, 11) }, // ImGuiMouseCursor_ResizeAll
+    { ImVec2(21, 0), ImVec2(9, 23), ImVec2(4, 11) }, // ImGuiMouseCursor_ResizeNS
+    { ImVec2(55, 18), ImVec2(23, 9), ImVec2(11, 4) }, // ImGuiMouseCursor_ResizeEW
+    { ImVec2(73, 0), ImVec2(17, 17), ImVec2(8, 8) }, // ImGuiMouseCursor_ResizeNESW
+    { ImVec2(55, 0), ImVec2(17, 17), ImVec2(8, 8) }, // ImGuiMouseCursor_ResizeNWSE
+    { ImVec2(91, 0), ImVec2(17, 22), ImVec2(5, 0) }, // ImGuiMouseCursor_Hand
 };
 
 ImFontAtlas::ImFontAtlas()
@@ -1979,9 +2253,13 @@ void    ImFontAtlas::ClearTexData()
 {
     IM_ASSERT(!Locked && "Cannot modify a locked ImFontAtlas between NewFrame() and EndFrame/Render()!");
     if (TexPixelsAlpha8)
+    {
         IM_FREE(TexPixelsAlpha8);
+    }
     if (TexPixelsRGBA32)
+    {
         IM_FREE(TexPixelsRGBA32);
+    }
     TexPixelsAlpha8 = NULL;
     TexPixelsRGBA32 = NULL;
     TexPixelsUseColors = false;
@@ -1991,7 +2269,9 @@ void    ImFontAtlas::ClearFonts()
 {
     IM_ASSERT(!Locked && "Cannot modify a locked ImFontAtlas between NewFrame() and EndFrame/Render()!");
     for (int i = 0; i < Fonts.Size; i++)
+    {
         IM_DELETE(Fonts[i]);
+    }
     Fonts.clear();
 }
 
@@ -2008,14 +2288,25 @@ void    ImFontAtlas::GetTexDataAsAlpha8(unsigned char** out_pixels, int* out_wid
     if (TexPixelsAlpha8 == NULL)
     {
         if (ConfigData.empty())
+        {
             AddFontDefault();
+        }
         Build();
     }
 
     *out_pixels = TexPixelsAlpha8;
-    if (out_width) *out_width = TexWidth;
-    if (out_height) *out_height = TexHeight;
-    if (out_bytes_per_pixel) *out_bytes_per_pixel = 1;
+    if (out_width)
+    {
+        *out_width = TexWidth;
+    }
+    if (out_height)
+    {
+        *out_height = TexHeight;
+    }
+    if (out_bytes_per_pixel)
+    {
+        *out_bytes_per_pixel = 1;
+    }
 }
 
 void    ImFontAtlas::GetTexDataAsRGBA32(unsigned char** out_pixels, int* out_width, int* out_height, int* out_bytes_per_pixel)
@@ -2032,14 +2323,25 @@ void    ImFontAtlas::GetTexDataAsRGBA32(unsigned char** out_pixels, int* out_wid
             const unsigned char* src = pixels;
             unsigned int* dst = TexPixelsRGBA32;
             for (int n = TexWidth * TexHeight; n > 0; n--)
+            {
                 *dst++ = IM_COL32(255, 255, 255, (unsigned int)(*src++));
+            }
         }
     }
 
     *out_pixels = (unsigned char*)TexPixelsRGBA32;
-    if (out_width) *out_width = TexWidth;
-    if (out_height) *out_height = TexHeight;
-    if (out_bytes_per_pixel) *out_bytes_per_pixel = 4;
+    if (out_width)
+    {
+        *out_width = TexWidth;
+    }
+    if (out_height)
+    {
+        *out_height = TexHeight;
+    }
+    if (out_bytes_per_pixel)
+    {
+        *out_bytes_per_pixel = 4;
+    }
 }
 
 ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
@@ -2050,14 +2352,20 @@ ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
 
     // Create new font
     if (!font_cfg->MergeMode)
+    {
         Fonts.push_back(IM_NEW(ImFont));
+    }
     else
-        IM_ASSERT(!Fonts.empty() && "Cannot use MergeMode for the first font"); // When using MergeMode make sure that a font has already been added before. You can use ImGui::GetIO().Fonts->AddFontDefault() to add the default imgui font.
+    {
+        IM_ASSERT(!Fonts.empty() && "Cannot use MergeMode for the first font");    // When using MergeMode make sure that a font has already been added before. You can use ImGui::GetIO().Fonts->AddFontDefault() to add the default imgui font.
+    }
 
     ConfigData.push_back(*font_cfg);
     ImFontConfig& new_font_cfg = ConfigData.back();
     if (new_font_cfg.DstFont == NULL)
+    {
         new_font_cfg.DstFont = Fonts.back();
+    }
     if (!new_font_cfg.FontDataOwnedByAtlas)
     {
         new_font_cfg.FontData = IM_ALLOC(new_font_cfg.FontDataSize);
@@ -2065,8 +2373,10 @@ ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
         memcpy(new_font_cfg.FontData, font_cfg->FontData, (size_t)new_font_cfg.FontDataSize);
     }
 
-    if (new_font_cfg.DstFont->EllipsisChar == (ImWchar)-1)
+    if (new_font_cfg.DstFont->EllipsisChar == (ImWchar) - 1)
+    {
         new_font_cfg.DstFont->EllipsisChar = font_cfg->EllipsisChar;
+    }
 
     // Invalidate texture
     ClearTexData();
@@ -2077,13 +2387,19 @@ ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
 static unsigned int stb_decompress_length(const unsigned char* input);
 static unsigned int stb_decompress(unsigned char* output, const unsigned char* input, unsigned int length);
 static const char*  GetDefaultCompressedFontDataTTFBase85();
-static unsigned int Decode85Byte(char c)                                    { return c >= '\\' ? c-36 : c-35; }
+static unsigned int Decode85Byte(char c)
+{
+    return c >= '\\' ? c - 36 : c - 35;
+}
 static void         Decode85(const unsigned char* src, unsigned char* dst)
 {
     while (*src)
     {
         unsigned int tmp = Decode85Byte(src[0]) + 85 * (Decode85Byte(src[1]) + 85 * (Decode85Byte(src[2]) + 85 * (Decode85Byte(src[3]) + 85 * Decode85Byte(src[4]))));
-        dst[0] = ((tmp >> 0) & 0xFF); dst[1] = ((tmp >> 8) & 0xFF); dst[2] = ((tmp >> 16) & 0xFF); dst[3] = ((tmp >> 24) & 0xFF);   // We can't assume little-endianness.
+        dst[0] = ((tmp >> 0) & 0xFF);
+        dst[1] = ((tmp >> 8) & 0xFF);
+        dst[2] = ((tmp >> 16) & 0xFF);
+        dst[3] = ((tmp >> 24) & 0xFF);   // We can't assume little-endianness.
         src += 5;
         dst += 4;
     }
@@ -2099,9 +2415,13 @@ ImFont* ImFontAtlas::AddFontDefault(const ImFontConfig* font_cfg_template)
         font_cfg.PixelSnapH = true;
     }
     if (font_cfg.SizePixels <= 0.0f)
+    {
         font_cfg.SizePixels = 13.0f * 1.0f;
+    }
     if (font_cfg.Name[0] == '\0')
+    {
         ImFormatString(font_cfg.Name, IM_ARRAYSIZE(font_cfg.Name), "ProggyClean.ttf, %dpx", (int)font_cfg.SizePixels);
+    }
     font_cfg.EllipsisChar = (ImWchar)0x0085;
     font_cfg.GlyphOffset.y = 1.0f * IM_FLOOR(font_cfg.SizePixels / 13.0f);  // Add +1 offset per 13 units
 
@@ -2142,7 +2462,9 @@ ImFont* ImFontAtlas::AddFontFromMemoryTTF(void* ttf_data, int ttf_size, float si
     font_cfg.FontDataSize = ttf_size;
     font_cfg.SizePixels = size_pixels;
     if (glyph_ranges)
+    {
         font_cfg.GlyphRanges = glyph_ranges;
+    }
     return AddFont(&font_cfg);
 }
 
@@ -2209,9 +2531,13 @@ void ImFontAtlas::CalcCustomRectUV(const ImFontAtlasCustomRect* rect, ImVec2* ou
 bool ImFontAtlas::GetMouseCursorTexData(ImGuiMouseCursor cursor_type, ImVec2* out_offset, ImVec2* out_size, ImVec2 out_uv_border[2], ImVec2 out_uv_fill[2])
 {
     if (cursor_type <= ImGuiMouseCursor_None || cursor_type >= ImGuiMouseCursor_COUNT)
+    {
         return false;
+    }
     if (Flags & ImFontAtlasFlags_NoMouseCursors)
+    {
         return false;
+    }
 
     IM_ASSERT(PackIdMouseCursors != -1);
     ImFontAtlasCustomRect* r = GetCustomRectByIndex(PackIdMouseCursors);
@@ -2266,7 +2592,9 @@ void    ImFontAtlasBuildMultiplyRectAlpha8(const unsigned char table[256], unsig
     unsigned char* data = pixels + x + y * stride;
     for (int j = h; j > 0; j--, data += stride)
         for (int i = 0; i < w; i++)
+        {
             data[i] = table[data[i]];
+        }
 }
 
 #ifdef IMGUI_ENABLE_STB_TRUETYPE
@@ -2304,7 +2632,9 @@ static void UnpackBitVectorToFlatIndexList(const ImBitVector* in, ImVector<int>*
         if (ImU32 entries_32 = *it)
             for (ImU32 bit_n = 0; bit_n < 32; bit_n++)
                 if (entries_32 & ((ImU32)1 << bit_n))
+                {
                     out->push_back((int)(((it - it_begin) << 5) + bit_n));
+                }
 }
 
 static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
@@ -2339,7 +2669,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         src_tmp.DstIndex = -1;
         for (int output_i = 0; output_i < atlas->Fonts.Size && src_tmp.DstIndex == -1; output_i++)
             if (cfg.DstFont == atlas->Fonts[output_i])
+            {
                 src_tmp.DstIndex = output_i;
+            }
         if (src_tmp.DstIndex == -1)
         {
             IM_ASSERT(src_tmp.DstIndex != -1); // cfg.DstFont not pointing within atlas->Fonts[] array?
@@ -2349,13 +2681,17 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         const int font_offset = stbtt_GetFontOffsetForIndex((unsigned char*)cfg.FontData, cfg.FontNo);
         IM_ASSERT(font_offset >= 0 && "FontData is incorrect, or FontNo cannot be found.");
         if (!stbtt_InitFont(&src_tmp.FontInfo, (unsigned char*)cfg.FontData, font_offset))
+        {
             return false;
+        }
 
         // Measure highest codepoints
         ImFontBuildDstData& dst_tmp = dst_tmp_array[src_tmp.DstIndex];
         src_tmp.SrcRanges = cfg.GlyphRanges ? cfg.GlyphRanges : atlas->GetGlyphRangesDefault();
         for (const ImWchar* src_range = src_tmp.SrcRanges; src_range[0] && src_range[1]; src_range += 2)
+        {
             src_tmp.GlyphsHighest = ImMax(src_tmp.GlyphsHighest, (int)src_range[1]);
+        }
         dst_tmp.SrcCount++;
         dst_tmp.GlyphsHighest = ImMax(dst_tmp.GlyphsHighest, src_tmp.GlyphsHighest);
     }
@@ -2368,15 +2704,21 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         ImFontBuildDstData& dst_tmp = dst_tmp_array[src_tmp.DstIndex];
         src_tmp.GlyphsSet.Create(src_tmp.GlyphsHighest + 1);
         if (dst_tmp.GlyphsSet.Storage.empty())
+        {
             dst_tmp.GlyphsSet.Create(dst_tmp.GlyphsHighest + 1);
+        }
 
         for (const ImWchar* src_range = src_tmp.SrcRanges; src_range[0] && src_range[1]; src_range += 2)
             for (unsigned int codepoint = src_range[0]; codepoint <= src_range[1]; codepoint++)
             {
                 if (dst_tmp.GlyphsSet.TestBit(codepoint))    // Don't overwrite existing glyphs. We could make this an option for MergeMode (e.g. MergeOverwrite==true)
+                {
                     continue;
+                }
                 if (!stbtt_FindGlyphIndex(&src_tmp.FontInfo, codepoint))    // It is actually in the font?
+                {
                     continue;
+                }
 
                 // Add to avail set/counters
                 src_tmp.GlyphsCount++;
@@ -2397,7 +2739,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         IM_ASSERT(src_tmp.GlyphsList.Size == src_tmp.GlyphsCount);
     }
     for (int dst_i = 0; dst_i < dst_tmp_array.Size; dst_i++)
+    {
         dst_tmp_array[dst_i].GlyphsSet.Clear();
+    }
     dst_tmp_array.clear();
 
     // Allocate packing character data and flag packed characters buffer as non-packed (x0=y0=x1=y1=0)
@@ -2417,7 +2761,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
     {
         ImFontBuildSrcData& src_tmp = src_tmp_array[src_i];
         if (src_tmp.GlyphsCount == 0)
+        {
             continue;
+        }
 
         src_tmp.Rects = &buf_rects[buf_rects_out_n];
         src_tmp.PackedChars = &buf_packedchars[buf_packedchars_out_n];
@@ -2455,9 +2801,13 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
     const int surface_sqrt = (int)ImSqrt((float)total_surface) + 1;
     atlas->TexHeight = 0;
     if (atlas->TexDesiredWidth > 0)
+    {
         atlas->TexWidth = atlas->TexDesiredWidth;
+    }
     else
+    {
         atlas->TexWidth = (surface_sqrt >= 4096 * 0.7f) ? 4096 : (surface_sqrt >= 2048 * 0.7f) ? 2048 : (surface_sqrt >= 1024 * 0.7f) ? 1024 : 512;
+    }
 
     // 5. Start packing
     // Pack our extra data rectangles first, so it will be on the upper-left corner of our texture (UV will have small values).
@@ -2471,7 +2821,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
     {
         ImFontBuildSrcData& src_tmp = src_tmp_array[src_i];
         if (src_tmp.GlyphsCount == 0)
+        {
             continue;
+        }
 
         stbrp_pack_rects((stbrp_context*)spc.pack_info, src_tmp.Rects, src_tmp.GlyphsCount);
 
@@ -2479,7 +2831,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         // FIXME: We are not handling packing failure here (would happen if we got off TEX_HEIGHT_MAX or if a single if larger than TexWidth?)
         for (int glyph_i = 0; glyph_i < src_tmp.GlyphsCount; glyph_i++)
             if (src_tmp.Rects[glyph_i].was_packed)
+            {
                 atlas->TexHeight = ImMax(atlas->TexHeight, src_tmp.Rects[glyph_i].y + src_tmp.Rects[glyph_i].h);
+            }
     }
 
     // 7. Allocate texture
@@ -2496,7 +2850,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         ImFontConfig& cfg = atlas->ConfigData[src_i];
         ImFontBuildSrcData& src_tmp = src_tmp_array[src_i];
         if (src_tmp.GlyphsCount == 0)
+        {
             continue;
+        }
 
         stbtt_PackFontRangesRenderIntoRects(&spc, &src_tmp.FontInfo, &src_tmp.PackRange, 1, src_tmp.Rects);
 
@@ -2508,7 +2864,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
             stbrp_rect* r = &src_tmp.Rects[0];
             for (int glyph_i = 0; glyph_i < src_tmp.GlyphsCount; glyph_i++, r++)
                 if (r->was_packed)
+                {
                     ImFontAtlasBuildMultiplyRectAlpha8(multiply_table, atlas->TexPixelsAlpha8, r->x, r->y, r->w, r->h, atlas->TexWidth * 1);
+                }
         }
         src_tmp.Rects = NULL;
     }
@@ -2522,7 +2880,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
     {
         ImFontBuildSrcData& src_tmp = src_tmp_array[src_i];
         if (src_tmp.GlyphsCount == 0)
+        {
             continue;
+        }
 
         // When merging fonts with MergeMode=true:
         // - We can have multiple input fonts writing into a same destination font.
@@ -2554,7 +2914,9 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
 
     // Cleanup temporary (ImVector doesn't honor destructor)
     for (int src_i = 0; src_i < src_tmp_array.Size; src_i++)
+    {
         src_tmp_array[src_i].~ImFontBuildSrcData();
+    }
 
     ImFontAtlasBuildFinish(atlas);
     return true;
@@ -2618,7 +2980,9 @@ void ImFontAtlasBuildRender8bppRectFromString(ImFontAtlas* atlas, int x, int y, 
     unsigned char* out_pixel = atlas->TexPixelsAlpha8 + x + (y * atlas->TexWidth);
     for (int off_y = 0; off_y < h; off_y++, out_pixel += atlas->TexWidth, in_str += w)
         for (int off_x = 0; off_x < w; off_x++)
+        {
             out_pixel[off_x] = (in_str[off_x] == in_marker_char) ? in_marker_pixel_value : 0x00;
+        }
 }
 
 void ImFontAtlasBuildRender32bppRectFromString(ImFontAtlas* atlas, int x, int y, int w, int h, const char* in_str, char in_marker_char, unsigned int in_marker_pixel_value)
@@ -2628,7 +2992,9 @@ void ImFontAtlasBuildRender32bppRectFromString(ImFontAtlas* atlas, int x, int y,
     unsigned int* out_pixel = atlas->TexPixelsRGBA32 + x + (y * atlas->TexWidth);
     for (int off_y = 0; off_y < h; off_y++, out_pixel += atlas->TexWidth, in_str += w)
         for (int off_x = 0; off_x < w; off_x++)
+        {
             out_pixel[off_x] = (in_str[off_x] == in_marker_char) ? in_marker_pixel_value : IM_COL32_BLACK_TRANS;
+        }
 }
 
 static void ImFontAtlasBuildRenderDefaultTexData(ImFontAtlas* atlas)
@@ -2674,7 +3040,9 @@ static void ImFontAtlasBuildRenderDefaultTexData(ImFontAtlas* atlas)
 static void ImFontAtlasBuildRenderLinesTexData(ImFontAtlas* atlas)
 {
     if (atlas->Flags & ImFontAtlasFlags_NoBakedLines)
+    {
         return;
+    }
 
     // This generates a triangular shape in the texture, with the various line widths stacked on top of each other to allow interpolation between them
     ImFontAtlasCustomRect* r = atlas->GetCustomRectByIndex(atlas->PackIdLines);
@@ -2693,25 +3061,37 @@ static void ImFontAtlasBuildRenderLinesTexData(ImFontAtlas* atlas)
         {
             unsigned char* write_ptr = &atlas->TexPixelsAlpha8[r->X + ((r->Y + y) * atlas->TexWidth)];
             for (unsigned int i = 0; i < pad_left; i++)
+            {
                 *(write_ptr + i) = 0x00;
+            }
 
             for (unsigned int i = 0; i < line_width; i++)
+            {
                 *(write_ptr + pad_left + i) = 0xFF;
+            }
 
             for (unsigned int i = 0; i < pad_right; i++)
+            {
                 *(write_ptr + pad_left + line_width + i) = 0x00;
+            }
         }
         else
         {
             unsigned int* write_ptr = &atlas->TexPixelsRGBA32[r->X + ((r->Y + y) * atlas->TexWidth)];
             for (unsigned int i = 0; i < pad_left; i++)
+            {
                 *(write_ptr + i) = IM_COL32_BLACK_TRANS;
+            }
 
             for (unsigned int i = 0; i < line_width; i++)
+            {
                 *(write_ptr + pad_left + i) = IM_COL32_WHITE;
+            }
 
             for (unsigned int i = 0; i < pad_right; i++)
+            {
                 *(write_ptr + pad_left + line_width + i) = IM_COL32_BLACK_TRANS;
+            }
         }
 
         // Calculate UVs for this line
@@ -2729,9 +3109,13 @@ void ImFontAtlasBuildInit(ImFontAtlas* atlas)
     if (atlas->PackIdMouseCursors < 0)
     {
         if (!(atlas->Flags & ImFontAtlasFlags_NoMouseCursors))
+        {
             atlas->PackIdMouseCursors = atlas->AddCustomRectRegular(FONT_ATLAS_DEFAULT_TEX_DATA_W * 2 + 1, FONT_ATLAS_DEFAULT_TEX_DATA_H);
+        }
         else
+        {
             atlas->PackIdMouseCursors = atlas->AddCustomRectRegular(2, 2);
+        }
     }
 
     // Register texture region for thick lines
@@ -2739,7 +3123,9 @@ void ImFontAtlasBuildInit(ImFontAtlas* atlas)
     if (atlas->PackIdLines < 0)
     {
         if (!(atlas->Flags & ImFontAtlasFlags_NoBakedLines))
+        {
             atlas->PackIdLines = atlas->AddCustomRectRegular(IM_DRAWLIST_TEX_LINES_WIDTH_MAX + 2, IM_DRAWLIST_TEX_LINES_WIDTH_MAX + 1);
+        }
     }
 }
 
@@ -2756,7 +3142,9 @@ void ImFontAtlasBuildFinish(ImFontAtlas* atlas)
     {
         const ImFontAtlasCustomRect* r = &atlas->CustomRects[i];
         if (r->Font == NULL || r->GlyphID == 0)
+        {
             continue;
+        }
 
         // Will ignore ImFontConfig settings: GlyphMinAdvanceX, GlyphMinAdvanceY, GlyphExtraSpacing, PixelSnapH
         IM_ASSERT(r->Font->ContainerAtlas == atlas);
@@ -2768,7 +3156,9 @@ void ImFontAtlasBuildFinish(ImFontAtlas* atlas)
     // Build all fonts lookup tables
     for (int i = 0; i < atlas->Fonts.Size; i++)
         if (atlas->Fonts[i]->DirtyLookupTables)
+        {
             atlas->Fonts[i]->BuildLookupTable();
+        }
 
     // Ellipsis character is required for rendering elided text. We prefer using U+2026 (horizontal ellipsis).
     // However some old fonts may contain ellipsis at U+0085. Here we auto-detect most suitable ellipsis character.
@@ -2776,8 +3166,10 @@ void ImFontAtlasBuildFinish(ImFontAtlas* atlas)
     for (int i = 0; i < atlas->Fonts.size(); i++)
     {
         ImFont* font = atlas->Fonts[i];
-        if (font->EllipsisChar != (ImWchar)-1)
+        if (font->EllipsisChar != (ImWchar) - 1)
+        {
             continue;
+        }
         const ImWchar ellipsis_variants[] = { (ImWchar)0x2026, (ImWchar)0x0085 };
         for (int j = 0; j < IM_ARRAYSIZE(ellipsis_variants); j++)
             if (font->FindGlyphNoFallback(ellipsis_variants[j]) != NULL) // Verify glyph exists
@@ -2849,46 +3241,46 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesChineseSimplifiedCommon()
     // (Stored as accumulative offsets from the initial unicode codepoint 0x4E00. This encoding is designed to helps us compact the source code size.)
     static const short accumulative_offsets_from_0x4E00[] =
     {
-        0,1,2,4,1,1,1,1,2,1,3,2,1,2,2,1,1,1,1,1,5,2,1,2,3,3,3,2,2,4,1,1,1,2,1,5,2,3,1,2,1,2,1,1,2,1,1,2,2,1,4,1,1,1,1,5,10,1,2,19,2,1,2,1,2,1,2,1,2,
-        1,5,1,6,3,2,1,2,2,1,1,1,4,8,5,1,1,4,1,1,3,1,2,1,5,1,2,1,1,1,10,1,1,5,2,4,6,1,4,2,2,2,12,2,1,1,6,1,1,1,4,1,1,4,6,5,1,4,2,2,4,10,7,1,1,4,2,4,
-        2,1,4,3,6,10,12,5,7,2,14,2,9,1,1,6,7,10,4,7,13,1,5,4,8,4,1,1,2,28,5,6,1,1,5,2,5,20,2,2,9,8,11,2,9,17,1,8,6,8,27,4,6,9,20,11,27,6,68,2,2,1,1,
-        1,2,1,2,2,7,6,11,3,3,1,1,3,1,2,1,1,1,1,1,3,1,1,8,3,4,1,5,7,2,1,4,4,8,4,2,1,2,1,1,4,5,6,3,6,2,12,3,1,3,9,2,4,3,4,1,5,3,3,1,3,7,1,5,1,1,1,1,2,
-        3,4,5,2,3,2,6,1,1,2,1,7,1,7,3,4,5,15,2,2,1,5,3,22,19,2,1,1,1,1,2,5,1,1,1,6,1,1,12,8,2,9,18,22,4,1,1,5,1,16,1,2,7,10,15,1,1,6,2,4,1,2,4,1,6,
-        1,1,3,2,4,1,6,4,5,1,2,1,1,2,1,10,3,1,3,2,1,9,3,2,5,7,2,19,4,3,6,1,1,1,1,1,4,3,2,1,1,1,2,5,3,1,1,1,2,2,1,1,2,1,1,2,1,3,1,1,1,3,7,1,4,1,1,2,1,
-        1,2,1,2,4,4,3,8,1,1,1,2,1,3,5,1,3,1,3,4,6,2,2,14,4,6,6,11,9,1,15,3,1,28,5,2,5,5,3,1,3,4,5,4,6,14,3,2,3,5,21,2,7,20,10,1,2,19,2,4,28,28,2,3,
-        2,1,14,4,1,26,28,42,12,40,3,52,79,5,14,17,3,2,2,11,3,4,6,3,1,8,2,23,4,5,8,10,4,2,7,3,5,1,1,6,3,1,2,2,2,5,28,1,1,7,7,20,5,3,29,3,17,26,1,8,4,
-        27,3,6,11,23,5,3,4,6,13,24,16,6,5,10,25,35,7,3,2,3,3,14,3,6,2,6,1,4,2,3,8,2,1,1,3,3,3,4,1,1,13,2,2,4,5,2,1,14,14,1,2,2,1,4,5,2,3,1,14,3,12,
-        3,17,2,16,5,1,2,1,8,9,3,19,4,2,2,4,17,25,21,20,28,75,1,10,29,103,4,1,2,1,1,4,2,4,1,2,3,24,2,2,2,1,1,2,1,3,8,1,1,1,2,1,1,3,1,1,1,6,1,5,3,1,1,
-        1,3,4,1,1,5,2,1,5,6,13,9,16,1,1,1,1,3,2,3,2,4,5,2,5,2,2,3,7,13,7,2,2,1,1,1,1,2,3,3,2,1,6,4,9,2,1,14,2,14,2,1,18,3,4,14,4,11,41,15,23,15,23,
-        176,1,3,4,1,1,1,1,5,3,1,2,3,7,3,1,1,2,1,2,4,4,6,2,4,1,9,7,1,10,5,8,16,29,1,1,2,2,3,1,3,5,2,4,5,4,1,1,2,2,3,3,7,1,6,10,1,17,1,44,4,6,2,1,1,6,
-        5,4,2,10,1,6,9,2,8,1,24,1,2,13,7,8,8,2,1,4,1,3,1,3,3,5,2,5,10,9,4,9,12,2,1,6,1,10,1,1,7,7,4,10,8,3,1,13,4,3,1,6,1,3,5,2,1,2,17,16,5,2,16,6,
-        1,4,2,1,3,3,6,8,5,11,11,1,3,3,2,4,6,10,9,5,7,4,7,4,7,1,1,4,2,1,3,6,8,7,1,6,11,5,5,3,24,9,4,2,7,13,5,1,8,82,16,61,1,1,1,4,2,2,16,10,3,8,1,1,
-        6,4,2,1,3,1,1,1,4,3,8,4,2,2,1,1,1,1,1,6,3,5,1,1,4,6,9,2,1,1,1,2,1,7,2,1,6,1,5,4,4,3,1,8,1,3,3,1,3,2,2,2,2,3,1,6,1,2,1,2,1,3,7,1,8,2,1,2,1,5,
-        2,5,3,5,10,1,2,1,1,3,2,5,11,3,9,3,5,1,1,5,9,1,2,1,5,7,9,9,8,1,3,3,3,6,8,2,3,2,1,1,32,6,1,2,15,9,3,7,13,1,3,10,13,2,14,1,13,10,2,1,3,10,4,15,
-        2,15,15,10,1,3,9,6,9,32,25,26,47,7,3,2,3,1,6,3,4,3,2,8,5,4,1,9,4,2,2,19,10,6,2,3,8,1,2,2,4,2,1,9,4,4,4,6,4,8,9,2,3,1,1,1,1,3,5,5,1,3,8,4,6,
-        2,1,4,12,1,5,3,7,13,2,5,8,1,6,1,2,5,14,6,1,5,2,4,8,15,5,1,23,6,62,2,10,1,1,8,1,2,2,10,4,2,2,9,2,1,1,3,2,3,1,5,3,3,2,1,3,8,1,1,1,11,3,1,1,4,
-        3,7,1,14,1,2,3,12,5,2,5,1,6,7,5,7,14,11,1,3,1,8,9,12,2,1,11,8,4,4,2,6,10,9,13,1,1,3,1,5,1,3,2,4,4,1,18,2,3,14,11,4,29,4,2,7,1,3,13,9,2,2,5,
-        3,5,20,7,16,8,5,72,34,6,4,22,12,12,28,45,36,9,7,39,9,191,1,1,1,4,11,8,4,9,2,3,22,1,1,1,1,4,17,1,7,7,1,11,31,10,2,4,8,2,3,2,1,4,2,16,4,32,2,
-        3,19,13,4,9,1,5,2,14,8,1,1,3,6,19,6,5,1,16,6,2,10,8,5,1,2,3,1,5,5,1,11,6,6,1,3,3,2,6,3,8,1,1,4,10,7,5,7,7,5,8,9,2,1,3,4,1,1,3,1,3,3,2,6,16,
-        1,4,6,3,1,10,6,1,3,15,2,9,2,10,25,13,9,16,6,2,2,10,11,4,3,9,1,2,6,6,5,4,30,40,1,10,7,12,14,33,6,3,6,7,3,1,3,1,11,14,4,9,5,12,11,49,18,51,31,
-        140,31,2,2,1,5,1,8,1,10,1,4,4,3,24,1,10,1,3,6,6,16,3,4,5,2,1,4,2,57,10,6,22,2,22,3,7,22,6,10,11,36,18,16,33,36,2,5,5,1,1,1,4,10,1,4,13,2,7,
-        5,2,9,3,4,1,7,43,3,7,3,9,14,7,9,1,11,1,1,3,7,4,18,13,1,14,1,3,6,10,73,2,2,30,6,1,11,18,19,13,22,3,46,42,37,89,7,3,16,34,2,2,3,9,1,7,1,1,1,2,
-        2,4,10,7,3,10,3,9,5,28,9,2,6,13,7,3,1,3,10,2,7,2,11,3,6,21,54,85,2,1,4,2,2,1,39,3,21,2,2,5,1,1,1,4,1,1,3,4,15,1,3,2,4,4,2,3,8,2,20,1,8,7,13,
-        4,1,26,6,2,9,34,4,21,52,10,4,4,1,5,12,2,11,1,7,2,30,12,44,2,30,1,1,3,6,16,9,17,39,82,2,2,24,7,1,7,3,16,9,14,44,2,1,2,1,2,3,5,2,4,1,6,7,5,3,
-        2,6,1,11,5,11,2,1,18,19,8,1,3,24,29,2,1,3,5,2,2,1,13,6,5,1,46,11,3,5,1,1,5,8,2,10,6,12,6,3,7,11,2,4,16,13,2,5,1,1,2,2,5,2,28,5,2,23,10,8,4,
-        4,22,39,95,38,8,14,9,5,1,13,5,4,3,13,12,11,1,9,1,27,37,2,5,4,4,63,211,95,2,2,2,1,3,5,2,1,1,2,2,1,1,1,3,2,4,1,2,1,1,5,2,2,1,1,2,3,1,3,1,1,1,
-        3,1,4,2,1,3,6,1,1,3,7,15,5,3,2,5,3,9,11,4,2,22,1,6,3,8,7,1,4,28,4,16,3,3,25,4,4,27,27,1,4,1,2,2,7,1,3,5,2,28,8,2,14,1,8,6,16,25,3,3,3,14,3,
-        3,1,1,2,1,4,6,3,8,4,1,1,1,2,3,6,10,6,2,3,18,3,2,5,5,4,3,1,5,2,5,4,23,7,6,12,6,4,17,11,9,5,1,1,10,5,12,1,1,11,26,33,7,3,6,1,17,7,1,5,12,1,11,
-        2,4,1,8,14,17,23,1,2,1,7,8,16,11,9,6,5,2,6,4,16,2,8,14,1,11,8,9,1,1,1,9,25,4,11,19,7,2,15,2,12,8,52,7,5,19,2,16,4,36,8,1,16,8,24,26,4,6,2,9,
-        5,4,36,3,28,12,25,15,37,27,17,12,59,38,5,32,127,1,2,9,17,14,4,1,2,1,1,8,11,50,4,14,2,19,16,4,17,5,4,5,26,12,45,2,23,45,104,30,12,8,3,10,2,2,
-        3,3,1,4,20,7,2,9,6,15,2,20,1,3,16,4,11,15,6,134,2,5,59,1,2,2,2,1,9,17,3,26,137,10,211,59,1,2,4,1,4,1,1,1,2,6,2,3,1,1,2,3,2,3,1,3,4,4,2,3,3,
-        1,4,3,1,7,2,2,3,1,2,1,3,3,3,2,2,3,2,1,3,14,6,1,3,2,9,6,15,27,9,34,145,1,1,2,1,1,1,1,2,1,1,1,1,2,2,2,3,1,2,1,1,1,2,3,5,8,3,5,2,4,1,3,2,2,2,12,
-        4,1,1,1,10,4,5,1,20,4,16,1,15,9,5,12,2,9,2,5,4,2,26,19,7,1,26,4,30,12,15,42,1,6,8,172,1,1,4,2,1,1,11,2,2,4,2,1,2,1,10,8,1,2,1,4,5,1,2,5,1,8,
-        4,1,3,4,2,1,6,2,1,3,4,1,2,1,1,1,1,12,5,7,2,4,3,1,1,1,3,3,6,1,2,2,3,3,3,2,1,2,12,14,11,6,6,4,12,2,8,1,7,10,1,35,7,4,13,15,4,3,23,21,28,52,5,
-        26,5,6,1,7,10,2,7,53,3,2,1,1,1,2,163,532,1,10,11,1,3,3,4,8,2,8,6,2,2,23,22,4,2,2,4,2,1,3,1,3,3,5,9,8,2,1,2,8,1,10,2,12,21,20,15,105,2,3,1,1,
-        3,2,3,1,1,2,5,1,4,15,11,19,1,1,1,1,5,4,5,1,1,2,5,3,5,12,1,2,5,1,11,1,1,15,9,1,4,5,3,26,8,2,1,3,1,1,15,19,2,12,1,2,5,2,7,2,19,2,20,6,26,7,5,
-        2,2,7,34,21,13,70,2,128,1,1,2,1,1,2,1,1,3,2,2,2,15,1,4,1,3,4,42,10,6,1,49,85,8,1,2,1,1,4,4,2,3,6,1,5,7,4,3,211,4,1,2,1,2,5,1,2,4,2,2,6,5,6,
-        10,3,4,48,100,6,2,16,296,5,27,387,2,2,3,7,16,8,5,38,15,39,21,9,10,3,7,59,13,27,21,47,5,21,6
+        0, 1, 2, 4, 1, 1, 1, 1, 2, 1, 3, 2, 1, 2, 2, 1, 1, 1, 1, 1, 5, 2, 1, 2, 3, 3, 3, 2, 2, 4, 1, 1, 1, 2, 1, 5, 2, 3, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 4, 1, 1, 1, 1, 5, 10, 1, 2, 19, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        1, 5, 1, 6, 3, 2, 1, 2, 2, 1, 1, 1, 4, 8, 5, 1, 1, 4, 1, 1, 3, 1, 2, 1, 5, 1, 2, 1, 1, 1, 10, 1, 1, 5, 2, 4, 6, 1, 4, 2, 2, 2, 12, 2, 1, 1, 6, 1, 1, 1, 4, 1, 1, 4, 6, 5, 1, 4, 2, 2, 4, 10, 7, 1, 1, 4, 2, 4,
+        2, 1, 4, 3, 6, 10, 12, 5, 7, 2, 14, 2, 9, 1, 1, 6, 7, 10, 4, 7, 13, 1, 5, 4, 8, 4, 1, 1, 2, 28, 5, 6, 1, 1, 5, 2, 5, 20, 2, 2, 9, 8, 11, 2, 9, 17, 1, 8, 6, 8, 27, 4, 6, 9, 20, 11, 27, 6, 68, 2, 2, 1, 1,
+        1, 2, 1, 2, 2, 7, 6, 11, 3, 3, 1, 1, 3, 1, 2, 1, 1, 1, 1, 1, 3, 1, 1, 8, 3, 4, 1, 5, 7, 2, 1, 4, 4, 8, 4, 2, 1, 2, 1, 1, 4, 5, 6, 3, 6, 2, 12, 3, 1, 3, 9, 2, 4, 3, 4, 1, 5, 3, 3, 1, 3, 7, 1, 5, 1, 1, 1, 1, 2,
+        3, 4, 5, 2, 3, 2, 6, 1, 1, 2, 1, 7, 1, 7, 3, 4, 5, 15, 2, 2, 1, 5, 3, 22, 19, 2, 1, 1, 1, 1, 2, 5, 1, 1, 1, 6, 1, 1, 12, 8, 2, 9, 18, 22, 4, 1, 1, 5, 1, 16, 1, 2, 7, 10, 15, 1, 1, 6, 2, 4, 1, 2, 4, 1, 6,
+        1, 1, 3, 2, 4, 1, 6, 4, 5, 1, 2, 1, 1, 2, 1, 10, 3, 1, 3, 2, 1, 9, 3, 2, 5, 7, 2, 19, 4, 3, 6, 1, 1, 1, 1, 1, 4, 3, 2, 1, 1, 1, 2, 5, 3, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 3, 1, 1, 1, 3, 7, 1, 4, 1, 1, 2, 1,
+        1, 2, 1, 2, 4, 4, 3, 8, 1, 1, 1, 2, 1, 3, 5, 1, 3, 1, 3, 4, 6, 2, 2, 14, 4, 6, 6, 11, 9, 1, 15, 3, 1, 28, 5, 2, 5, 5, 3, 1, 3, 4, 5, 4, 6, 14, 3, 2, 3, 5, 21, 2, 7, 20, 10, 1, 2, 19, 2, 4, 28, 28, 2, 3,
+        2, 1, 14, 4, 1, 26, 28, 42, 12, 40, 3, 52, 79, 5, 14, 17, 3, 2, 2, 11, 3, 4, 6, 3, 1, 8, 2, 23, 4, 5, 8, 10, 4, 2, 7, 3, 5, 1, 1, 6, 3, 1, 2, 2, 2, 5, 28, 1, 1, 7, 7, 20, 5, 3, 29, 3, 17, 26, 1, 8, 4,
+        27, 3, 6, 11, 23, 5, 3, 4, 6, 13, 24, 16, 6, 5, 10, 25, 35, 7, 3, 2, 3, 3, 14, 3, 6, 2, 6, 1, 4, 2, 3, 8, 2, 1, 1, 3, 3, 3, 4, 1, 1, 13, 2, 2, 4, 5, 2, 1, 14, 14, 1, 2, 2, 1, 4, 5, 2, 3, 1, 14, 3, 12,
+        3, 17, 2, 16, 5, 1, 2, 1, 8, 9, 3, 19, 4, 2, 2, 4, 17, 25, 21, 20, 28, 75, 1, 10, 29, 103, 4, 1, 2, 1, 1, 4, 2, 4, 1, 2, 3, 24, 2, 2, 2, 1, 1, 2, 1, 3, 8, 1, 1, 1, 2, 1, 1, 3, 1, 1, 1, 6, 1, 5, 3, 1, 1,
+        1, 3, 4, 1, 1, 5, 2, 1, 5, 6, 13, 9, 16, 1, 1, 1, 1, 3, 2, 3, 2, 4, 5, 2, 5, 2, 2, 3, 7, 13, 7, 2, 2, 1, 1, 1, 1, 2, 3, 3, 2, 1, 6, 4, 9, 2, 1, 14, 2, 14, 2, 1, 18, 3, 4, 14, 4, 11, 41, 15, 23, 15, 23,
+        176, 1, 3, 4, 1, 1, 1, 1, 5, 3, 1, 2, 3, 7, 3, 1, 1, 2, 1, 2, 4, 4, 6, 2, 4, 1, 9, 7, 1, 10, 5, 8, 16, 29, 1, 1, 2, 2, 3, 1, 3, 5, 2, 4, 5, 4, 1, 1, 2, 2, 3, 3, 7, 1, 6, 10, 1, 17, 1, 44, 4, 6, 2, 1, 1, 6,
+        5, 4, 2, 10, 1, 6, 9, 2, 8, 1, 24, 1, 2, 13, 7, 8, 8, 2, 1, 4, 1, 3, 1, 3, 3, 5, 2, 5, 10, 9, 4, 9, 12, 2, 1, 6, 1, 10, 1, 1, 7, 7, 4, 10, 8, 3, 1, 13, 4, 3, 1, 6, 1, 3, 5, 2, 1, 2, 17, 16, 5, 2, 16, 6,
+        1, 4, 2, 1, 3, 3, 6, 8, 5, 11, 11, 1, 3, 3, 2, 4, 6, 10, 9, 5, 7, 4, 7, 4, 7, 1, 1, 4, 2, 1, 3, 6, 8, 7, 1, 6, 11, 5, 5, 3, 24, 9, 4, 2, 7, 13, 5, 1, 8, 82, 16, 61, 1, 1, 1, 4, 2, 2, 16, 10, 3, 8, 1, 1,
+        6, 4, 2, 1, 3, 1, 1, 1, 4, 3, 8, 4, 2, 2, 1, 1, 1, 1, 1, 6, 3, 5, 1, 1, 4, 6, 9, 2, 1, 1, 1, 2, 1, 7, 2, 1, 6, 1, 5, 4, 4, 3, 1, 8, 1, 3, 3, 1, 3, 2, 2, 2, 2, 3, 1, 6, 1, 2, 1, 2, 1, 3, 7, 1, 8, 2, 1, 2, 1, 5,
+        2, 5, 3, 5, 10, 1, 2, 1, 1, 3, 2, 5, 11, 3, 9, 3, 5, 1, 1, 5, 9, 1, 2, 1, 5, 7, 9, 9, 8, 1, 3, 3, 3, 6, 8, 2, 3, 2, 1, 1, 32, 6, 1, 2, 15, 9, 3, 7, 13, 1, 3, 10, 13, 2, 14, 1, 13, 10, 2, 1, 3, 10, 4, 15,
+        2, 15, 15, 10, 1, 3, 9, 6, 9, 32, 25, 26, 47, 7, 3, 2, 3, 1, 6, 3, 4, 3, 2, 8, 5, 4, 1, 9, 4, 2, 2, 19, 10, 6, 2, 3, 8, 1, 2, 2, 4, 2, 1, 9, 4, 4, 4, 6, 4, 8, 9, 2, 3, 1, 1, 1, 1, 3, 5, 5, 1, 3, 8, 4, 6,
+        2, 1, 4, 12, 1, 5, 3, 7, 13, 2, 5, 8, 1, 6, 1, 2, 5, 14, 6, 1, 5, 2, 4, 8, 15, 5, 1, 23, 6, 62, 2, 10, 1, 1, 8, 1, 2, 2, 10, 4, 2, 2, 9, 2, 1, 1, 3, 2, 3, 1, 5, 3, 3, 2, 1, 3, 8, 1, 1, 1, 11, 3, 1, 1, 4,
+        3, 7, 1, 14, 1, 2, 3, 12, 5, 2, 5, 1, 6, 7, 5, 7, 14, 11, 1, 3, 1, 8, 9, 12, 2, 1, 11, 8, 4, 4, 2, 6, 10, 9, 13, 1, 1, 3, 1, 5, 1, 3, 2, 4, 4, 1, 18, 2, 3, 14, 11, 4, 29, 4, 2, 7, 1, 3, 13, 9, 2, 2, 5,
+        3, 5, 20, 7, 16, 8, 5, 72, 34, 6, 4, 22, 12, 12, 28, 45, 36, 9, 7, 39, 9, 191, 1, 1, 1, 4, 11, 8, 4, 9, 2, 3, 22, 1, 1, 1, 1, 4, 17, 1, 7, 7, 1, 11, 31, 10, 2, 4, 8, 2, 3, 2, 1, 4, 2, 16, 4, 32, 2,
+        3, 19, 13, 4, 9, 1, 5, 2, 14, 8, 1, 1, 3, 6, 19, 6, 5, 1, 16, 6, 2, 10, 8, 5, 1, 2, 3, 1, 5, 5, 1, 11, 6, 6, 1, 3, 3, 2, 6, 3, 8, 1, 1, 4, 10, 7, 5, 7, 7, 5, 8, 9, 2, 1, 3, 4, 1, 1, 3, 1, 3, 3, 2, 6, 16,
+        1, 4, 6, 3, 1, 10, 6, 1, 3, 15, 2, 9, 2, 10, 25, 13, 9, 16, 6, 2, 2, 10, 11, 4, 3, 9, 1, 2, 6, 6, 5, 4, 30, 40, 1, 10, 7, 12, 14, 33, 6, 3, 6, 7, 3, 1, 3, 1, 11, 14, 4, 9, 5, 12, 11, 49, 18, 51, 31,
+        140, 31, 2, 2, 1, 5, 1, 8, 1, 10, 1, 4, 4, 3, 24, 1, 10, 1, 3, 6, 6, 16, 3, 4, 5, 2, 1, 4, 2, 57, 10, 6, 22, 2, 22, 3, 7, 22, 6, 10, 11, 36, 18, 16, 33, 36, 2, 5, 5, 1, 1, 1, 4, 10, 1, 4, 13, 2, 7,
+        5, 2, 9, 3, 4, 1, 7, 43, 3, 7, 3, 9, 14, 7, 9, 1, 11, 1, 1, 3, 7, 4, 18, 13, 1, 14, 1, 3, 6, 10, 73, 2, 2, 30, 6, 1, 11, 18, 19, 13, 22, 3, 46, 42, 37, 89, 7, 3, 16, 34, 2, 2, 3, 9, 1, 7, 1, 1, 1, 2,
+        2, 4, 10, 7, 3, 10, 3, 9, 5, 28, 9, 2, 6, 13, 7, 3, 1, 3, 10, 2, 7, 2, 11, 3, 6, 21, 54, 85, 2, 1, 4, 2, 2, 1, 39, 3, 21, 2, 2, 5, 1, 1, 1, 4, 1, 1, 3, 4, 15, 1, 3, 2, 4, 4, 2, 3, 8, 2, 20, 1, 8, 7, 13,
+        4, 1, 26, 6, 2, 9, 34, 4, 21, 52, 10, 4, 4, 1, 5, 12, 2, 11, 1, 7, 2, 30, 12, 44, 2, 30, 1, 1, 3, 6, 16, 9, 17, 39, 82, 2, 2, 24, 7, 1, 7, 3, 16, 9, 14, 44, 2, 1, 2, 1, 2, 3, 5, 2, 4, 1, 6, 7, 5, 3,
+        2, 6, 1, 11, 5, 11, 2, 1, 18, 19, 8, 1, 3, 24, 29, 2, 1, 3, 5, 2, 2, 1, 13, 6, 5, 1, 46, 11, 3, 5, 1, 1, 5, 8, 2, 10, 6, 12, 6, 3, 7, 11, 2, 4, 16, 13, 2, 5, 1, 1, 2, 2, 5, 2, 28, 5, 2, 23, 10, 8, 4,
+        4, 22, 39, 95, 38, 8, 14, 9, 5, 1, 13, 5, 4, 3, 13, 12, 11, 1, 9, 1, 27, 37, 2, 5, 4, 4, 63, 211, 95, 2, 2, 2, 1, 3, 5, 2, 1, 1, 2, 2, 1, 1, 1, 3, 2, 4, 1, 2, 1, 1, 5, 2, 2, 1, 1, 2, 3, 1, 3, 1, 1, 1,
+        3, 1, 4, 2, 1, 3, 6, 1, 1, 3, 7, 15, 5, 3, 2, 5, 3, 9, 11, 4, 2, 22, 1, 6, 3, 8, 7, 1, 4, 28, 4, 16, 3, 3, 25, 4, 4, 27, 27, 1, 4, 1, 2, 2, 7, 1, 3, 5, 2, 28, 8, 2, 14, 1, 8, 6, 16, 25, 3, 3, 3, 14, 3,
+        3, 1, 1, 2, 1, 4, 6, 3, 8, 4, 1, 1, 1, 2, 3, 6, 10, 6, 2, 3, 18, 3, 2, 5, 5, 4, 3, 1, 5, 2, 5, 4, 23, 7, 6, 12, 6, 4, 17, 11, 9, 5, 1, 1, 10, 5, 12, 1, 1, 11, 26, 33, 7, 3, 6, 1, 17, 7, 1, 5, 12, 1, 11,
+        2, 4, 1, 8, 14, 17, 23, 1, 2, 1, 7, 8, 16, 11, 9, 6, 5, 2, 6, 4, 16, 2, 8, 14, 1, 11, 8, 9, 1, 1, 1, 9, 25, 4, 11, 19, 7, 2, 15, 2, 12, 8, 52, 7, 5, 19, 2, 16, 4, 36, 8, 1, 16, 8, 24, 26, 4, 6, 2, 9,
+        5, 4, 36, 3, 28, 12, 25, 15, 37, 27, 17, 12, 59, 38, 5, 32, 127, 1, 2, 9, 17, 14, 4, 1, 2, 1, 1, 8, 11, 50, 4, 14, 2, 19, 16, 4, 17, 5, 4, 5, 26, 12, 45, 2, 23, 45, 104, 30, 12, 8, 3, 10, 2, 2,
+        3, 3, 1, 4, 20, 7, 2, 9, 6, 15, 2, 20, 1, 3, 16, 4, 11, 15, 6, 134, 2, 5, 59, 1, 2, 2, 2, 1, 9, 17, 3, 26, 137, 10, 211, 59, 1, 2, 4, 1, 4, 1, 1, 1, 2, 6, 2, 3, 1, 1, 2, 3, 2, 3, 1, 3, 4, 4, 2, 3, 3,
+        1, 4, 3, 1, 7, 2, 2, 3, 1, 2, 1, 3, 3, 3, 2, 2, 3, 2, 1, 3, 14, 6, 1, 3, 2, 9, 6, 15, 27, 9, 34, 145, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 2, 2, 3, 1, 2, 1, 1, 1, 2, 3, 5, 8, 3, 5, 2, 4, 1, 3, 2, 2, 2, 12,
+        4, 1, 1, 1, 10, 4, 5, 1, 20, 4, 16, 1, 15, 9, 5, 12, 2, 9, 2, 5, 4, 2, 26, 19, 7, 1, 26, 4, 30, 12, 15, 42, 1, 6, 8, 172, 1, 1, 4, 2, 1, 1, 11, 2, 2, 4, 2, 1, 2, 1, 10, 8, 1, 2, 1, 4, 5, 1, 2, 5, 1, 8,
+        4, 1, 3, 4, 2, 1, 6, 2, 1, 3, 4, 1, 2, 1, 1, 1, 1, 12, 5, 7, 2, 4, 3, 1, 1, 1, 3, 3, 6, 1, 2, 2, 3, 3, 3, 2, 1, 2, 12, 14, 11, 6, 6, 4, 12, 2, 8, 1, 7, 10, 1, 35, 7, 4, 13, 15, 4, 3, 23, 21, 28, 52, 5,
+        26, 5, 6, 1, 7, 10, 2, 7, 53, 3, 2, 1, 1, 1, 2, 163, 532, 1, 10, 11, 1, 3, 3, 4, 8, 2, 8, 6, 2, 2, 23, 22, 4, 2, 2, 4, 2, 1, 3, 1, 3, 3, 5, 9, 8, 2, 1, 2, 8, 1, 10, 2, 12, 21, 20, 15, 105, 2, 3, 1, 1,
+        3, 2, 3, 1, 1, 2, 5, 1, 4, 15, 11, 19, 1, 1, 1, 1, 5, 4, 5, 1, 1, 2, 5, 3, 5, 12, 1, 2, 5, 1, 11, 1, 1, 15, 9, 1, 4, 5, 3, 26, 8, 2, 1, 3, 1, 1, 15, 19, 2, 12, 1, 2, 5, 2, 7, 2, 19, 2, 20, 6, 26, 7, 5,
+        2, 2, 7, 34, 21, 13, 70, 2, 128, 1, 1, 2, 1, 1, 2, 1, 1, 3, 2, 2, 2, 15, 1, 4, 1, 3, 4, 42, 10, 6, 1, 49, 85, 8, 1, 2, 1, 1, 4, 4, 2, 3, 6, 1, 5, 7, 4, 3, 211, 4, 1, 2, 1, 2, 5, 1, 2, 4, 2, 2, 6, 5, 6,
+        10, 3, 4, 48, 100, 6, 2, 16, 296, 5, 27, 387, 2, 2, 3, 7, 16, 8, 5, 38, 15, 39, 21, 9, 10, 3, 7, 59, 13, 27, 21, 47, 5, 21, 6
     };
     static ImWchar base_ranges[] = // not zero-terminated
     {
@@ -2931,54 +3323,54 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesJapanese()
     // (Stored as accumulative offsets from the initial unicode codepoint 0x4E00. This encoding is designed to helps us compact the source code size.)
     static const short accumulative_offsets_from_0x4E00[] =
     {
-        0,1,2,4,1,1,1,1,2,1,3,3,2,2,1,5,3,5,7,5,6,1,2,1,7,2,6,3,1,8,1,1,4,1,1,18,2,11,2,6,2,1,2,1,5,1,2,1,3,1,2,1,2,3,3,1,1,2,3,1,1,1,12,7,9,1,4,5,1,
-        1,2,1,10,1,1,9,2,2,4,5,6,9,3,1,1,1,1,9,3,18,5,2,2,2,2,1,6,3,7,1,1,1,1,2,2,4,2,1,23,2,10,4,3,5,2,4,10,2,4,13,1,6,1,9,3,1,1,6,6,7,6,3,1,2,11,3,
-        2,2,3,2,15,2,2,5,4,3,6,4,1,2,5,2,12,16,6,13,9,13,2,1,1,7,16,4,7,1,19,1,5,1,2,2,7,7,8,2,6,5,4,9,18,7,4,5,9,13,11,8,15,2,1,1,1,2,1,2,2,1,2,2,8,
-        2,9,3,3,1,1,4,4,1,1,1,4,9,1,4,3,5,5,2,7,5,3,4,8,2,1,13,2,3,3,1,14,1,1,4,5,1,3,6,1,5,2,1,1,3,3,3,3,1,1,2,7,6,6,7,1,4,7,6,1,1,1,1,1,12,3,3,9,5,
-        2,6,1,5,6,1,2,3,18,2,4,14,4,1,3,6,1,1,6,3,5,5,3,2,2,2,2,12,3,1,4,2,3,2,3,11,1,7,4,1,2,1,3,17,1,9,1,24,1,1,4,2,2,4,1,2,7,1,1,1,3,1,2,2,4,15,1,
-        1,2,1,1,2,1,5,2,5,20,2,5,9,1,10,8,7,6,1,1,1,1,1,1,6,2,1,2,8,1,1,1,1,5,1,1,3,1,1,1,1,3,1,1,12,4,1,3,1,1,1,1,1,10,3,1,7,5,13,1,2,3,4,6,1,1,30,
-        2,9,9,1,15,38,11,3,1,8,24,7,1,9,8,10,2,1,9,31,2,13,6,2,9,4,49,5,2,15,2,1,10,2,1,1,1,2,2,6,15,30,35,3,14,18,8,1,16,10,28,12,19,45,38,1,3,2,3,
-        13,2,1,7,3,6,5,3,4,3,1,5,7,8,1,5,3,18,5,3,6,1,21,4,24,9,24,40,3,14,3,21,3,2,1,2,4,2,3,1,15,15,6,5,1,1,3,1,5,6,1,9,7,3,3,2,1,4,3,8,21,5,16,4,
-        5,2,10,11,11,3,6,3,2,9,3,6,13,1,2,1,1,1,1,11,12,6,6,1,4,2,6,5,2,1,1,3,3,6,13,3,1,1,5,1,2,3,3,14,2,1,2,2,2,5,1,9,5,1,1,6,12,3,12,3,4,13,2,14,
-        2,8,1,17,5,1,16,4,2,2,21,8,9,6,23,20,12,25,19,9,38,8,3,21,40,25,33,13,4,3,1,4,1,2,4,1,2,5,26,2,1,1,2,1,3,6,2,1,1,1,1,1,1,2,3,1,1,1,9,2,3,1,1,
-        1,3,6,3,2,1,1,6,6,1,8,2,2,2,1,4,1,2,3,2,7,3,2,4,1,2,1,2,2,1,1,1,1,1,3,1,2,5,4,10,9,4,9,1,1,1,1,1,1,5,3,2,1,6,4,9,6,1,10,2,31,17,8,3,7,5,40,1,
-        7,7,1,6,5,2,10,7,8,4,15,39,25,6,28,47,18,10,7,1,3,1,1,2,1,1,1,3,3,3,1,1,1,3,4,2,1,4,1,3,6,10,7,8,6,2,2,1,3,3,2,5,8,7,9,12,2,15,1,1,4,1,2,1,1,
-        1,3,2,1,3,3,5,6,2,3,2,10,1,4,2,8,1,1,1,11,6,1,21,4,16,3,1,3,1,4,2,3,6,5,1,3,1,1,3,3,4,6,1,1,10,4,2,7,10,4,7,4,2,9,4,3,1,1,1,4,1,8,3,4,1,3,1,
-        6,1,4,2,1,4,7,2,1,8,1,4,5,1,1,2,2,4,6,2,7,1,10,1,1,3,4,11,10,8,21,4,6,1,3,5,2,1,2,28,5,5,2,3,13,1,2,3,1,4,2,1,5,20,3,8,11,1,3,3,3,1,8,10,9,2,
-        10,9,2,3,1,1,2,4,1,8,3,6,1,7,8,6,11,1,4,29,8,4,3,1,2,7,13,1,4,1,6,2,6,12,12,2,20,3,2,3,6,4,8,9,2,7,34,5,1,18,6,1,1,4,4,5,7,9,1,2,2,4,3,4,1,7,
-        2,2,2,6,2,3,25,5,3,6,1,4,6,7,4,2,1,4,2,13,6,4,4,3,1,5,3,4,4,3,2,1,1,4,1,2,1,1,3,1,11,1,6,3,1,7,3,6,2,8,8,6,9,3,4,11,3,2,10,12,2,5,11,1,6,4,5,
-        3,1,8,5,4,6,6,3,5,1,1,3,2,1,2,2,6,17,12,1,10,1,6,12,1,6,6,19,9,6,16,1,13,4,4,15,7,17,6,11,9,15,12,6,7,2,1,2,2,15,9,3,21,4,6,49,18,7,3,2,3,1,
-        6,8,2,2,6,2,9,1,3,6,4,4,1,2,16,2,5,2,1,6,2,3,5,3,1,2,5,1,2,1,9,3,1,8,6,4,8,11,3,1,1,1,1,3,1,13,8,4,1,3,2,2,1,4,1,11,1,5,2,1,5,2,5,8,6,1,1,7,
-        4,3,8,3,2,7,2,1,5,1,5,2,4,7,6,2,8,5,1,11,4,5,3,6,18,1,2,13,3,3,1,21,1,1,4,1,4,1,1,1,8,1,2,2,7,1,2,4,2,2,9,2,1,1,1,4,3,6,3,12,5,1,1,1,5,6,3,2,
-        4,8,2,2,4,2,7,1,8,9,5,2,3,2,1,3,2,13,7,14,6,5,1,1,2,1,4,2,23,2,1,1,6,3,1,4,1,15,3,1,7,3,9,14,1,3,1,4,1,1,5,8,1,3,8,3,8,15,11,4,14,4,4,2,5,5,
-        1,7,1,6,14,7,7,8,5,15,4,8,6,5,6,2,1,13,1,20,15,11,9,2,5,6,2,11,2,6,2,5,1,5,8,4,13,19,25,4,1,1,11,1,34,2,5,9,14,6,2,2,6,1,1,14,1,3,14,13,1,6,
-        12,21,14,14,6,32,17,8,32,9,28,1,2,4,11,8,3,1,14,2,5,15,1,1,1,1,3,6,4,1,3,4,11,3,1,1,11,30,1,5,1,4,1,5,8,1,1,3,2,4,3,17,35,2,6,12,17,3,1,6,2,
-        1,1,12,2,7,3,3,2,1,16,2,8,3,6,5,4,7,3,3,8,1,9,8,5,1,2,1,3,2,8,1,2,9,12,1,1,2,3,8,3,24,12,4,3,7,5,8,3,3,3,3,3,3,1,23,10,3,1,2,2,6,3,1,16,1,16,
-        22,3,10,4,11,6,9,7,7,3,6,2,2,2,4,10,2,1,1,2,8,7,1,6,4,1,3,3,3,5,10,12,12,2,3,12,8,15,1,1,16,6,6,1,5,9,11,4,11,4,2,6,12,1,17,5,13,1,4,9,5,1,11,
-        2,1,8,1,5,7,28,8,3,5,10,2,17,3,38,22,1,2,18,12,10,4,38,18,1,4,44,19,4,1,8,4,1,12,1,4,31,12,1,14,7,75,7,5,10,6,6,13,3,2,11,11,3,2,5,28,15,6,18,
-        18,5,6,4,3,16,1,7,18,7,36,3,5,3,1,7,1,9,1,10,7,2,4,2,6,2,9,7,4,3,32,12,3,7,10,2,23,16,3,1,12,3,31,4,11,1,3,8,9,5,1,30,15,6,12,3,2,2,11,19,9,
-        14,2,6,2,3,19,13,17,5,3,3,25,3,14,1,1,1,36,1,3,2,19,3,13,36,9,13,31,6,4,16,34,2,5,4,2,3,3,5,1,1,1,4,3,1,17,3,2,3,5,3,1,3,2,3,5,6,3,12,11,1,3,
-        1,2,26,7,12,7,2,14,3,3,7,7,11,25,25,28,16,4,36,1,2,1,6,2,1,9,3,27,17,4,3,4,13,4,1,3,2,2,1,10,4,2,4,6,3,8,2,1,18,1,1,24,2,2,4,33,2,3,63,7,1,6,
-        40,7,3,4,4,2,4,15,18,1,16,1,1,11,2,41,14,1,3,18,13,3,2,4,16,2,17,7,15,24,7,18,13,44,2,2,3,6,1,1,7,5,1,7,1,4,3,3,5,10,8,2,3,1,8,1,1,27,4,2,1,
-        12,1,2,1,10,6,1,6,7,5,2,3,7,11,5,11,3,6,6,2,3,15,4,9,1,1,2,1,2,11,2,8,12,8,5,4,2,3,1,5,2,2,1,14,1,12,11,4,1,11,17,17,4,3,2,5,5,7,3,1,5,9,9,8,
-        2,5,6,6,13,13,2,1,2,6,1,2,2,49,4,9,1,2,10,16,7,8,4,3,2,23,4,58,3,29,1,14,19,19,11,11,2,7,5,1,3,4,6,2,18,5,12,12,17,17,3,3,2,4,1,6,2,3,4,3,1,
-        1,1,1,5,1,1,9,1,3,1,3,6,1,8,1,1,2,6,4,14,3,1,4,11,4,1,3,32,1,2,4,13,4,1,2,4,2,1,3,1,11,1,4,2,1,4,4,6,3,5,1,6,5,7,6,3,23,3,5,3,5,3,3,13,3,9,10,
-        1,12,10,2,3,18,13,7,160,52,4,2,2,3,2,14,5,4,12,4,6,4,1,20,4,11,6,2,12,27,1,4,1,2,2,7,4,5,2,28,3,7,25,8,3,19,3,6,10,2,2,1,10,2,5,4,1,3,4,1,5,
-        3,2,6,9,3,6,2,16,3,3,16,4,5,5,3,2,1,2,16,15,8,2,6,21,2,4,1,22,5,8,1,1,21,11,2,1,11,11,19,13,12,4,2,3,2,3,6,1,8,11,1,4,2,9,5,2,1,11,2,9,1,1,2,
-        14,31,9,3,4,21,14,4,8,1,7,2,2,2,5,1,4,20,3,3,4,10,1,11,9,8,2,1,4,5,14,12,14,2,17,9,6,31,4,14,1,20,13,26,5,2,7,3,6,13,2,4,2,19,6,2,2,18,9,3,5,
-        12,12,14,4,6,2,3,6,9,5,22,4,5,25,6,4,8,5,2,6,27,2,35,2,16,3,7,8,8,6,6,5,9,17,2,20,6,19,2,13,3,1,1,1,4,17,12,2,14,7,1,4,18,12,38,33,2,10,1,1,
-        2,13,14,17,11,50,6,33,20,26,74,16,23,45,50,13,38,33,6,6,7,4,4,2,1,3,2,5,8,7,8,9,3,11,21,9,13,1,3,10,6,7,1,2,2,18,5,5,1,9,9,2,68,9,19,13,2,5,
-        1,4,4,7,4,13,3,9,10,21,17,3,26,2,1,5,2,4,5,4,1,7,4,7,3,4,2,1,6,1,1,20,4,1,9,2,2,1,3,3,2,3,2,1,1,1,20,2,3,1,6,2,3,6,2,4,8,1,3,2,10,3,5,3,4,4,
-        3,4,16,1,6,1,10,2,4,2,1,1,2,10,11,2,2,3,1,24,31,4,10,10,2,5,12,16,164,15,4,16,7,9,15,19,17,1,2,1,1,5,1,1,1,1,1,3,1,4,3,1,3,1,3,1,2,1,1,3,3,7,
-        2,8,1,2,2,2,1,3,4,3,7,8,12,92,2,10,3,1,3,14,5,25,16,42,4,7,7,4,2,21,5,27,26,27,21,25,30,31,2,1,5,13,3,22,5,6,6,11,9,12,1,5,9,7,5,5,22,60,3,5,
-        13,1,1,8,1,1,3,3,2,1,9,3,3,18,4,1,2,3,7,6,3,1,2,3,9,1,3,1,3,2,1,3,1,1,1,2,1,11,3,1,6,9,1,3,2,3,1,2,1,5,1,1,4,3,4,1,2,2,4,4,1,7,2,1,2,2,3,5,13,
-        18,3,4,14,9,9,4,16,3,7,5,8,2,6,48,28,3,1,1,4,2,14,8,2,9,2,1,15,2,4,3,2,10,16,12,8,7,1,1,3,1,1,1,2,7,4,1,6,4,38,39,16,23,7,15,15,3,2,12,7,21,
-        37,27,6,5,4,8,2,10,8,8,6,5,1,2,1,3,24,1,16,17,9,23,10,17,6,1,51,55,44,13,294,9,3,6,2,4,2,2,15,1,1,1,13,21,17,68,14,8,9,4,1,4,9,3,11,7,1,1,1,
-        5,6,3,2,1,1,1,2,3,8,1,2,2,4,1,5,5,2,1,4,3,7,13,4,1,4,1,3,1,1,1,5,5,10,1,6,1,5,2,1,5,2,4,1,4,5,7,3,18,2,9,11,32,4,3,3,2,4,7,11,16,9,11,8,13,38,
-        32,8,4,2,1,1,2,1,2,4,4,1,1,1,4,1,21,3,11,1,16,1,1,6,1,3,2,4,9,8,57,7,44,1,3,3,13,3,10,1,1,7,5,2,7,21,47,63,3,15,4,7,1,16,1,1,2,8,2,3,42,15,4,
-        1,29,7,22,10,3,78,16,12,20,18,4,67,11,5,1,3,15,6,21,31,32,27,18,13,71,35,5,142,4,10,1,2,50,19,33,16,35,37,16,19,27,7,1,133,19,1,4,8,7,20,1,4,
-        4,1,10,3,1,6,1,2,51,5,40,15,24,43,22928,11,1,13,154,70,3,1,1,7,4,10,1,2,1,1,2,1,2,1,2,2,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,
-        3,2,1,1,1,1,2,1,1,
+        0, 1, 2, 4, 1, 1, 1, 1, 2, 1, 3, 3, 2, 2, 1, 5, 3, 5, 7, 5, 6, 1, 2, 1, 7, 2, 6, 3, 1, 8, 1, 1, 4, 1, 1, 18, 2, 11, 2, 6, 2, 1, 2, 1, 5, 1, 2, 1, 3, 1, 2, 1, 2, 3, 3, 1, 1, 2, 3, 1, 1, 1, 12, 7, 9, 1, 4, 5, 1,
+        1, 2, 1, 10, 1, 1, 9, 2, 2, 4, 5, 6, 9, 3, 1, 1, 1, 1, 9, 3, 18, 5, 2, 2, 2, 2, 1, 6, 3, 7, 1, 1, 1, 1, 2, 2, 4, 2, 1, 23, 2, 10, 4, 3, 5, 2, 4, 10, 2, 4, 13, 1, 6, 1, 9, 3, 1, 1, 6, 6, 7, 6, 3, 1, 2, 11, 3,
+        2, 2, 3, 2, 15, 2, 2, 5, 4, 3, 6, 4, 1, 2, 5, 2, 12, 16, 6, 13, 9, 13, 2, 1, 1, 7, 16, 4, 7, 1, 19, 1, 5, 1, 2, 2, 7, 7, 8, 2, 6, 5, 4, 9, 18, 7, 4, 5, 9, 13, 11, 8, 15, 2, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 8,
+        2, 9, 3, 3, 1, 1, 4, 4, 1, 1, 1, 4, 9, 1, 4, 3, 5, 5, 2, 7, 5, 3, 4, 8, 2, 1, 13, 2, 3, 3, 1, 14, 1, 1, 4, 5, 1, 3, 6, 1, 5, 2, 1, 1, 3, 3, 3, 3, 1, 1, 2, 7, 6, 6, 7, 1, 4, 7, 6, 1, 1, 1, 1, 1, 12, 3, 3, 9, 5,
+        2, 6, 1, 5, 6, 1, 2, 3, 18, 2, 4, 14, 4, 1, 3, 6, 1, 1, 6, 3, 5, 5, 3, 2, 2, 2, 2, 12, 3, 1, 4, 2, 3, 2, 3, 11, 1, 7, 4, 1, 2, 1, 3, 17, 1, 9, 1, 24, 1, 1, 4, 2, 2, 4, 1, 2, 7, 1, 1, 1, 3, 1, 2, 2, 4, 15, 1,
+        1, 2, 1, 1, 2, 1, 5, 2, 5, 20, 2, 5, 9, 1, 10, 8, 7, 6, 1, 1, 1, 1, 1, 1, 6, 2, 1, 2, 8, 1, 1, 1, 1, 5, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 12, 4, 1, 3, 1, 1, 1, 1, 1, 10, 3, 1, 7, 5, 13, 1, 2, 3, 4, 6, 1, 1, 30,
+        2, 9, 9, 1, 15, 38, 11, 3, 1, 8, 24, 7, 1, 9, 8, 10, 2, 1, 9, 31, 2, 13, 6, 2, 9, 4, 49, 5, 2, 15, 2, 1, 10, 2, 1, 1, 1, 2, 2, 6, 15, 30, 35, 3, 14, 18, 8, 1, 16, 10, 28, 12, 19, 45, 38, 1, 3, 2, 3,
+        13, 2, 1, 7, 3, 6, 5, 3, 4, 3, 1, 5, 7, 8, 1, 5, 3, 18, 5, 3, 6, 1, 21, 4, 24, 9, 24, 40, 3, 14, 3, 21, 3, 2, 1, 2, 4, 2, 3, 1, 15, 15, 6, 5, 1, 1, 3, 1, 5, 6, 1, 9, 7, 3, 3, 2, 1, 4, 3, 8, 21, 5, 16, 4,
+        5, 2, 10, 11, 11, 3, 6, 3, 2, 9, 3, 6, 13, 1, 2, 1, 1, 1, 1, 11, 12, 6, 6, 1, 4, 2, 6, 5, 2, 1, 1, 3, 3, 6, 13, 3, 1, 1, 5, 1, 2, 3, 3, 14, 2, 1, 2, 2, 2, 5, 1, 9, 5, 1, 1, 6, 12, 3, 12, 3, 4, 13, 2, 14,
+        2, 8, 1, 17, 5, 1, 16, 4, 2, 2, 21, 8, 9, 6, 23, 20, 12, 25, 19, 9, 38, 8, 3, 21, 40, 25, 33, 13, 4, 3, 1, 4, 1, 2, 4, 1, 2, 5, 26, 2, 1, 1, 2, 1, 3, 6, 2, 1, 1, 1, 1, 1, 1, 2, 3, 1, 1, 1, 9, 2, 3, 1, 1,
+        1, 3, 6, 3, 2, 1, 1, 6, 6, 1, 8, 2, 2, 2, 1, 4, 1, 2, 3, 2, 7, 3, 2, 4, 1, 2, 1, 2, 2, 1, 1, 1, 1, 1, 3, 1, 2, 5, 4, 10, 9, 4, 9, 1, 1, 1, 1, 1, 1, 5, 3, 2, 1, 6, 4, 9, 6, 1, 10, 2, 31, 17, 8, 3, 7, 5, 40, 1,
+        7, 7, 1, 6, 5, 2, 10, 7, 8, 4, 15, 39, 25, 6, 28, 47, 18, 10, 7, 1, 3, 1, 1, 2, 1, 1, 1, 3, 3, 3, 1, 1, 1, 3, 4, 2, 1, 4, 1, 3, 6, 10, 7, 8, 6, 2, 2, 1, 3, 3, 2, 5, 8, 7, 9, 12, 2, 15, 1, 1, 4, 1, 2, 1, 1,
+        1, 3, 2, 1, 3, 3, 5, 6, 2, 3, 2, 10, 1, 4, 2, 8, 1, 1, 1, 11, 6, 1, 21, 4, 16, 3, 1, 3, 1, 4, 2, 3, 6, 5, 1, 3, 1, 1, 3, 3, 4, 6, 1, 1, 10, 4, 2, 7, 10, 4, 7, 4, 2, 9, 4, 3, 1, 1, 1, 4, 1, 8, 3, 4, 1, 3, 1,
+        6, 1, 4, 2, 1, 4, 7, 2, 1, 8, 1, 4, 5, 1, 1, 2, 2, 4, 6, 2, 7, 1, 10, 1, 1, 3, 4, 11, 10, 8, 21, 4, 6, 1, 3, 5, 2, 1, 2, 28, 5, 5, 2, 3, 13, 1, 2, 3, 1, 4, 2, 1, 5, 20, 3, 8, 11, 1, 3, 3, 3, 1, 8, 10, 9, 2,
+        10, 9, 2, 3, 1, 1, 2, 4, 1, 8, 3, 6, 1, 7, 8, 6, 11, 1, 4, 29, 8, 4, 3, 1, 2, 7, 13, 1, 4, 1, 6, 2, 6, 12, 12, 2, 20, 3, 2, 3, 6, 4, 8, 9, 2, 7, 34, 5, 1, 18, 6, 1, 1, 4, 4, 5, 7, 9, 1, 2, 2, 4, 3, 4, 1, 7,
+        2, 2, 2, 6, 2, 3, 25, 5, 3, 6, 1, 4, 6, 7, 4, 2, 1, 4, 2, 13, 6, 4, 4, 3, 1, 5, 3, 4, 4, 3, 2, 1, 1, 4, 1, 2, 1, 1, 3, 1, 11, 1, 6, 3, 1, 7, 3, 6, 2, 8, 8, 6, 9, 3, 4, 11, 3, 2, 10, 12, 2, 5, 11, 1, 6, 4, 5,
+        3, 1, 8, 5, 4, 6, 6, 3, 5, 1, 1, 3, 2, 1, 2, 2, 6, 17, 12, 1, 10, 1, 6, 12, 1, 6, 6, 19, 9, 6, 16, 1, 13, 4, 4, 15, 7, 17, 6, 11, 9, 15, 12, 6, 7, 2, 1, 2, 2, 15, 9, 3, 21, 4, 6, 49, 18, 7, 3, 2, 3, 1,
+        6, 8, 2, 2, 6, 2, 9, 1, 3, 6, 4, 4, 1, 2, 16, 2, 5, 2, 1, 6, 2, 3, 5, 3, 1, 2, 5, 1, 2, 1, 9, 3, 1, 8, 6, 4, 8, 11, 3, 1, 1, 1, 1, 3, 1, 13, 8, 4, 1, 3, 2, 2, 1, 4, 1, 11, 1, 5, 2, 1, 5, 2, 5, 8, 6, 1, 1, 7,
+        4, 3, 8, 3, 2, 7, 2, 1, 5, 1, 5, 2, 4, 7, 6, 2, 8, 5, 1, 11, 4, 5, 3, 6, 18, 1, 2, 13, 3, 3, 1, 21, 1, 1, 4, 1, 4, 1, 1, 1, 8, 1, 2, 2, 7, 1, 2, 4, 2, 2, 9, 2, 1, 1, 1, 4, 3, 6, 3, 12, 5, 1, 1, 1, 5, 6, 3, 2,
+        4, 8, 2, 2, 4, 2, 7, 1, 8, 9, 5, 2, 3, 2, 1, 3, 2, 13, 7, 14, 6, 5, 1, 1, 2, 1, 4, 2, 23, 2, 1, 1, 6, 3, 1, 4, 1, 15, 3, 1, 7, 3, 9, 14, 1, 3, 1, 4, 1, 1, 5, 8, 1, 3, 8, 3, 8, 15, 11, 4, 14, 4, 4, 2, 5, 5,
+        1, 7, 1, 6, 14, 7, 7, 8, 5, 15, 4, 8, 6, 5, 6, 2, 1, 13, 1, 20, 15, 11, 9, 2, 5, 6, 2, 11, 2, 6, 2, 5, 1, 5, 8, 4, 13, 19, 25, 4, 1, 1, 11, 1, 34, 2, 5, 9, 14, 6, 2, 2, 6, 1, 1, 14, 1, 3, 14, 13, 1, 6,
+        12, 21, 14, 14, 6, 32, 17, 8, 32, 9, 28, 1, 2, 4, 11, 8, 3, 1, 14, 2, 5, 15, 1, 1, 1, 1, 3, 6, 4, 1, 3, 4, 11, 3, 1, 1, 11, 30, 1, 5, 1, 4, 1, 5, 8, 1, 1, 3, 2, 4, 3, 17, 35, 2, 6, 12, 17, 3, 1, 6, 2,
+        1, 1, 12, 2, 7, 3, 3, 2, 1, 16, 2, 8, 3, 6, 5, 4, 7, 3, 3, 8, 1, 9, 8, 5, 1, 2, 1, 3, 2, 8, 1, 2, 9, 12, 1, 1, 2, 3, 8, 3, 24, 12, 4, 3, 7, 5, 8, 3, 3, 3, 3, 3, 3, 1, 23, 10, 3, 1, 2, 2, 6, 3, 1, 16, 1, 16,
+        22, 3, 10, 4, 11, 6, 9, 7, 7, 3, 6, 2, 2, 2, 4, 10, 2, 1, 1, 2, 8, 7, 1, 6, 4, 1, 3, 3, 3, 5, 10, 12, 12, 2, 3, 12, 8, 15, 1, 1, 16, 6, 6, 1, 5, 9, 11, 4, 11, 4, 2, 6, 12, 1, 17, 5, 13, 1, 4, 9, 5, 1, 11,
+        2, 1, 8, 1, 5, 7, 28, 8, 3, 5, 10, 2, 17, 3, 38, 22, 1, 2, 18, 12, 10, 4, 38, 18, 1, 4, 44, 19, 4, 1, 8, 4, 1, 12, 1, 4, 31, 12, 1, 14, 7, 75, 7, 5, 10, 6, 6, 13, 3, 2, 11, 11, 3, 2, 5, 28, 15, 6, 18,
+        18, 5, 6, 4, 3, 16, 1, 7, 18, 7, 36, 3, 5, 3, 1, 7, 1, 9, 1, 10, 7, 2, 4, 2, 6, 2, 9, 7, 4, 3, 32, 12, 3, 7, 10, 2, 23, 16, 3, 1, 12, 3, 31, 4, 11, 1, 3, 8, 9, 5, 1, 30, 15, 6, 12, 3, 2, 2, 11, 19, 9,
+        14, 2, 6, 2, 3, 19, 13, 17, 5, 3, 3, 25, 3, 14, 1, 1, 1, 36, 1, 3, 2, 19, 3, 13, 36, 9, 13, 31, 6, 4, 16, 34, 2, 5, 4, 2, 3, 3, 5, 1, 1, 1, 4, 3, 1, 17, 3, 2, 3, 5, 3, 1, 3, 2, 3, 5, 6, 3, 12, 11, 1, 3,
+        1, 2, 26, 7, 12, 7, 2, 14, 3, 3, 7, 7, 11, 25, 25, 28, 16, 4, 36, 1, 2, 1, 6, 2, 1, 9, 3, 27, 17, 4, 3, 4, 13, 4, 1, 3, 2, 2, 1, 10, 4, 2, 4, 6, 3, 8, 2, 1, 18, 1, 1, 24, 2, 2, 4, 33, 2, 3, 63, 7, 1, 6,
+        40, 7, 3, 4, 4, 2, 4, 15, 18, 1, 16, 1, 1, 11, 2, 41, 14, 1, 3, 18, 13, 3, 2, 4, 16, 2, 17, 7, 15, 24, 7, 18, 13, 44, 2, 2, 3, 6, 1, 1, 7, 5, 1, 7, 1, 4, 3, 3, 5, 10, 8, 2, 3, 1, 8, 1, 1, 27, 4, 2, 1,
+        12, 1, 2, 1, 10, 6, 1, 6, 7, 5, 2, 3, 7, 11, 5, 11, 3, 6, 6, 2, 3, 15, 4, 9, 1, 1, 2, 1, 2, 11, 2, 8, 12, 8, 5, 4, 2, 3, 1, 5, 2, 2, 1, 14, 1, 12, 11, 4, 1, 11, 17, 17, 4, 3, 2, 5, 5, 7, 3, 1, 5, 9, 9, 8,
+        2, 5, 6, 6, 13, 13, 2, 1, 2, 6, 1, 2, 2, 49, 4, 9, 1, 2, 10, 16, 7, 8, 4, 3, 2, 23, 4, 58, 3, 29, 1, 14, 19, 19, 11, 11, 2, 7, 5, 1, 3, 4, 6, 2, 18, 5, 12, 12, 17, 17, 3, 3, 2, 4, 1, 6, 2, 3, 4, 3, 1,
+        1, 1, 1, 5, 1, 1, 9, 1, 3, 1, 3, 6, 1, 8, 1, 1, 2, 6, 4, 14, 3, 1, 4, 11, 4, 1, 3, 32, 1, 2, 4, 13, 4, 1, 2, 4, 2, 1, 3, 1, 11, 1, 4, 2, 1, 4, 4, 6, 3, 5, 1, 6, 5, 7, 6, 3, 23, 3, 5, 3, 5, 3, 3, 13, 3, 9, 10,
+        1, 12, 10, 2, 3, 18, 13, 7, 160, 52, 4, 2, 2, 3, 2, 14, 5, 4, 12, 4, 6, 4, 1, 20, 4, 11, 6, 2, 12, 27, 1, 4, 1, 2, 2, 7, 4, 5, 2, 28, 3, 7, 25, 8, 3, 19, 3, 6, 10, 2, 2, 1, 10, 2, 5, 4, 1, 3, 4, 1, 5,
+        3, 2, 6, 9, 3, 6, 2, 16, 3, 3, 16, 4, 5, 5, 3, 2, 1, 2, 16, 15, 8, 2, 6, 21, 2, 4, 1, 22, 5, 8, 1, 1, 21, 11, 2, 1, 11, 11, 19, 13, 12, 4, 2, 3, 2, 3, 6, 1, 8, 11, 1, 4, 2, 9, 5, 2, 1, 11, 2, 9, 1, 1, 2,
+        14, 31, 9, 3, 4, 21, 14, 4, 8, 1, 7, 2, 2, 2, 5, 1, 4, 20, 3, 3, 4, 10, 1, 11, 9, 8, 2, 1, 4, 5, 14, 12, 14, 2, 17, 9, 6, 31, 4, 14, 1, 20, 13, 26, 5, 2, 7, 3, 6, 13, 2, 4, 2, 19, 6, 2, 2, 18, 9, 3, 5,
+        12, 12, 14, 4, 6, 2, 3, 6, 9, 5, 22, 4, 5, 25, 6, 4, 8, 5, 2, 6, 27, 2, 35, 2, 16, 3, 7, 8, 8, 6, 6, 5, 9, 17, 2, 20, 6, 19, 2, 13, 3, 1, 1, 1, 4, 17, 12, 2, 14, 7, 1, 4, 18, 12, 38, 33, 2, 10, 1, 1,
+        2, 13, 14, 17, 11, 50, 6, 33, 20, 26, 74, 16, 23, 45, 50, 13, 38, 33, 6, 6, 7, 4, 4, 2, 1, 3, 2, 5, 8, 7, 8, 9, 3, 11, 21, 9, 13, 1, 3, 10, 6, 7, 1, 2, 2, 18, 5, 5, 1, 9, 9, 2, 68, 9, 19, 13, 2, 5,
+        1, 4, 4, 7, 4, 13, 3, 9, 10, 21, 17, 3, 26, 2, 1, 5, 2, 4, 5, 4, 1, 7, 4, 7, 3, 4, 2, 1, 6, 1, 1, 20, 4, 1, 9, 2, 2, 1, 3, 3, 2, 3, 2, 1, 1, 1, 20, 2, 3, 1, 6, 2, 3, 6, 2, 4, 8, 1, 3, 2, 10, 3, 5, 3, 4, 4,
+        3, 4, 16, 1, 6, 1, 10, 2, 4, 2, 1, 1, 2, 10, 11, 2, 2, 3, 1, 24, 31, 4, 10, 10, 2, 5, 12, 16, 164, 15, 4, 16, 7, 9, 15, 19, 17, 1, 2, 1, 1, 5, 1, 1, 1, 1, 1, 3, 1, 4, 3, 1, 3, 1, 3, 1, 2, 1, 1, 3, 3, 7,
+        2, 8, 1, 2, 2, 2, 1, 3, 4, 3, 7, 8, 12, 92, 2, 10, 3, 1, 3, 14, 5, 25, 16, 42, 4, 7, 7, 4, 2, 21, 5, 27, 26, 27, 21, 25, 30, 31, 2, 1, 5, 13, 3, 22, 5, 6, 6, 11, 9, 12, 1, 5, 9, 7, 5, 5, 22, 60, 3, 5,
+        13, 1, 1, 8, 1, 1, 3, 3, 2, 1, 9, 3, 3, 18, 4, 1, 2, 3, 7, 6, 3, 1, 2, 3, 9, 1, 3, 1, 3, 2, 1, 3, 1, 1, 1, 2, 1, 11, 3, 1, 6, 9, 1, 3, 2, 3, 1, 2, 1, 5, 1, 1, 4, 3, 4, 1, 2, 2, 4, 4, 1, 7, 2, 1, 2, 2, 3, 5, 13,
+        18, 3, 4, 14, 9, 9, 4, 16, 3, 7, 5, 8, 2, 6, 48, 28, 3, 1, 1, 4, 2, 14, 8, 2, 9, 2, 1, 15, 2, 4, 3, 2, 10, 16, 12, 8, 7, 1, 1, 3, 1, 1, 1, 2, 7, 4, 1, 6, 4, 38, 39, 16, 23, 7, 15, 15, 3, 2, 12, 7, 21,
+        37, 27, 6, 5, 4, 8, 2, 10, 8, 8, 6, 5, 1, 2, 1, 3, 24, 1, 16, 17, 9, 23, 10, 17, 6, 1, 51, 55, 44, 13, 294, 9, 3, 6, 2, 4, 2, 2, 15, 1, 1, 1, 13, 21, 17, 68, 14, 8, 9, 4, 1, 4, 9, 3, 11, 7, 1, 1, 1,
+        5, 6, 3, 2, 1, 1, 1, 2, 3, 8, 1, 2, 2, 4, 1, 5, 5, 2, 1, 4, 3, 7, 13, 4, 1, 4, 1, 3, 1, 1, 1, 5, 5, 10, 1, 6, 1, 5, 2, 1, 5, 2, 4, 1, 4, 5, 7, 3, 18, 2, 9, 11, 32, 4, 3, 3, 2, 4, 7, 11, 16, 9, 11, 8, 13, 38,
+        32, 8, 4, 2, 1, 1, 2, 1, 2, 4, 4, 1, 1, 1, 4, 1, 21, 3, 11, 1, 16, 1, 1, 6, 1, 3, 2, 4, 9, 8, 57, 7, 44, 1, 3, 3, 13, 3, 10, 1, 1, 7, 5, 2, 7, 21, 47, 63, 3, 15, 4, 7, 1, 16, 1, 1, 2, 8, 2, 3, 42, 15, 4,
+        1, 29, 7, 22, 10, 3, 78, 16, 12, 20, 18, 4, 67, 11, 5, 1, 3, 15, 6, 21, 31, 32, 27, 18, 13, 71, 35, 5, 142, 4, 10, 1, 2, 50, 19, 33, 16, 35, 37, 16, 19, 27, 7, 1, 133, 19, 1, 4, 8, 7, 20, 1, 4,
+        4, 1, 10, 3, 1, 6, 1, 2, 51, 5, 40, 15, 24, 43, 22928, 11, 1, 13, 154, 70, 3, 1, 1, 7, 4, 10, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1,
+        3, 2, 1, 1, 1, 1, 2, 1, 1,
     };
     static ImWchar base_ranges[] = // not zero-terminated
     {
@@ -2987,7 +3379,7 @@ const ImWchar*  ImFontAtlas::GetGlyphRangesJapanese()
         0x31F0, 0x31FF, // Katakana Phonetic Extensions
         0xFF00, 0xFFEF  // Half-width characters
     };
-    static ImWchar full_ranges[IM_ARRAYSIZE(base_ranges) + IM_ARRAYSIZE(accumulative_offsets_from_0x4E00)*2 + 1] = { 0 };
+    static ImWchar full_ranges[IM_ARRAYSIZE(base_ranges) + IM_ARRAYSIZE(accumulative_offsets_from_0x4E00) * 2 + 1] = { 0 };
     if (!full_ranges[0])
     {
         memcpy(full_ranges, base_ranges, sizeof(base_ranges));
@@ -3050,7 +3442,9 @@ void ImFontGlyphRangesBuilder::AddText(const char* text, const char* text_end)
         int c_len = ImTextCharFromUtf8(&c, text, text_end);
         text += c_len;
         if (c_len == 0)
+        {
             break;
+        }
         AddChar((ImWchar)c);
     }
 }
@@ -3059,7 +3453,9 @@ void ImFontGlyphRangesBuilder::AddRanges(const ImWchar* ranges)
 {
     for (; ranges[0]; ranges += 2)
         for (ImWchar c = ranges[0]; c <= ranges[1]; c++)
+        {
             AddChar(c);
+        }
 }
 
 void ImFontGlyphRangesBuilder::BuildRanges(ImVector<ImWchar>* out_ranges)
@@ -3070,7 +3466,9 @@ void ImFontGlyphRangesBuilder::BuildRanges(ImVector<ImWchar>* out_ranges)
         {
             out_ranges->push_back((ImWchar)n);
             while (n < max_codepoint && GetBit(n + 1))
+            {
                 n++;
+            }
             out_ranges->push_back((ImWchar)n);
         }
     out_ranges->push_back(0);
@@ -3085,7 +3483,7 @@ ImFont::ImFont()
     FontSize = 0.0f;
     FallbackAdvanceX = 0.0f;
     FallbackChar = (ImWchar)'?';
-    EllipsisChar = (ImWchar)-1;
+    EllipsisChar = (ImWchar) - 1;
     FallbackGlyph = NULL;
     ContainerAtlas = NULL;
     ConfigData = NULL;
@@ -3120,7 +3518,9 @@ void ImFont::BuildLookupTable()
 {
     int max_codepoint = 0;
     for (int i = 0; i != Glyphs.Size; i++)
+    {
         max_codepoint = ImMax(max_codepoint, (int)Glyphs[i].Codepoint);
+    }
 
     // Build lookup table
     IM_ASSERT(Glyphs.Size < 0xFFFF); // -1 is reserved
@@ -3145,7 +3545,9 @@ void ImFont::BuildLookupTable()
     if (FindGlyph((ImWchar)' '))
     {
         if (Glyphs.back().Codepoint != '\t')   // So we can call this function multiple times (FIXME: Flaky)
+        {
             Glyphs.resize(Glyphs.Size + 1);
+        }
         ImFontGlyph& tab_glyph = Glyphs.back();
         tab_glyph = *FindGlyph((ImWchar)' ');
         tab_glyph.Codepoint = '\t';
@@ -3163,7 +3565,9 @@ void ImFont::BuildLookupTable()
     FallbackAdvanceX = FallbackGlyph ? FallbackGlyph->AdvanceX : 0.0f;
     for (int i = 0; i < max_codepoint + 1; i++)
         if (IndexAdvanceX[i] < 0.0f)
+        {
             IndexAdvanceX[i] = FallbackAdvanceX;
+        }
 }
 
 // API is designed this way to avoid exposing the 4K page size
@@ -3175,14 +3579,18 @@ bool ImFont::IsGlyphRangeUnused(unsigned int c_begin, unsigned int c_last)
     for (unsigned int page_n = page_begin; page_n <= page_last; page_n++)
         if ((page_n >> 3) < sizeof(Used4kPagesMap))
             if (Used4kPagesMap[page_n >> 3] & (1 << (page_n & 7)))
+            {
                 return false;
+            }
     return true;
 }
 
 void ImFont::SetGlyphVisible(ImWchar c, bool visible)
 {
     if (ImFontGlyph* glyph = (ImFontGlyph*)(void*)FindGlyph((ImWchar)c))
+    {
         glyph->Visible = visible ? 1 : 0;
+    }
 }
 
 void ImFont::SetFallbackChar(ImWchar c)
@@ -3195,9 +3603,11 @@ void ImFont::GrowIndex(int new_size)
 {
     IM_ASSERT(IndexAdvanceX.Size == IndexLookup.Size);
     if (new_size <= IndexLookup.Size)
+    {
         return;
+    }
     IndexAdvanceX.resize(new_size, -1.0f);
-    IndexLookup.resize(new_size, (ImWchar)-1);
+    IndexLookup.resize(new_size, (ImWchar) - 1);
 }
 
 // x0/y0/x1/y1 are offset from the character upper-left layout position, in pixels. Therefore x0/y0 are often fairly close to zero.
@@ -3219,7 +3629,9 @@ void ImFont::AddGlyph(const ImFontConfig* cfg, ImWchar codepoint, float x0, floa
 
         // Snap to pixel
         if (cfg->PixelSnapH)
+        {
             advance_x = IM_ROUND(advance_x);
+        }
 
         // Bake spacing
         advance_x += cfg->GlyphExtraSpacing.x;
@@ -3252,33 +3664,45 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
     IM_ASSERT(IndexLookup.Size > 0);    // Currently this can only be called AFTER the font has been built, aka after calling ImFontAtlas::GetTexDataAs*() function.
     unsigned int index_size = (unsigned int)IndexLookup.Size;
 
-    if (dst < index_size && IndexLookup.Data[dst] == (ImWchar)-1 && !overwrite_dst) // 'dst' already exists
+    if (dst < index_size && IndexLookup.Data[dst] == (ImWchar) - 1 && !overwrite_dst) // 'dst' already exists
+    {
         return;
+    }
     if (src >= index_size && dst >= index_size) // both 'dst' and 'src' don't exist -> no-op
+    {
         return;
+    }
 
     GrowIndex(dst + 1);
-    IndexLookup[dst] = (src < index_size) ? IndexLookup.Data[src] : (ImWchar)-1;
+    IndexLookup[dst] = (src < index_size) ? IndexLookup.Data[src] : (ImWchar) - 1;
     IndexAdvanceX[dst] = (src < index_size) ? IndexAdvanceX.Data[src] : 1.0f;
 }
 
 const ImFontGlyph* ImFont::FindGlyph(ImWchar c) const
 {
     if (c >= (size_t)IndexLookup.Size)
+    {
         return FallbackGlyph;
+    }
     const ImWchar i = IndexLookup.Data[c];
-    if (i == (ImWchar)-1)
+    if (i == (ImWchar) - 1)
+    {
         return FallbackGlyph;
+    }
     return &Glyphs.Data[i];
 }
 
 const ImFontGlyph* ImFont::FindGlyphNoFallback(ImWchar c) const
 {
     if (c >= (size_t)IndexLookup.Size)
+    {
         return NULL;
+    }
     const ImWchar i = IndexLookup.Data[c];
-    if (i == (ImWchar)-1)
+    if (i == (ImWchar) - 1)
+    {
         return NULL;
+    }
     return &Glyphs.Data[i];
 }
 
@@ -3311,14 +3735,20 @@ const char* ImFont::CalcWordWrapPositionA(float scale, const char* text, const c
     const char* s = text;
     while (s < text_end)
     {
-        unsigned int c = (unsigned int)*s;
+        unsigned int c = (unsigned int) * s;
         const char* next_s;
         if (c < 0x80)
+        {
             next_s = s + 1;
+        }
         else
+        {
             next_s = s + ImTextCharFromUtf8(&c, s, text_end);
+        }
         if (c == 0)
+        {
             break;
+        }
 
         if (c < 32)
         {
@@ -3371,7 +3801,9 @@ const char* ImFont::CalcWordWrapPositionA(float scale, const char* text, const c
         {
             // Words that cannot possibly fit within an entire line will be cut anywhere.
             if (word_width < wrap_width)
+            {
                 s = prev_word_end ? prev_word_end : word_end;
+            }
             break;
         }
 
@@ -3384,7 +3816,9 @@ const char* ImFont::CalcWordWrapPositionA(float scale, const char* text, const c
 ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, const char* text_begin, const char* text_end, const char** remaining) const
 {
     if (!text_end)
-        text_end = text_begin + strlen(text_begin); // FIXME-OPT: Need to avoid this.
+    {
+        text_end = text_begin + strlen(text_begin);    // FIXME-OPT: Need to avoid this.
+    }
 
     const float line_height = size;
     const float scale = size / FontSize;
@@ -3405,13 +3839,17 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
             {
                 word_wrap_eol = CalcWordWrapPositionA(scale, s, text_end, wrap_width - line_width);
                 if (word_wrap_eol == s) // Wrap_width is too small to fit anything. Force displaying 1 character to minimize the height discontinuity.
+                {
                     word_wrap_eol++;    // +1 may not be a character start point in UTF-8 but it's ok because we use s >= word_wrap_eol below
+                }
             }
 
             if (s >= word_wrap_eol)
             {
                 if (text_size.x < line_width)
+                {
                     text_size.x = line_width;
+                }
                 text_size.y += line_height;
                 line_width = 0.0f;
                 word_wrap_eol = NULL;
@@ -3420,7 +3858,19 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
                 while (s < text_end)
                 {
                     const char c = *s;
-                    if (ImCharIsBlankA(c)) { s++; } else if (c == '\n') { s++; break; } else { break; }
+                    if (ImCharIsBlankA(c))
+                    {
+                        s++;
+                    }
+                    else if (c == '\n')
+                    {
+                        s++;
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 continue;
             }
@@ -3428,7 +3878,7 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
 
         // Decode and advance source
         const char* prev_s = s;
-        unsigned int c = (unsigned int)*s;
+        unsigned int c = (unsigned int) * s;
         if (c < 0x80)
         {
             s += 1;
@@ -3437,7 +3887,9 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
         {
             s += ImTextCharFromUtf8(&c, s, text_end);
             if (c == 0) // Malformed UTF-8?
+            {
                 break;
+            }
         }
 
         if (c < 32)
@@ -3450,7 +3902,9 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
                 continue;
             }
             if (c == '\r')
+            {
                 continue;
+            }
         }
 
         const float char_width = ((int)c < IndexAdvanceX.Size ? IndexAdvanceX.Data[c] : FallbackAdvanceX) * scale;
@@ -3464,13 +3918,19 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
     }
 
     if (text_size.x < line_width)
+    {
         text_size.x = line_width;
+    }
 
     if (line_width > 0 || text_size.y == 0.0f)
+    {
         text_size.y += line_height;
+    }
 
     if (remaining)
+    {
         *remaining = s;
+    }
 
     return text_size;
 }
@@ -3479,9 +3939,13 @@ void ImFont::RenderChar(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
 {
     const ImFontGlyph* glyph = FindGlyph(c);
     if (!glyph || !glyph->Visible)
+    {
         return;
+    }
     if (glyph->Colored)
+    {
         col |= ~IM_COL32_A_MASK;
+    }
     float scale = (size >= 0.0f) ? (size / FontSize) : 1.0f;
     pos.x = IM_FLOOR(pos.x);
     pos.y = IM_FLOOR(pos.y);
@@ -3492,7 +3956,9 @@ void ImFont::RenderChar(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
 void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col, const ImVec4& clip_rect, const char* text_begin, const char* text_end, float wrap_width, bool cpu_fine_clip) const
 {
     if (!text_end)
-        text_end = text_begin + strlen(text_begin); // ImGui:: functions generally already provides a valid text_end, so this is merely to handle direct calls.
+    {
+        text_end = text_begin + strlen(text_begin);    // ImGui:: functions generally already provides a valid text_end, so this is merely to handle direct calls.
+    }
 
     // Align to be pixel perfect
     pos.x = IM_FLOOR(pos.x);
@@ -3500,7 +3966,9 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
     float x = pos.x;
     float y = pos.y;
     if (y > clip_rect.w)
+    {
         return;
+    }
 
     const float scale = size / FontSize;
     const float line_height = FontSize * scale;
@@ -3532,7 +4000,9 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
         text_end = s_end;
     }
     if (s == text_end)
+    {
         return;
+    }
 
     // Reserve vertices for remaining worse case (over-reserving is useful and easily amortized)
     const int vtx_count_max = (int)(text_end - s) * 4;
@@ -3555,7 +4025,9 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
             {
                 word_wrap_eol = CalcWordWrapPositionA(scale, s, text_end, wrap_width - (x - pos.x));
                 if (word_wrap_eol == s) // Wrap_width is too small to fit anything. Force displaying 1 character to minimize the height discontinuity.
+                {
                     word_wrap_eol++;    // +1 may not be a character start point in UTF-8 but it's ok because we use s >= word_wrap_eol below
+                }
             }
 
             if (s >= word_wrap_eol)
@@ -3568,14 +4040,26 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
                 while (s < text_end)
                 {
                     const char c = *s;
-                    if (ImCharIsBlankA(c)) { s++; } else if (c == '\n') { s++; break; } else { break; }
+                    if (ImCharIsBlankA(c))
+                    {
+                        s++;
+                    }
+                    else if (c == '\n')
+                    {
+                        s++;
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 continue;
             }
         }
 
         // Decode and advance source
-        unsigned int c = (unsigned int)*s;
+        unsigned int c = (unsigned int) * s;
         if (c < 0x80)
         {
             s += 1;
@@ -3584,7 +4068,9 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
         {
             s += ImTextCharFromUtf8(&c, s, text_end);
             if (c == 0) // Malformed UTF-8?
+            {
                 break;
+            }
         }
 
         if (c < 32)
@@ -3594,16 +4080,22 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
                 x = pos.x;
                 y += line_height;
                 if (y > clip_rect.w)
-                    break; // break out of main loop
+                {
+                    break;    // break out of main loop
+                }
                 continue;
             }
             if (c == '\r')
+            {
                 continue;
+            }
         }
 
         const ImFontGlyph* glyph = FindGlyph((ImWchar)c);
         if (glyph == NULL)
+        {
             continue;
+        }
 
         float char_width = glyph->AdvanceX * scale;
         if (glyph->Visible)
@@ -3656,12 +4148,32 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
 
                 // We are NOT calling PrimRectUV() here because non-inlined causes too much overhead in a debug builds. Inlined here:
                 {
-                    idx_write[0] = (ImDrawIdx)(vtx_current_idx); idx_write[1] = (ImDrawIdx)(vtx_current_idx+1); idx_write[2] = (ImDrawIdx)(vtx_current_idx+2);
-                    idx_write[3] = (ImDrawIdx)(vtx_current_idx); idx_write[4] = (ImDrawIdx)(vtx_current_idx+2); idx_write[5] = (ImDrawIdx)(vtx_current_idx+3);
-                    vtx_write[0].pos.x = x1; vtx_write[0].pos.y = y1; vtx_write[0].col = glyph_col; vtx_write[0].uv.x = u1; vtx_write[0].uv.y = v1;
-                    vtx_write[1].pos.x = x2; vtx_write[1].pos.y = y1; vtx_write[1].col = glyph_col; vtx_write[1].uv.x = u2; vtx_write[1].uv.y = v1;
-                    vtx_write[2].pos.x = x2; vtx_write[2].pos.y = y2; vtx_write[2].col = glyph_col; vtx_write[2].uv.x = u2; vtx_write[2].uv.y = v2;
-                    vtx_write[3].pos.x = x1; vtx_write[3].pos.y = y2; vtx_write[3].col = glyph_col; vtx_write[3].uv.x = u1; vtx_write[3].uv.y = v2;
+                    idx_write[0] = (ImDrawIdx)(vtx_current_idx);
+                    idx_write[1] = (ImDrawIdx)(vtx_current_idx + 1);
+                    idx_write[2] = (ImDrawIdx)(vtx_current_idx + 2);
+                    idx_write[3] = (ImDrawIdx)(vtx_current_idx);
+                    idx_write[4] = (ImDrawIdx)(vtx_current_idx + 2);
+                    idx_write[5] = (ImDrawIdx)(vtx_current_idx + 3);
+                    vtx_write[0].pos.x = x1;
+                    vtx_write[0].pos.y = y1;
+                    vtx_write[0].col = glyph_col;
+                    vtx_write[0].uv.x = u1;
+                    vtx_write[0].uv.y = v1;
+                    vtx_write[1].pos.x = x2;
+                    vtx_write[1].pos.y = y1;
+                    vtx_write[1].col = glyph_col;
+                    vtx_write[1].uv.x = u2;
+                    vtx_write[1].uv.y = v1;
+                    vtx_write[2].pos.x = x2;
+                    vtx_write[2].pos.y = y2;
+                    vtx_write[2].col = glyph_col;
+                    vtx_write[2].uv.x = u2;
+                    vtx_write[2].uv.y = v2;
+                    vtx_write[3].pos.x = x1;
+                    vtx_write[3].pos.y = y2;
+                    vtx_write[3].col = glyph_col;
+                    vtx_write[3].uv.x = u1;
+                    vtx_write[3].uv.y = v2;
                     vtx_write += 4;
                     vtx_current_idx += 4;
                     idx_write += 6;
@@ -3707,24 +4219,30 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
     ImVec2 a, b, c;
     switch (dir)
     {
-    case ImGuiDir_Up:
-    case ImGuiDir_Down:
-        if (dir == ImGuiDir_Up) r = -r;
-        a = ImVec2(+0.000f, +0.750f) * r;
-        b = ImVec2(-0.866f, -0.750f) * r;
-        c = ImVec2(+0.866f, -0.750f) * r;
-        break;
-    case ImGuiDir_Left:
-    case ImGuiDir_Right:
-        if (dir == ImGuiDir_Left) r = -r;
-        a = ImVec2(+0.750f, +0.000f) * r;
-        b = ImVec2(-0.750f, +0.866f) * r;
-        c = ImVec2(-0.750f, -0.866f) * r;
-        break;
-    case ImGuiDir_None:
-    case ImGuiDir_COUNT:
-        IM_ASSERT(0);
-        break;
+        case ImGuiDir_Up:
+        case ImGuiDir_Down:
+            if (dir == ImGuiDir_Up)
+            {
+                r = -r;
+            }
+            a = ImVec2(+0.000f, +0.750f) * r;
+            b = ImVec2(-0.866f, -0.750f) * r;
+            c = ImVec2(+0.866f, -0.750f) * r;
+            break;
+        case ImGuiDir_Left:
+        case ImGuiDir_Right:
+            if (dir == ImGuiDir_Left)
+            {
+                r = -r;
+            }
+            a = ImVec2(+0.750f, +0.000f) * r;
+            b = ImVec2(-0.750f, +0.866f) * r;
+            c = ImVec2(-0.750f, -0.866f) * r;
+            break;
+        case ImGuiDir_None:
+        case ImGuiDir_COUNT:
+            IM_ASSERT(0);
+            break;
     }
     draw_list->AddTriangleFilled(center + a, center + b, center + c, col);
 }
@@ -3752,7 +4270,9 @@ void ImGui::RenderCheckMark(ImDrawList* draw_list, ImVec2 pos, ImU32 col, float 
 void ImGui::RenderMouseCursor(ImDrawList* draw_list, ImVec2 pos, float scale, ImGuiMouseCursor mouse_cursor, ImU32 col_fill, ImU32 col_border, ImU32 col_shadow)
 {
     if (mouse_cursor == ImGuiMouseCursor_None)
+    {
         return;
+    }
     IM_ASSERT(mouse_cursor > ImGuiMouseCursor_None && mouse_cursor < ImGuiMouseCursor_COUNT);
 
     ImFontAtlas* font_atlas = draw_list->_Data->Font->ContainerAtlas;
@@ -3775,11 +4295,21 @@ void ImGui::RenderArrowPointingAt(ImDrawList* draw_list, ImVec2 pos, ImVec2 half
 {
     switch (direction)
     {
-    case ImGuiDir_Left:  draw_list->AddTriangleFilled(ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), ImVec2(pos.x + half_sz.x, pos.y + half_sz.y), pos, col); return;
-    case ImGuiDir_Right: draw_list->AddTriangleFilled(ImVec2(pos.x - half_sz.x, pos.y + half_sz.y), ImVec2(pos.x - half_sz.x, pos.y - half_sz.y), pos, col); return;
-    case ImGuiDir_Up:    draw_list->AddTriangleFilled(ImVec2(pos.x + half_sz.x, pos.y + half_sz.y), ImVec2(pos.x - half_sz.x, pos.y + half_sz.y), pos, col); return;
-    case ImGuiDir_Down:  draw_list->AddTriangleFilled(ImVec2(pos.x - half_sz.x, pos.y - half_sz.y), ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), pos, col); return;
-    case ImGuiDir_None: case ImGuiDir_COUNT: break; // Fix warnings
+        case ImGuiDir_Left:
+            draw_list->AddTriangleFilled(ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), ImVec2(pos.x + half_sz.x, pos.y + half_sz.y), pos, col);
+            return;
+        case ImGuiDir_Right:
+            draw_list->AddTriangleFilled(ImVec2(pos.x - half_sz.x, pos.y + half_sz.y), ImVec2(pos.x - half_sz.x, pos.y - half_sz.y), pos, col);
+            return;
+        case ImGuiDir_Up:
+            draw_list->AddTriangleFilled(ImVec2(pos.x + half_sz.x, pos.y + half_sz.y), ImVec2(pos.x - half_sz.x, pos.y + half_sz.y), pos, col);
+            return;
+        case ImGuiDir_Down:
+            draw_list->AddTriangleFilled(ImVec2(pos.x - half_sz.x, pos.y - half_sz.y), ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), pos, col);
+            return;
+        case ImGuiDir_None:
+        case ImGuiDir_COUNT:
+            break; // Fix warnings
     }
 }
 
@@ -3793,8 +4323,14 @@ void ImGui::RenderArrowDockMenu(ImDrawList* draw_list, ImVec2 p_min, float sz, I
 
 static inline float ImAcos01(float x)
 {
-    if (x <= 0.0f) return IM_PI * 0.5f;
-    if (x >= 1.0f) return 0.0f;
+    if (x <= 0.0f)
+    {
+        return IM_PI * 0.5f;
+    }
+    if (x >= 1.0f)
+    {
+        return 0.0f;
+    }
     return ImAcos(x);
     //return (-0.69813170079773212f * x * x - 0.87266462599716477f) * x + 1.5707963267948966f; // Cheap approximation, may be enough for what we do.
 }
@@ -3803,9 +4339,13 @@ static inline float ImAcos01(float x)
 void ImGui::RenderRectFilledRangeH(ImDrawList* draw_list, const ImRect& rect, ImU32 col, float x_start_norm, float x_end_norm, float rounding)
 {
     if (x_end_norm == x_start_norm)
+    {
         return;
+    }
     if (x_start_norm > x_end_norm)
+    {
         ImSwap(x_start_norm, x_end_norm);
+    }
 
     ImVec2 p0 = ImVec2(ImLerp(rect.Min.x, rect.Max.x, x_start_norm), rect.Min.y);
     ImVec2 p1 = ImVec2(ImLerp(rect.Min.x, rect.Max.x, x_end_norm), rect.Max.y);
@@ -3866,14 +4406,38 @@ void ImGui::RenderRectFilledWithHole(ImDrawList* draw_list, ImRect outer, ImRect
     const bool fill_R = (inner.Max.x < outer.Max.x);
     const bool fill_U = (inner.Min.y > outer.Min.y);
     const bool fill_D = (inner.Max.y < outer.Max.y);
-    if (fill_L) draw_list->AddRectFilled(ImVec2(outer.Min.x, inner.Min.y), ImVec2(inner.Min.x, inner.Max.y), col, rounding, (fill_U ? 0 : ImDrawFlags_RoundCornersTopLeft)  | (fill_D ? 0 : ImDrawFlags_RoundCornersBottomLeft));
-    if (fill_R) draw_list->AddRectFilled(ImVec2(inner.Max.x, inner.Min.y), ImVec2(outer.Max.x, inner.Max.y), col, rounding, (fill_U ? 0 : ImDrawFlags_RoundCornersTopRight) | (fill_D ? 0 : ImDrawFlags_RoundCornersBottomRight));
-    if (fill_U) draw_list->AddRectFilled(ImVec2(inner.Min.x, outer.Min.y), ImVec2(inner.Max.x, inner.Min.y), col, rounding, (fill_L ? 0 : ImDrawFlags_RoundCornersTopLeft)  | (fill_R ? 0 : ImDrawFlags_RoundCornersTopRight));
-    if (fill_D) draw_list->AddRectFilled(ImVec2(inner.Min.x, inner.Max.y), ImVec2(inner.Max.x, outer.Max.y), col, rounding, (fill_L ? 0 : ImDrawFlags_RoundCornersBottomLeft)  | (fill_R ? 0 : ImDrawFlags_RoundCornersBottomRight));
-    if (fill_L && fill_U) draw_list->AddRectFilled(ImVec2(outer.Min.x, outer.Min.y), ImVec2(inner.Min.x, inner.Min.y), col, rounding, ImDrawFlags_RoundCornersTopLeft);
-    if (fill_R && fill_U) draw_list->AddRectFilled(ImVec2(inner.Max.x, outer.Min.y), ImVec2(outer.Max.x, inner.Min.y), col, rounding, ImDrawFlags_RoundCornersTopRight);
-    if (fill_L && fill_D) draw_list->AddRectFilled(ImVec2(outer.Min.x, inner.Max.y), ImVec2(inner.Min.x, outer.Max.y), col, rounding, ImDrawFlags_RoundCornersBottomLeft);
-    if (fill_R && fill_D) draw_list->AddRectFilled(ImVec2(inner.Max.x, inner.Max.y), ImVec2(outer.Max.x, outer.Max.y), col, rounding, ImDrawFlags_RoundCornersBottomRight);
+    if (fill_L)
+    {
+        draw_list->AddRectFilled(ImVec2(outer.Min.x, inner.Min.y), ImVec2(inner.Min.x, inner.Max.y), col, rounding, (fill_U ? 0 : ImDrawFlags_RoundCornersTopLeft)  | (fill_D ? 0 : ImDrawFlags_RoundCornersBottomLeft));
+    }
+    if (fill_R)
+    {
+        draw_list->AddRectFilled(ImVec2(inner.Max.x, inner.Min.y), ImVec2(outer.Max.x, inner.Max.y), col, rounding, (fill_U ? 0 : ImDrawFlags_RoundCornersTopRight) | (fill_D ? 0 : ImDrawFlags_RoundCornersBottomRight));
+    }
+    if (fill_U)
+    {
+        draw_list->AddRectFilled(ImVec2(inner.Min.x, outer.Min.y), ImVec2(inner.Max.x, inner.Min.y), col, rounding, (fill_L ? 0 : ImDrawFlags_RoundCornersTopLeft)  | (fill_R ? 0 : ImDrawFlags_RoundCornersTopRight));
+    }
+    if (fill_D)
+    {
+        draw_list->AddRectFilled(ImVec2(inner.Min.x, inner.Max.y), ImVec2(inner.Max.x, outer.Max.y), col, rounding, (fill_L ? 0 : ImDrawFlags_RoundCornersBottomLeft)  | (fill_R ? 0 : ImDrawFlags_RoundCornersBottomRight));
+    }
+    if (fill_L && fill_U)
+    {
+        draw_list->AddRectFilled(ImVec2(outer.Min.x, outer.Min.y), ImVec2(inner.Min.x, inner.Min.y), col, rounding, ImDrawFlags_RoundCornersTopLeft);
+    }
+    if (fill_R && fill_U)
+    {
+        draw_list->AddRectFilled(ImVec2(inner.Max.x, outer.Min.y), ImVec2(outer.Max.x, inner.Min.y), col, rounding, ImDrawFlags_RoundCornersTopRight);
+    }
+    if (fill_L && fill_D)
+    {
+        draw_list->AddRectFilled(ImVec2(outer.Min.x, inner.Max.y), ImVec2(inner.Min.x, outer.Max.y), col, rounding, ImDrawFlags_RoundCornersBottomLeft);
+    }
+    if (fill_R && fill_D)
+    {
+        draw_list->AddRectFilled(ImVec2(inner.Max.x, inner.Max.y), ImVec2(outer.Max.x, outer.Max.y), col, rounding, ImDrawFlags_RoundCornersBottomRight);
+    }
 }
 
 // Helper for ColorPicker4()
@@ -3883,7 +4447,9 @@ void ImGui::RenderRectFilledWithHole(ImDrawList* draw_list, ImRect outer, ImRect
 void ImGui::RenderColorRectWithAlphaCheckerboard(ImDrawList* draw_list, ImVec2 p_min, ImVec2 p_max, ImU32 col, float grid_step, ImVec2 grid_off, float rounding, ImDrawFlags flags)
 {
     if ((flags & ImDrawFlags_RoundCornersMask_) == 0)
+    {
         flags = ImDrawFlags_RoundCornersDefault_;
+    }
     if (((col & IM_COL32_A_MASK) >> IM_COL32_A_SHIFT) < 0xFF)
     {
         ImU32 col_bg1 = GetColorU32(ImAlphaBlendColors(IM_COL32(204, 204, 204, 255), col));
@@ -3895,15 +4461,39 @@ void ImGui::RenderColorRectWithAlphaCheckerboard(ImDrawList* draw_list, ImVec2 p
         {
             float y1 = ImClamp(y, p_min.y, p_max.y), y2 = ImMin(y + grid_step, p_max.y);
             if (y2 <= y1)
+            {
                 continue;
+            }
             for (float x = p_min.x + grid_off.x + (yi & 1) * grid_step; x < p_max.x; x += grid_step * 2.0f)
             {
                 float x1 = ImClamp(x, p_min.x, p_max.x), x2 = ImMin(x + grid_step, p_max.x);
                 if (x2 <= x1)
+                {
                     continue;
+                }
                 ImDrawFlags cell_flags = ImDrawFlags_RoundCornersNone;
-                if (y1 <= p_min.y) { if (x1 <= p_min.x) cell_flags |= ImDrawFlags_RoundCornersTopLeft; if (x2 >= p_max.x) cell_flags |= ImDrawFlags_RoundCornersTopRight; }
-                if (y2 >= p_max.y) { if (x1 <= p_min.x) cell_flags |= ImDrawFlags_RoundCornersBottomLeft; if (x2 >= p_max.x) cell_flags |= ImDrawFlags_RoundCornersBottomRight; }
+                if (y1 <= p_min.y)
+                {
+                    if (x1 <= p_min.x)
+                    {
+                        cell_flags |= ImDrawFlags_RoundCornersTopLeft;
+                    }
+                    if (x2 >= p_max.x)
+                    {
+                        cell_flags |= ImDrawFlags_RoundCornersTopRight;
+                    }
+                }
+                if (y2 >= p_max.y)
+                {
+                    if (x1 <= p_min.x)
+                    {
+                        cell_flags |= ImDrawFlags_RoundCornersBottomLeft;
+                    }
+                    if (x2 >= p_max.x)
+                    {
+                        cell_flags |= ImDrawFlags_RoundCornersBottomRight;
+                    }
+                }
 
                 // Combine flags
                 cell_flags = (flags == ImDrawFlags_RoundCornersNone || cell_flags == ImDrawFlags_RoundCornersNone) ? ImDrawFlags_RoundCornersNone : (cell_flags & flags);
@@ -3926,28 +4516,47 @@ void ImGui::RenderColorRectWithAlphaCheckerboard(ImDrawList* draw_list, ImVec2 p
 // Decompression from stb.h (public domain) by Sean Barrett https://github.com/nothings/stb/blob/master/stb.h
 //-----------------------------------------------------------------------------
 
-static unsigned int stb_decompress_length(const unsigned char *input)
+static unsigned int stb_decompress_length(const unsigned char* input)
 {
     return (input[8] << 24) + (input[9] << 16) + (input[10] << 8) + input[11];
 }
 
-static unsigned char *stb__barrier_out_e, *stb__barrier_out_b;
-static const unsigned char *stb__barrier_in_b;
-static unsigned char *stb__dout;
-static void stb__match(const unsigned char *data, unsigned int length)
+static unsigned char* stb__barrier_out_e, *stb__barrier_out_b;
+static const unsigned char* stb__barrier_in_b;
+static unsigned char* stb__dout;
+static void stb__match(const unsigned char* data, unsigned int length)
 {
     // INVERSE of memmove... write each byte before copying the next...
     IM_ASSERT(stb__dout + length <= stb__barrier_out_e);
-    if (stb__dout + length > stb__barrier_out_e) { stb__dout += length; return; }
-    if (data < stb__barrier_out_b) { stb__dout = stb__barrier_out_e+1; return; }
-    while (length--) *stb__dout++ = *data++;
+    if (stb__dout + length > stb__barrier_out_e)
+    {
+        stb__dout += length;
+        return;
+    }
+    if (data < stb__barrier_out_b)
+    {
+        stb__dout = stb__barrier_out_e + 1;
+        return;
+    }
+    while (length--)
+    {
+        *stb__dout++ = *data++;
+    }
 }
 
-static void stb__lit(const unsigned char *data, unsigned int length)
+static void stb__lit(const unsigned char* data, unsigned int length)
 {
     IM_ASSERT(stb__dout + length <= stb__barrier_out_e);
-    if (stb__dout + length > stb__barrier_out_e) { stb__dout += length; return; }
-    if (data < stb__barrier_in_b) { stb__dout = stb__barrier_out_e+1; return; }
+    if (stb__dout + length > stb__barrier_out_e)
+    {
+        stb__dout += length;
+        return;
+    }
+    if (data < stb__barrier_in_b)
+    {
+        stb__dout = stb__barrier_out_e + 1;
+        return;
+    }
     memcpy(stb__dout, data, length);
     stb__dout += length;
 }
@@ -3956,32 +4565,64 @@ static void stb__lit(const unsigned char *data, unsigned int length)
 #define stb__in3(x)   ((i[x] << 16) + stb__in2((x)+1))
 #define stb__in4(x)   ((i[x] << 24) + stb__in3((x)+1))
 
-static const unsigned char *stb_decompress_token(const unsigned char *i)
+static const unsigned char* stb_decompress_token(const unsigned char* i)
 {
-    if (*i >= 0x20) { // use fewer if's for cases that expand small
-        if (*i >= 0x80)       stb__match(stb__dout-i[1]-1, i[0] - 0x80 + 1), i += 2;
-        else if (*i >= 0x40)  stb__match(stb__dout-(stb__in2(0) - 0x4000 + 1), i[2]+1), i += 3;
-        else /* *i >= 0x20 */ stb__lit(i+1, i[0] - 0x20 + 1), i += 1 + (i[0] - 0x20 + 1);
-    } else { // more ifs for cases that expand large, since overhead is amortized
-        if (*i >= 0x18)       stb__match(stb__dout-(stb__in3(0) - 0x180000 + 1), i[3]+1), i += 4;
-        else if (*i >= 0x10)  stb__match(stb__dout-(stb__in3(0) - 0x100000 + 1), stb__in2(3)+1), i += 5;
-        else if (*i >= 0x08)  stb__lit(i+2, stb__in2(0) - 0x0800 + 1), i += 2 + (stb__in2(0) - 0x0800 + 1);
-        else if (*i == 0x07)  stb__lit(i+3, stb__in2(1) + 1), i += 3 + (stb__in2(1) + 1);
-        else if (*i == 0x06)  stb__match(stb__dout-(stb__in3(1)+1), i[4]+1), i += 5;
-        else if (*i == 0x04)  stb__match(stb__dout-(stb__in3(1)+1), stb__in2(4)+1), i += 6;
+    if (*i >= 0x20)   // use fewer if's for cases that expand small
+    {
+        if (*i >= 0x80)
+        {
+            stb__match(stb__dout - i[1] - 1, i[0] - 0x80 + 1), i += 2;
+        }
+        else if (*i >= 0x40)
+        {
+            stb__match(stb__dout - (stb__in2(0) - 0x4000 + 1), i[2] + 1), i += 3;
+        }
+        else /* *i >= 0x20 */
+        {
+            stb__lit(i + 1, i[0] - 0x20 + 1), i += 1 + (i[0] - 0x20 + 1);
+        }
+    }
+    else     // more ifs for cases that expand large, since overhead is amortized
+    {
+        if (*i >= 0x18)
+        {
+            stb__match(stb__dout - (stb__in3(0) - 0x180000 + 1), i[3] + 1), i += 4;
+        }
+        else if (*i >= 0x10)
+        {
+            stb__match(stb__dout - (stb__in3(0) - 0x100000 + 1), stb__in2(3) + 1), i += 5;
+        }
+        else if (*i >= 0x08)
+        {
+            stb__lit(i + 2, stb__in2(0) - 0x0800 + 1), i += 2 + (stb__in2(0) - 0x0800 + 1);
+        }
+        else if (*i == 0x07)
+        {
+            stb__lit(i + 3, stb__in2(1) + 1), i += 3 + (stb__in2(1) + 1);
+        }
+        else if (*i == 0x06)
+        {
+            stb__match(stb__dout - (stb__in3(1) + 1), i[4] + 1), i += 5;
+        }
+        else if (*i == 0x04)
+        {
+            stb__match(stb__dout - (stb__in3(1) + 1), stb__in2(4) + 1), i += 6;
+        }
     }
     return i;
 }
 
-static unsigned int stb_adler32(unsigned int adler32, unsigned char *buffer, unsigned int buflen)
+static unsigned int stb_adler32(unsigned int adler32, unsigned char* buffer, unsigned int buflen)
 {
     const unsigned long ADLER_MOD = 65521;
     unsigned long s1 = adler32 & 0xffff, s2 = adler32 >> 16;
     unsigned long blocklen = buflen % 5552;
 
     unsigned long i;
-    while (buflen) {
-        for (i=0; i + 7 < blocklen; i += 8) {
+    while (buflen)
+    {
+        for (i = 0; i + 7 < blocklen; i += 8)
+        {
             s1 += buffer[0], s2 += s1;
             s1 += buffer[1], s2 += s1;
             s1 += buffer[2], s2 += s1;
@@ -3995,7 +4636,9 @@ static unsigned int stb_adler32(unsigned int adler32, unsigned char *buffer, uns
         }
 
         for (; i < blocklen; ++i)
+        {
             s1 += *buffer++, s2 += s1;
+        }
 
         s1 %= ADLER_MOD, s2 %= ADLER_MOD;
         buflen -= blocklen;
@@ -4004,10 +4647,16 @@ static unsigned int stb_adler32(unsigned int adler32, unsigned char *buffer, uns
     return (unsigned int)(s2 << 16) + (unsigned int)s1;
 }
 
-static unsigned int stb_decompress(unsigned char *output, const unsigned char *i, unsigned int /*length*/)
+static unsigned int stb_decompress(unsigned char* output, const unsigned char* i, unsigned int /*length*/)
 {
-    if (stb__in4(0) != 0x57bC0000) return 0;
-    if (stb__in4(4) != 0)          return 0; // error! stream is > 4GB
+    if (stb__in4(0) != 0x57bC0000)
+    {
+        return 0;
+    }
+    if (stb__in4(4) != 0)
+    {
+        return 0;    // error! stream is > 4GB
+    }
     const unsigned int olen = stb_decompress_length(i);
     stb__barrier_in_b = i;
     stb__barrier_out_e = output + olen;
@@ -4015,24 +4664,36 @@ static unsigned int stb_decompress(unsigned char *output, const unsigned char *i
     i += 16;
 
     stb__dout = output;
-    for (;;) {
-        const unsigned char *old_i = i;
+    for (;;)
+    {
+        const unsigned char* old_i = i;
         i = stb_decompress_token(i);
-        if (i == old_i) {
-            if (*i == 0x05 && i[1] == 0xfa) {
+        if (i == old_i)
+        {
+            if (*i == 0x05 && i[1] == 0xfa)
+            {
                 IM_ASSERT(stb__dout == output + olen);
-                if (stb__dout != output + olen) return 0;
-                if (stb_adler32(1, output, olen) != (unsigned int) stb__in4(2))
+                if (stb__dout != output + olen)
+                {
                     return 0;
+                }
+                if (stb_adler32(1, output, olen) != (unsigned int) stb__in4(2))
+                {
+                    return 0;
+                }
                 return olen;
-            } else {
+            }
+            else
+            {
                 IM_ASSERT(0); /* NOTREACHED */
                 return 0;
             }
         }
         IM_ASSERT(stb__dout <= output + olen);
         if (stb__dout > output + olen)
+        {
             return 0;
+        }
     }
 }
 

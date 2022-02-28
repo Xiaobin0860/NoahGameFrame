@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -30,7 +30,7 @@ bool NFBPVirtualMachineModule::Awake()
 {
 
 
-	return true;
+    return true;
 }
 
 bool NFBPVirtualMachineModule::Init()
@@ -43,52 +43,52 @@ bool NFBPVirtualMachineModule::Init()
 bool NFBPVirtualMachineModule::AfterInit()
 {
 
-	return true;
+    return true;
 }
 
 bool NFBPVirtualMachineModule::CheckConfig()
 {
-	
-	return true;
+
+    return true;
 }
 
 bool NFBPVirtualMachineModule::ReadyExecute()
 {
-	
 
-	return true;
+
+    return true;
 }
 
 bool NFBPVirtualMachineModule::Execute()
 {
-	
+
     return true;
 }
 
 bool NFBPVirtualMachineModule::BeforeShut()
 {
 
-	return true;
+    return true;
 }
 
 bool NFBPVirtualMachineModule::Shut()
 {
-	
 
-	return true;
+
+    return true;
 }
 
 bool NFBPVirtualMachineModule::Finalize()
 {
-	
 
-	return true;
+
+    return true;
 }
 
 bool NFBPVirtualMachineModule::OnReloadPlugin()
 {
-	
-	return true;
+
+    return true;
 }
 
 void NFBPVirtualMachineModule::RunLogicBlock(const NFGUID& logicBlockID)

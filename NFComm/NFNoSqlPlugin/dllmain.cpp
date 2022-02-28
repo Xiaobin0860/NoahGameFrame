@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -28,7 +28,7 @@
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #pragma comment( lib, "ws2_32" )
 #pragma comment( lib, "event.lib" )
-#pragma comment( lib, "hiredis.lib") 
+#pragma comment( lib, "hiredis.lib")
 #else
 
 #endif
@@ -38,7 +38,7 @@
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #pragma comment( lib, "ws2_32" )
 #pragma comment( lib, "event.lib" )
-#pragma comment( lib, "hiredis.lib") 
+#pragma comment( lib, "hiredis.lib")
 
 #else
 

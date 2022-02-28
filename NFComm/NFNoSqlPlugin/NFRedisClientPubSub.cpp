@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -27,43 +27,43 @@
 
 bool NFRedisClient::PUBLISH(const std::string& key, const std::string& value)
 {
-	NFRedisCommand cmd(GET_NAME(PUBLISH));
-	cmd << key;
-	cmd << value;
+    NFRedisCommand cmd(GET_NAME(PUBLISH));
+    cmd << key;
+    cmd << value;
 
-	NF_SHARE_PTR<redisReply> pReply = BuildSendCmd(cmd);
-	if (pReply == nullptr)
-	{
-		return false;
-	}
+    NF_SHARE_PTR<redisReply> pReply = BuildSendCmd(cmd);
+    if (pReply == nullptr)
+    {
+        return false;
+    }
 
-	return true; 
+    return true;
 }
 
 bool NFRedisClient::SUBSCRIBE(const std::string& key)
 {
-	NFRedisCommand cmd(GET_NAME(SUBSCRIBE));
-	cmd << key;
+    NFRedisCommand cmd(GET_NAME(SUBSCRIBE));
+    cmd << key;
 
-	NF_SHARE_PTR<redisReply> pReply = BuildSendCmd(cmd);
-	if (pReply == nullptr)
-	{
-		return false;
-	}
+    NF_SHARE_PTR<redisReply> pReply = BuildSendCmd(cmd);
+    if (pReply == nullptr)
+    {
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 bool NFRedisClient::UNSUBSCRIBE(const std::string& key)
 {
-	NFRedisCommand cmd(GET_NAME(UNSUBSCRIBE));
-	cmd << key;
+    NFRedisCommand cmd(GET_NAME(UNSUBSCRIBE));
+    cmd << key;
 
-	NF_SHARE_PTR<redisReply> pReply = BuildSendCmd(cmd);
-	if (pReply == nullptr)
-	{
-		return false;
-	}
+    NF_SHARE_PTR<redisReply> pReply = BuildSendCmd(cmd);
+    if (pReply == nullptr)
+    {
+        return false;
+    }
 
-	return true;
+    return true;
 }

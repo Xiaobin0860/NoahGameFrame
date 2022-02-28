@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,29 +37,29 @@ public:
 
     struct GateBaseInfo
     {
-		enum ERoleStatus
-		{
-			E_LOADING = 1,
-			E_LOADED = 2,
-		};
+        enum ERoleStatus
+        {
+            E_LOADING = 1,
+            E_LOADED = 2,
+        };
 
         GateBaseInfo()
         {
             nActorID = 0;
             gateID = 0;
-			eStatus = E_LOADING;
+            eStatus = E_LOADING;
         }
 
         GateBaseInfo(const int gateID, const NFGUID xIdent)
         {
             this->nActorID = 0;
-			this->gateID = gateID;
-			this->xClientID = xIdent;
+            this->gateID = gateID;
+            this->xClientID = xIdent;
         }
 
         int nActorID;
-		int gateID;
-		ERoleStatus eStatus;
+        int gateID;
+        ERoleStatus eStatus;
         NFGUID xClientID;
     };
 
@@ -74,20 +74,20 @@ public:
 
     //virtual void SendMsgPBToGate(const uint16_t msgID, const std::string& xMsg, const NFGUID& self) = 0;
     virtual void SendMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const NFGUID& self) = 0;
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID) = 0;
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID, const NFGUID exceptID) = 0;
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID) = 0;
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID, const NFGUID exceptID) = 0;
 
-	virtual void SendMsgToGate(const uint16_t msgID, const std::string& msg, const NFGUID& self) = 0;
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID) = 0;
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID, const NFGUID exceptID) = 0;
+    virtual void SendMsgToGate(const uint16_t msgID, const std::string& msg, const NFGUID& self) = 0;
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID) = 0;
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID, const NFGUID exceptID) = 0;
 
 
     virtual bool AddPlayerGateInfo(const NFGUID& roleID, const NFGUID& clientID, const int gateID) = 0;
     virtual bool RemovePlayerGateInfo(const NFGUID& roleID) = 0;
 
     virtual NF_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const NFGUID& roleID) = 0;
-	virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int gateID) = 0;
-	virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfoBySockIndex(const NFSOCK sockIndex) = 0;
+    virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int gateID) = 0;
+    virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfoBySockIndex(const NFSOCK sockIndex) = 0;
 };
 
 #endif

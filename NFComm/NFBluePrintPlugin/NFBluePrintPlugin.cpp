@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -55,12 +55,12 @@ const int NFBluePrintPlugin::GetPluginVersion()
 
 const std::string NFBluePrintPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFBluePrintPlugin);
+    return GET_CLASS_NAME(NFBluePrintPlugin);
 }
 
 void NFBluePrintPlugin::Install()
 {
-	REGISTER_MODULE(pPluginManager, NFIBPVirtualMachineModule, NFBPVirtualMachineModule)
+    REGISTER_MODULE(pPluginManager, NFIBPVirtualMachineModule, NFBPVirtualMachineModule)
     REGISTER_MODULE(pPluginManager, NFIBluePrintModule, NFBluePrintModule)
     REGISTER_MODULE(pPluginManager, NFIBPVMEventModule, NFBPVMEventModule)
 
@@ -70,5 +70,5 @@ void NFBluePrintPlugin::Uninstall()
 {
     UNREGISTER_MODULE(pPluginManager, NFIBPVMEventModule, NFBPVMEventModule)
     UNREGISTER_MODULE(pPluginManager, NFIBluePrintModule, NFBluePrintModule)
-	UNREGISTER_MODULE(pPluginManager, NFIBPVirtualMachineModule, NFBPVirtualMachineModule)
+    UNREGISTER_MODULE(pPluginManager, NFIBPVirtualMachineModule, NFBPVirtualMachineModule)
 }

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -36,66 +36,66 @@
 class NFThreadCell : NFMemoryCounter
 {
 public:
-	NFThreadCell(NFIThreadPoolModule* p)
-			: NFMemoryCounter(GET_CLASS_NAME(NFThreadCell), 1)
-	{
-		m_pThreadPoolModule = p;
-		mThread = NF_SHARE_PTR<std::thread>(NF_NEW std::thread(&NFThreadCell::Execute, this));
-	}
+    NFThreadCell(NFIThreadPoolModule* p)
+        : NFMemoryCounter(GET_CLASS_NAME(NFThreadCell), 1)
+    {
+        m_pThreadPoolModule = p;
+        mThread = NF_SHARE_PTR<std::thread>(NF_NEW std::thread(&NFThreadCell::Execute, this));
+    }
 
-	void AddTask(const NFThreadTask& task)
-	{
-		mTaskList.Push(task);
-	}
+    void AddTask(const NFThreadTask& task)
+    {
+        mTaskList.Push(task);
+    }
 
-	virtual void ToMemoryCounterString(std::string& info) override
-	{
+    virtual void ToMemoryCounterString(std::string& info) override
+    {
 
-	}
+    }
 protected:
 
-	void Execute()
-	{
-		while (true)
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
-			{
-				//pick the first task and do it
-				NFThreadTask task;
-				while (mTaskList.TryPop(task))
-				{
-					if (task.xThreadFunc)
-					{
-						task.xThreadFunc.operator()(task);
-					}
+    void Execute()
+    {
+        while (true)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            {
+                //pick the first task and do it
+                NFThreadTask task;
+                while (mTaskList.TryPop(task))
+                {
+                    if (task.xThreadFunc)
+                    {
+                        task.xThreadFunc.operator()(task);
+                    }
 
-					//repush the result to the main thread
-					//and, do we must to tell the result to the main thread?
-					if (task.xEndFunc)
-					{
-						m_pThreadPoolModule->TaskResult(task);
-					}
+                    //repush the result to the main thread
+                    //and, do we must to tell the result to the main thread?
+                    if (task.xEndFunc)
+                    {
+                        m_pThreadPoolModule->TaskResult(task);
+                    }
 
-					task.Reset();
-				}
-			}
-		}
-	}
+                    task.Reset();
+                }
+            }
+        }
+    }
 
 private:
-	NFQueue<NFThreadTask> mTaskList;
-	NF_SHARE_PTR<std::thread> mThread;
-	NFIThreadPoolModule* m_pThreadPoolModule;
+    NFQueue<NFThreadTask> mTaskList;
+    NF_SHARE_PTR<std::thread> mThread;
+    NFIThreadPoolModule* m_pThreadPoolModule;
 };
 
 class NFThreadPoolModule
     : public NFIThreadPoolModule
 {
 public:
-	NFThreadPoolModule(NFIPluginManager* p);
+    NFThreadPoolModule(NFIPluginManager* p);
     virtual ~NFThreadPoolModule();
 
-	virtual int GetThreadCount();
+    virtual int GetThreadCount();
 
     virtual bool Init();
 
@@ -107,16 +107,16 @@ public:
 
     virtual bool Execute();
 
-	virtual void DoAsyncTask(const NFGUID taskID, const std::string& data, TASK_PROCESS_FUNCTOR asyncFunctor, TASK_PROCESS_FUNCTOR functor_end);
+    virtual void DoAsyncTask(const NFGUID taskID, const std::string& data, TASK_PROCESS_FUNCTOR asyncFunctor, TASK_PROCESS_FUNCTOR functor_end);
 
-	virtual void TaskResult(const NFThreadTask& task);
+    virtual void TaskResult(const NFThreadTask& task);
 
 protected:
-	void ExecuteTaskResult();
+    void ExecuteTaskResult();
 
 private:
-	NFQueue<NFThreadTask> mTaskResult;
-	std::vector<NF_SHARE_PTR<NFThreadCell>> mThreadPool;
+    NFQueue<NFThreadTask> mTaskResult;
+    std::vector<NF_SHARE_PTR<NFThreadCell>> mThreadPool;
 };
 
 #endif

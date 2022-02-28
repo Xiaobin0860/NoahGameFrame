@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -32,63 +32,63 @@
 
 bool NFGameServerToDBModule::Init()
 {
-	m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-	m_pGameServerNet_ServerModule = pPluginManager->FindModule<NFIGameServerNet_ServerModule>();
+    m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pGameServerNet_ServerModule = pPluginManager->FindModule<NFIGameServerNet_ServerModule>();
 
-	return true;
+    return true;
 }
 
 bool NFGameServerToDBModule::Shut()
 {
 
-	return true;
+    return true;
 }
 
 
 bool NFGameServerToDBModule::Execute()
 {
-	return true;
+    return true;
 }
 
 bool NFGameServerToDBModule::AfterInit()
 {
-	//m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFGameServerToDBModule::TransPBToProxy);
-	//m_pNetClientModule->AddEventCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFGameServerToDBModule::OnSocketWSEvent);
-	
-	m_pNetClientModule->ExpandBufferSize();
+    //m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFGameServerToDBModule::TransPBToProxy);
+    //m_pNetClientModule->AddEventCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFGameServerToDBModule::OnSocketWSEvent);
 
-	return true;
+    m_pNetClientModule->ExpandBufferSize();
+
+    return true;
 }
 
 void NFGameServerToDBModule::OnSocketWSEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet)
 {
-	if (eEvent & NF_NET_EVENT_EOF)
-	{
-	}
-	else if (eEvent & NF_NET_EVENT_ERROR)
-	{
-	}
-	else if (eEvent & NF_NET_EVENT_TIMEOUT)
-	{
-	}
-	else  if (eEvent & NF_NET_EVENT_CONNECTED)
-	{
-		m_pLogModule->LogInfo(NFGUID(0, sockIndex), "NF_NET_EVENT_CONNECTED connected success", __FUNCTION__, __LINE__);
-	}
+    if (eEvent & NF_NET_EVENT_EOF)
+    {
+    }
+    else if (eEvent & NF_NET_EVENT_ERROR)
+    {
+    }
+    else if (eEvent & NF_NET_EVENT_TIMEOUT)
+    {
+    }
+    else  if (eEvent & NF_NET_EVENT_CONNECTED)
+    {
+        m_pLogModule->LogInfo(NFGUID(0, sockIndex), "NF_NET_EVENT_CONNECTED connected success", __FUNCTION__, __LINE__);
+    }
 }
 
 void NFGameServerToDBModule::TransPBToProxy(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
-	m_pNetClientModule->SendBySuitWithOutHead(NF_SERVER_TYPES::NF_ST_DB, sockIndex, msgID, std::string(msg, len));
+    m_pNetClientModule->SendBySuitWithOutHead(NF_SERVER_TYPES::NF_ST_DB, sockIndex, msgID, std::string(msg, len));
 
-	return;
+    return;
 }
 
 void NFGameServerToDBModule::TransmitToDB(const int nHashKey, const int msgID, const google::protobuf::Message& xData)
 {
-	m_pNetClientModule->SendSuitByPB(NF_SERVER_TYPES::NF_ST_DB, nHashKey, msgID, xData);
+    m_pNetClientModule->SendSuitByPB(NF_SERVER_TYPES::NF_ST_DB, nHashKey, msgID, xData);
 }

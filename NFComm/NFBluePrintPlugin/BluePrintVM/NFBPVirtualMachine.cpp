@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -47,24 +47,24 @@ int NFBPVirtualMachine::GameEventIDCallBack(const NFGUID& objectID, const  NFGUI
 
 int NFBPVirtualMachine::NetEventIDCallBack(const NFGUID& objectID, const NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data)
 {
-	auto node = m_pBluePrintModule->FindNode(monitorID);
-	if (node->blueprintType == NFBlueprintType::MONITOR)
-	{
-		node->Execute(objectID);
-	}
+    auto node = m_pBluePrintModule->FindNode(monitorID);
+    if (node->blueprintType == NFBlueprintType::MONITOR)
+    {
+        node->Execute(objectID);
+    }
 
-	return 0;
+    return 0;
 }
 
 int NFBPVirtualMachine::NetMsgCallBack(const NFGUID& objectID, const NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data)
 {
-	auto node = m_pBluePrintModule->FindNode(monitorID);
-	if (node->blueprintType == NFBlueprintType::MONITOR)
-	{
-		node->Execute(objectID);
-	}
+    auto node = m_pBluePrintModule->FindNode(monitorID);
+    if (node->blueprintType == NFBlueprintType::MONITOR)
+    {
+        node->Execute(objectID);
+    }
 
-	return 0;
+    return 0;
 }
 
 int NFBPVirtualMachine::GameObjectCallBack(const NFGUID& objectID, const NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data)
@@ -92,92 +92,92 @@ void NFBPVirtualMachine::StartMonitor(NF_SHARE_PTR<NFIMonitor> monitor)
 {
     switch (monitor->monitorType)
     {
-    case NFMonitorType::GameEvent:
-    {
-        auto inputEventID = monitor->GetInputArg(NFGameEventMonitorInputArg::toString(NFGameEventMonitorInputArg::EventID));
-        if (inputEventID->GetInt() <= 0)
+        case NFMonitorType::GameEvent:
         {
-            m_pLogModule->LogError(monitor->name + " The monitor's Input EventID is empty.");
-            return;
-        }
+            auto inputEventID = monitor->GetInputArg(NFGameEventMonitorInputArg::toString(NFGameEventMonitorInputArg::EventID));
+            if (inputEventID->GetInt() <= 0)
+            {
+                m_pLogModule->LogError(monitor->name + " The monitor's Input EventID is empty.");
+                return;
+            }
 
-        try
-        {
-            int eventID = inputEventID->GetInt32();
-            m_pBPVMEventModule->RegisterGameEventCallBack(monitor->logicBlockId, eventID, monitor->id, this, &NFBPVirtualMachine::GameEventIDCallBack);
+            try
+            {
+                int eventID = inputEventID->GetInt32();
+                m_pBPVMEventModule->RegisterGameEventCallBack(monitor->logicBlockId, eventID, monitor->id, this, &NFBPVirtualMachine::GameEventIDCallBack);
+            }
+            catch (const std::exception&)
+            {
+                m_pLogModule->LogError(monitor->name + " The monitor's Input EventID must as a integer: " + inputEventID->ToString());
+                return;
+            }
         }
-        catch (const std::exception&)
+        break;
+        case NFMonitorType::NetworkEvent:
         {
-            m_pLogModule->LogError(monitor->name + " The monitor's Input EventID must as a integer: " + inputEventID->ToString());
-            return;
+            auto inputEventID = monitor->GetInputArg(NFNetworkEventMonitorInputArg::toString(NFNetworkEventMonitorInputArg::EventID));
+            if (inputEventID->GetInt() <= 0)
+            {
+                m_pLogModule->LogError(monitor->name + " The monitor's Input EventID is empty.");
+                return;
+            }
+
+            try
+            {
+                int eventID = inputEventID->GetInt32();
+                m_pBPVMEventModule->RegisterNetEventCallBack(monitor->logicBlockId, eventID, monitor->id, this, &NFBPVirtualMachine::NetEventIDCallBack);
+            }
+            catch (const std::exception&)
+            {
+                m_pLogModule->LogError(monitor->name + " The monitor's Input EventID must as a integer: " + inputEventID->ToString());
+                return;
+            }
         }
+        break;
+        case NFMonitorType::NetworkMsgEvent:
+        {
+            auto inputEventID = monitor->GetInputArg(NFNetworkMsgMonitorInputArg::toString(NFNetworkMsgMonitorInputArg::NetMsgID));
+            if (inputEventID->GetInt() <= 0)
+            {
+                m_pLogModule->LogError(monitor->name + " The monitor's Input EventID is empty.");
+                return;
+            }
+
+            try
+            {
+                int eventID = inputEventID->GetInt32();
+                m_pBPVMEventModule->RegisterNetMsgEventCallBack(monitor->logicBlockId, eventID, monitor->id, this, &NFBPVirtualMachine::NetMsgCallBack);
+            }
+            catch (const std::exception&)
+            {
+                m_pLogModule->LogError(monitor->name + " The monitor's Input EventID must as a integer: " + inputEventID->ToString());
+                return;
+            }
+        }
+        break;
+        case NFMonitorType::ObjectEvent:
+        {
+
+        }
+        break;
+        case NFMonitorType::PropertyEvent:
+        {
+
+        }
+        break;
+        case NFMonitorType::RecordEvent:
+        {
+
+        }
+        break;
+        case NFMonitorType::SceneEvent:
+        {
+
+        }
+        break;
+        default:
+            break;
     }
-        break;
-    case NFMonitorType::NetworkEvent:
-	{
-		auto inputEventID = monitor->GetInputArg(NFNetworkEventMonitorInputArg::toString(NFNetworkEventMonitorInputArg::EventID));
-		if (inputEventID->GetInt() <= 0)
-		{
-			m_pLogModule->LogError(monitor->name + " The monitor's Input EventID is empty.");
-			return;
-		}
 
-		try
-		{
-			int eventID = inputEventID->GetInt32();
-			m_pBPVMEventModule->RegisterNetEventCallBack(monitor->logicBlockId, eventID, monitor->id, this, &NFBPVirtualMachine::NetEventIDCallBack);
-		}
-		catch (const std::exception&)
-		{
-			m_pLogModule->LogError(monitor->name + " The monitor's Input EventID must as a integer: " + inputEventID->ToString());
-			return;
-		}
-	}
-        break;
-    case NFMonitorType::NetworkMsgEvent:
-	{
-		auto inputEventID = monitor->GetInputArg(NFNetworkMsgMonitorInputArg::toString(NFNetworkMsgMonitorInputArg::NetMsgID));
-		if (inputEventID->GetInt() <= 0)
-		{
-			m_pLogModule->LogError(monitor->name + " The monitor's Input EventID is empty.");
-			return;
-		}
-
-		try
-		{
-			int eventID = inputEventID->GetInt32();
-			m_pBPVMEventModule->RegisterNetMsgEventCallBack(monitor->logicBlockId, eventID, monitor->id, this, &NFBPVirtualMachine::NetMsgCallBack);
-		}
-		catch (const std::exception&)
-		{
-			m_pLogModule->LogError(monitor->name + " The monitor's Input EventID must as a integer: " + inputEventID->ToString());
-			return;
-		}
-	}
-        break;
-    case NFMonitorType::ObjectEvent:
-	{
-		
-	}
-        break;
-    case NFMonitorType::PropertyEvent:
-	{
-
-	}
-        break;
-    case NFMonitorType::RecordEvent:
-	{
-
-	}
-        break;
-    case NFMonitorType::SceneEvent:
-	{
-
-	}
-        break;
-    default:
-        break;
-    }
-    
 }
 

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,52 +37,52 @@
 #include "NFComm/NFPluginModule/NFISecurityModule.h"
 
 class NFWorldToMasterModule
-	: public NFIWorldToMasterModule
+    : public NFIWorldToMasterModule
 {
 public:
-	NFWorldToMasterModule(NFIPluginManager* p)
-	{
-		pPluginManager = p;
-		mLastReportTime = 0;
+    NFWorldToMasterModule(NFIPluginManager* p)
+    {
+        pPluginManager = p;
+        mLastReportTime = 0;
         m_bIsExecute = true;
-	}
+    }
 
-	virtual bool Init();
-	virtual bool BeforeShut();
-	virtual bool Shut();
-	virtual bool Execute();
-	virtual bool AfterInit();
+    virtual bool Init();
+    virtual bool BeforeShut();
+    virtual bool Shut();
+    virtual bool Execute();
+    virtual bool AfterInit();
 
 protected:
 
-	void OnSocketMSEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
-	
-	void OnClientDisconnect(const NFSOCK nAddress);
-	
-	void OnClientConnected(const NFSOCK nAddress);
+    void OnSocketMSEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
 
-	virtual void LogServerInfo(const std::string& strServerInfo);
+    void OnClientDisconnect(const NFSOCK nAddress);
+
+    void OnClientConnected(const NFSOCK nAddress);
+
+    virtual void LogServerInfo(const std::string& strServerInfo);
 
 
-	void Register(NFINet* pNet);
-	void ServerReport();
-	void RefreshWorldInfo();
-	void OnServerInfoProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void Register(NFINet* pNet);
+    void ServerReport();
+    void RefreshWorldInfo();
+    void OnServerInfoProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	void OnSelectServerProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnKickClientProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnSelectServerProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnKickClientProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	void InvalidMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void InvalidMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 private:
-	NFINT64 mLastReportTime;
+    NFINT64 mLastReportTime;
 
-	NFILogModule* m_pLogModule;
-	NFIElementModule* m_pElementModule;
-	NFIClassModule* m_pClassModule;
-	NFIWorldNet_ServerModule* m_pWorldNet_ServerModule;
-	NFINetClientModule* m_pNetClientModule;
-	NFINetModule* m_pNetModule;
-	NFISecurityModule* m_pSecurityModule;
+    NFILogModule* m_pLogModule;
+    NFIElementModule* m_pElementModule;
+    NFIClassModule* m_pClassModule;
+    NFIWorldNet_ServerModule* m_pWorldNet_ServerModule;
+    NFINetClientModule* m_pNetClientModule;
+    NFINetModule* m_pNetModule;
+    NFISecurityModule* m_pSecurityModule;
 };
 
 #endif

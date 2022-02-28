@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,9 +37,9 @@ NFRecord::NFRecord()
     mbPublic = false;
     mbPrivate = false;
     mbCache = false;
-	mbRef = false;
-	mbForce = false;
-	mbUpload = false;
+    mbRef = false;
+    mbForce = false;
+    mbUpload = false;
 
     mstrRecordName = "";
     mnMaxRow = 0;
@@ -48,7 +48,7 @@ NFRecord::NFRecord()
 
 NFRecord::NFRecord(const NFGUID& self, const std::string& recordName, const NF_SHARE_PTR<NFDataList>& valueList, const NF_SHARE_PTR<NFDataList>& tagList, const int nMaxRow)
 {
-	mVarRecordType = valueList;
+    mVarRecordType = valueList;
     mVarRecordTag = tagList;
 
     mSelf = self;
@@ -57,12 +57,12 @@ NFRecord::NFRecord(const NFGUID& self, const std::string& recordName, const NF_S
     mbPublic = false;
     mbPrivate = false;
     mbCache = false;
-	mbUpload = false;
+    mbUpload = false;
 
     mstrRecordName = recordName;
 
     mnMaxRow = nMaxRow;
-    
+
     mVecUsedState.resize(mnMaxRow);
 
     for (int i = 0; i < mnMaxRow; i++)
@@ -70,13 +70,13 @@ NFRecord::NFRecord(const NFGUID& self, const std::string& recordName, const NF_S
         mVecUsedState[i] = 0;
     }
 
-	//init share_pointer for all data
+    //init share_pointer for all data
     for (int i = 0; i < GetRows() * GetCols(); i++)
     {
         mtRecordVec.push_back(NF_SHARE_PTR<NFData>());
     }
 
-	//it would be optimized in future as it should apply the memory by onetime
+    //it would be optimized in future as it should apply the memory by onetime
     for (int i = 0; i < mVarRecordTag->GetCount(); ++i)
     {
         if (!mVarRecordTag->String(i).empty())
@@ -142,16 +142,16 @@ int NFRecord::GetRows() const
 
 int NFRecord::GetUsedRows() const
 {
-	int usedCount = 0;
-	for (int i = 0; i < mVecUsedState.size(); ++i)
-	{
-		if (mVecUsedState[i] > 0)
-		{
-			usedCount++;
-		}
-	}
+    int usedCount = 0;
+    for (int i = 0; i < mVecUsedState.size(); ++i)
+    {
+        if (mVecUsedState[i] > 0)
+        {
+            usedCount++;
+        }
+    }
 
-	return usedCount;
+    return usedCount;
 }
 
 NFDATA_TYPE NFRecord::GetColType(const int col) const
@@ -172,7 +172,7 @@ int NFRecord::AddRow(const int row)
 
 int NFRecord::AddRow(const int row, const NFDataList& var)
 {
-	bool bCover = false;
+    bool bCover = false;
     int nFindRow = row;
     if (nFindRow >= mnMaxRow)
     {
@@ -195,13 +195,13 @@ int NFRecord::AddRow(const int row, const NFDataList& var)
             }
         }
     }
-	else
-	{
-		if (IsUsed(nFindRow))
-	    {
-	        bCover = true;
-	    }		
-	}
+    else
+    {
+        if (IsUsed(nFindRow))
+        {
+            bCover = true;
+        }
+    }
 
     if (nFindRow < 0)
     {
@@ -221,70 +221,70 @@ int NFRecord::AddRow(const int row, const NFDataList& var)
     for (int i = 0; i < GetCols(); ++i)
     {
         NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(nFindRow, i));
-		if (nullptr == pVar)
-		{
-			pVar = NF_SHARE_PTR<NFData>(NF_NEW NFData(var.Type(i)));
-		}
+        if (nullptr == pVar)
+        {
+            pVar = NF_SHARE_PTR<NFData>(NF_NEW NFData(var.Type(i)));
+        }
 
-		pVar->variantData = var.GetStack(i)->variantData;
+        pVar->variantData = var.GetStack(i)->variantData;
     }
 
-	RECORD_EVENT_DATA eventData;
-	eventData.nOpType = bCover? RECORD_EVENT_DATA::Cover : RECORD_EVENT_DATA::Add;
-	eventData.row = nFindRow;
-	eventData.col = 0;
-	eventData.recordName = mstrRecordName;
-	eventData.recordData = this;
+    RECORD_EVENT_DATA eventData;
+    eventData.nOpType = bCover ? RECORD_EVENT_DATA::Cover : RECORD_EVENT_DATA::Add;
+    eventData.row = nFindRow;
+    eventData.col = 0;
+    eventData.recordName = mstrRecordName;
+    eventData.recordData = this;
 
-	NFData tData;
+    NFData tData;
     OnEventHandler(mSelf, eventData, tData, tData);
 
     return nFindRow;
 }
 
-bool NFRecord::SetRow(const int row, const NFDataList & var)
+bool NFRecord::SetRow(const int row, const NFDataList& var)
 {
-	if (var.GetCount() != GetCols())
-	{
-		return false;
-	}
+    if (var.GetCount() != GetCols())
+    {
+        return false;
+    }
 
-	if (!IsUsed(row))
-	{
-		return false;
-	}
+    if (!IsUsed(row))
+    {
+        return false;
+    }
 
-	for (int i = 0; i < GetCols(); ++i)
-	{
-		if (var.Type(i) != GetColType(i))
-		{
-			return false;
-		}
-	}
+    for (int i = 0; i < GetCols(); ++i)
+    {
+        if (var.Type(i) != GetColType(i))
+        {
+            return false;
+        }
+    }
 
-	for (int i = 0; i < GetCols(); ++i)
-	{
-		NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, i));
-		if (nullptr == pVar)
-		{
-			pVar = NF_SHARE_PTR<NFData>(NF_NEW NFData(var.Type(i)));
-		}
+    for (int i = 0; i < GetCols(); ++i)
+    {
+        NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, i));
+        if (nullptr == pVar)
+        {
+            pVar = NF_SHARE_PTR<NFData>(NF_NEW NFData(var.Type(i)));
+        }
 
-		NFData oldValue = *pVar;
+        NFData oldValue = *pVar;
 
-		pVar->variantData = var.GetStack(i)->variantData;
+        pVar->variantData = var.GetStack(i)->variantData;
 
-		RECORD_EVENT_DATA eventData;
-		eventData.nOpType = RECORD_EVENT_DATA::Update;
-		eventData.row = row;
-		eventData.col = i;
-		eventData.recordName = mstrRecordName;
-		eventData.recordData = this;
+        RECORD_EVENT_DATA eventData;
+        eventData.nOpType = RECORD_EVENT_DATA::Update;
+        eventData.row = row;
+        eventData.col = i;
+        eventData.recordName = mstrRecordName;
+        eventData.recordData = this;
 
-		OnEventHandler(mSelf, eventData, oldValue, *pVar);
-	}
+        OnEventHandler(mSelf, eventData, oldValue, *pVar);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFRecord::SetInt(const int row, const int col, const NFINT64 value)
@@ -304,41 +304,41 @@ bool NFRecord::SetInt(const int row, const int col, const NFINT64 value)
         return false;
     }
 
-	NFData var;
+    NFData var;
     var.SetInt(value);
 
     NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
-	//must have memory
-	if (nullptr == pVar)
-	{
-		return false;
-	}
+    //must have memory
+    if (nullptr == pVar)
+    {
+        return false;
+    }
 
-	if (var == *pVar)
-	{
-		return true;
-	}
+    if (var == *pVar)
+    {
+        return true;
+    }
 
-	if (mtRecordCallback.size() == 0)
-	{
-		pVar->SetInt(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue.SetInt(pVar->GetInt());
+    if (mtRecordCallback.size() == 0)
+    {
+        pVar->SetInt(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue.SetInt(pVar->GetInt());
 
-		pVar->SetInt(value);
+        pVar->SetInt(value);
 
-		RECORD_EVENT_DATA eventData;
-		eventData.nOpType = RECORD_EVENT_DATA::Update;
-		eventData.row = row;
-		eventData.col = col;
-		eventData.recordName = mstrRecordName;
-		eventData.recordData = this;
+        RECORD_EVENT_DATA eventData;
+        eventData.nOpType = RECORD_EVENT_DATA::Update;
+        eventData.row = row;
+        eventData.col = col;
+        eventData.recordName = mstrRecordName;
+        eventData.recordData = this;
 
-		OnEventHandler(mSelf, eventData, oldValue, *pVar);
-	}
+        OnEventHandler(mSelf, eventData, oldValue, *pVar);
+    }
 
     return true;
 }
@@ -371,36 +371,36 @@ bool NFRecord::SetFloat(const int row, const int col, const double value)
 
     NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
 
-	//must have memory
-	if (nullptr == pVar)
-	{
-		return false;
-	}
+    //must have memory
+    if (nullptr == pVar)
+    {
+        return false;
+    }
 
-	if (var == *pVar)
-	{
-		return true;
-	}
+    if (var == *pVar)
+    {
+        return true;
+    }
 
-	if (mtRecordCallback.size() == 0)
-	{
-		pVar->SetFloat(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue.SetFloat(pVar->GetFloat());
-		pVar->SetFloat(value);
+    if (mtRecordCallback.size() == 0)
+    {
+        pVar->SetFloat(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue.SetFloat(pVar->GetFloat());
+        pVar->SetFloat(value);
 
-		RECORD_EVENT_DATA eventData;
-		eventData.nOpType = RECORD_EVENT_DATA::Update;
-		eventData.row = row;
-		eventData.col = col;
-		eventData.recordName = mstrRecordName;
-		eventData.recordData = this;
+        RECORD_EVENT_DATA eventData;
+        eventData.nOpType = RECORD_EVENT_DATA::Update;
+        eventData.row = row;
+        eventData.col = col;
+        eventData.recordName = mstrRecordName;
+        eventData.recordData = this;
 
-		OnEventHandler(mSelf, eventData, oldValue, *pVar);
-	}
+        OnEventHandler(mSelf, eventData, oldValue, *pVar);
+    }
 
     return true;
 }
@@ -433,37 +433,37 @@ bool NFRecord::SetString(const int row, const int col, const std::string& value)
 
     NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
 
-	//must have memory
-	if (nullptr == pVar)
-	{
-		return false;
-	}
+    //must have memory
+    if (nullptr == pVar)
+    {
+        return false;
+    }
 
-	if (var == *pVar)
-	{
-		return true;
-	}
+    if (var == *pVar)
+    {
+        return true;
+    }
 
-	if (mtRecordCallback.size() == 0)
-	{
-		pVar->SetString(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue.SetString(pVar->GetString());
+    if (mtRecordCallback.size() == 0)
+    {
+        pVar->SetString(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue.SetString(pVar->GetString());
 
-		pVar->SetString(value);
+        pVar->SetString(value);
 
-		RECORD_EVENT_DATA eventData;
-		eventData.nOpType = RECORD_EVENT_DATA::Update;
-		eventData.row = row;
-		eventData.col = col;
-		eventData.recordName = mstrRecordName;
-		eventData.recordData = this;
+        RECORD_EVENT_DATA eventData;
+        eventData.nOpType = RECORD_EVENT_DATA::Update;
+        eventData.row = row;
+        eventData.col = col;
+        eventData.recordName = mstrRecordName;
+        eventData.recordData = this;
 
-		OnEventHandler(mSelf, eventData, oldValue, *pVar);
-	}
+        OnEventHandler(mSelf, eventData, oldValue, *pVar);
+    }
 
     return true;
 }
@@ -496,169 +496,169 @@ bool NFRecord::SetObject(const int row, const int col, const NFGUID& value)
 
     NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
 
-	//must have memory
-	if (nullptr == pVar)
-	{
-		return false;
-	}
+    //must have memory
+    if (nullptr == pVar)
+    {
+        return false;
+    }
 
-	if (var == *pVar)
-	{
-		return true;
-	}
+    if (var == *pVar)
+    {
+        return true;
+    }
 
-	if (mtRecordCallback.size() == 0)
-	{
-		pVar->SetObject(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue.SetObject(pVar->GetObject());
+    if (mtRecordCallback.size() == 0)
+    {
+        pVar->SetObject(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue.SetObject(pVar->GetObject());
 
-		pVar->SetObject(value);
+        pVar->SetObject(value);
 
-		RECORD_EVENT_DATA eventData;
-		eventData.nOpType = RECORD_EVENT_DATA::Update;
-		eventData.row = row;
-		eventData.col = col;
-		eventData.recordName = mstrRecordName;
-		eventData.recordData = this;
+        RECORD_EVENT_DATA eventData;
+        eventData.nOpType = RECORD_EVENT_DATA::Update;
+        eventData.row = row;
+        eventData.col = col;
+        eventData.recordName = mstrRecordName;
+        eventData.recordData = this;
 
-		OnEventHandler(mSelf, eventData, oldValue, *pVar);
-	}
+        OnEventHandler(mSelf, eventData, oldValue, *pVar);
+    }
 
     return true;
 }
 
 bool NFRecord::SetObject(const int row, const std::string& colTag, const NFGUID& value)
 {
-	int col = GetCol(colTag);
-	return SetObject(row, col, value);
+    int col = GetCol(colTag);
+    return SetObject(row, col, value);
 }
 
 bool NFRecord::SetVector2(const int row, const int col, const NFVector2& value)
 {
-	if (!ValidPos(row, col))
-	{
-		return false;
-	}
+    if (!ValidPos(row, col))
+    {
+        return false;
+    }
 
-	if (TDATA_VECTOR2 != GetColType(col))
-	{
-		return false;
-	}
+    if (TDATA_VECTOR2 != GetColType(col))
+    {
+        return false;
+    }
 
-	if (!IsUsed(row))
-	{
-		return false;
-	}
+    if (!IsUsed(row))
+    {
+        return false;
+    }
 
-	NFData var;
-	var.SetVector2(value);
+    NFData var;
+    var.SetVector2(value);
 
-	NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
+    NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
 
-	//must have memory
-	if (nullptr == pVar)
-	{
-		return false;
-	}
+    //must have memory
+    if (nullptr == pVar)
+    {
+        return false;
+    }
 
-	if (var == *pVar)
-	{
-		return true;
-	}
+    if (var == *pVar)
+    {
+        return true;
+    }
 
-	if (mtRecordCallback.size() == 0)
-	{
-		pVar->SetVector2(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue.SetVector2(pVar->GetVector2());
+    if (mtRecordCallback.size() == 0)
+    {
+        pVar->SetVector2(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue.SetVector2(pVar->GetVector2());
 
-		pVar->SetVector2(value);
+        pVar->SetVector2(value);
 
-		RECORD_EVENT_DATA eventData;
-		eventData.nOpType = RECORD_EVENT_DATA::Update;
-		eventData.row = row;
-		eventData.col = col;
-		eventData.recordName = mstrRecordName;
+        RECORD_EVENT_DATA eventData;
+        eventData.nOpType = RECORD_EVENT_DATA::Update;
+        eventData.row = row;
+        eventData.col = col;
+        eventData.recordName = mstrRecordName;
 
-		OnEventHandler(mSelf, eventData, oldValue, *pVar);
-	}
+        OnEventHandler(mSelf, eventData, oldValue, *pVar);
+    }
 
-	return true;
+    return true;
 }
 
 bool NFRecord::SetVector3(const int row, const int col, const NFVector3& value)
 {
-	if (!ValidPos(row, col))
-	{
-		return false;
-	}
+    if (!ValidPos(row, col))
+    {
+        return false;
+    }
 
-	if (TDATA_VECTOR3 != GetColType(col))
-	{
-		return false;
-	}
+    if (TDATA_VECTOR3 != GetColType(col))
+    {
+        return false;
+    }
 
-	if (!IsUsed(row))
-	{
-		return false;
-	}
+    if (!IsUsed(row))
+    {
+        return false;
+    }
 
-	NFData var;
-	var.SetVector3(value);
+    NFData var;
+    var.SetVector3(value);
 
-	NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
+    NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
 
-	//must have memory
-	if (nullptr == pVar)
-	{
-		return false;
-	}
+    //must have memory
+    if (nullptr == pVar)
+    {
+        return false;
+    }
 
-	if (var == *pVar)
-	{
-		return true;
-	}
+    if (var == *pVar)
+    {
+        return true;
+    }
 
-	if (mtRecordCallback.size() == 0)
-	{
-		pVar->SetVector3(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue.SetVector3(pVar->GetVector3());
+    if (mtRecordCallback.size() == 0)
+    {
+        pVar->SetVector3(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue.SetVector3(pVar->GetVector3());
 
-		pVar->SetVector3(value);
+        pVar->SetVector3(value);
 
-		RECORD_EVENT_DATA eventData;
-		eventData.nOpType = RECORD_EVENT_DATA::Update;
-		eventData.row = row;
-		eventData.col = col;
-		eventData.recordName = mstrRecordName;
+        RECORD_EVENT_DATA eventData;
+        eventData.nOpType = RECORD_EVENT_DATA::Update;
+        eventData.row = row;
+        eventData.col = col;
+        eventData.recordName = mstrRecordName;
 
-		OnEventHandler(mSelf, eventData, oldValue, *pVar);
-	}
+        OnEventHandler(mSelf, eventData, oldValue, *pVar);
+    }
 
-	return true;
+    return true;
 }
 
 bool NFRecord::SetVector2(const int row, const std::string& colTag, const NFVector2& value)
 {
-	int col = GetCol(colTag);
-	return SetVector2(row, col, value);
+    int col = GetCol(colTag);
+    return SetVector2(row, col, value);
 }
 
 bool NFRecord::SetVector3(const int row, const std::string& colTag, const NFVector3& value)
 {
-	int col = GetCol(colTag);
-	return SetVector3(row, col, value);
+    int col = GetCol(colTag);
+    return SetVector3(row, col, value);
 }
 
 
@@ -702,13 +702,13 @@ bool NFRecord::QueryRow(const int row, NFDataList& varList)
                     varList.Add(NFGUID());
                     break;
 
-				case TDATA_VECTOR2:
-					varList.Add(NFVector2());
-					break;
+                case TDATA_VECTOR2:
+                    varList.Add(NFVector2());
+                    break;
 
-				case TDATA_VECTOR3:
-					varList.Add(NFVector3());
-					break;
+                case TDATA_VECTOR3:
+                    varList.Add(NFVector3());
+                    break;
                 default:
                     return false;
                     break;
@@ -834,56 +834,56 @@ const NFGUID& NFRecord::GetObject(const int row, const std::string& colTag) cons
 
 const NFVector2& NFRecord::GetVector2(const int row, const int col) const
 {
-	if (!ValidPos(row, col))
-	{
-		return NULL_VECTOR2;
-	}
+    if (!ValidPos(row, col))
+    {
+        return NULL_VECTOR2;
+    }
 
-	if (!IsUsed(row))
-	{
-		return NULL_VECTOR2;
-	}
+    if (!IsUsed(row))
+    {
+        return NULL_VECTOR2;
+    }
 
-	const  NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
-	if (!pVar)
-	{
-		return NULL_VECTOR2;
-	}
+    const  NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
+    if (!pVar)
+    {
+        return NULL_VECTOR2;
+    }
 
-	return pVar->GetVector2();
+    return pVar->GetVector2();
 }
 
 const NFVector2& NFRecord::GetVector2(const int row, const std::string& colTag) const
 {
-	int col = GetCol(colTag);
-	return GetVector2(row, col);
+    int col = GetCol(colTag);
+    return GetVector2(row, col);
 }
 
 const NFVector3& NFRecord::GetVector3(const int row, const int col) const
 {
-	if (!ValidPos(row, col))
-	{
-		return NULL_VECTOR3;
-	}
+    if (!ValidPos(row, col))
+    {
+        return NULL_VECTOR3;
+    }
 
-	if (!IsUsed(row))
-	{
-		return NULL_VECTOR3;
-	}
+    if (!IsUsed(row))
+    {
+        return NULL_VECTOR3;
+    }
 
-	const  NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
-	if (!pVar)
-	{
-		return NULL_VECTOR3;
-	}
+    const  NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, col));
+    if (!pVar)
+    {
+        return NULL_VECTOR3;
+    }
 
-	return pVar->GetVector3();
+    return pVar->GetVector3();
 }
 
 const NFVector3& NFRecord::GetVector3(const int row, const std::string& colTag) const
 {
-	int col = GetCol(colTag);
-	return GetVector3(row, col);
+    int col = GetCol(colTag);
+    return GetVector3(row, col);
 }
 
 int NFRecord::FindRowByColValue(const int col, const NFData& var, NFDataList& varResult)
@@ -917,13 +917,13 @@ int NFRecord::FindRowByColValue(const int col, const NFData& var, NFDataList& va
             return FindObject(col, var.GetObject(), varResult);
             break;
 
-		case TDATA_VECTOR2:
-			return FindVector2(col, var.GetVector2(), varResult);
-			break;
+        case TDATA_VECTOR2:
+            return FindVector2(col, var.GetVector2(), varResult);
+            break;
 
         case TDATA_VECTOR3:
-			return FindVector3(col, var.GetVector3(), varResult);
-			break;
+            return FindVector3(col, var.GetVector3(), varResult);
+            break;
 
         default:
             break;
@@ -1110,256 +1110,256 @@ int NFRecord::FindObject(const std::string& colTag, const NFGUID& value, NFDataL
 
 int NFRecord::FindVector2(const int col, const NFVector2& value, NFDataList& varResult)
 {
-	if (!ValidCol(col))
-	{
-		return -1;
-	}
+    if (!ValidCol(col))
+    {
+        return -1;
+    }
 
-	if (TDATA_VECTOR2 != mVarRecordType->Type(col))
-	{
-		return -1;
-	}
+    if (TDATA_VECTOR2 != mVarRecordType->Type(col))
+    {
+        return -1;
+    }
 
-	{
-		for (int i = 0; i < mnMaxRow; ++i)
-		{
-			if (!IsUsed(i))
-			{
-				continue;
-			}
+    {
+        for (int i = 0; i < mnMaxRow; ++i)
+        {
+            if (!IsUsed(i))
+            {
+                continue;
+            }
 
-			if (GetVector2(i, col) == value)
-			{
-				varResult << (int64_t)i;
-			}
-		}
+            if (GetVector2(i, col) == value)
+            {
+                varResult << (int64_t)i;
+            }
+        }
 
-		return varResult.GetCount();
-	}
+        return varResult.GetCount();
+    }
 
-	return -1;
+    return -1;
 }
 
 int NFRecord::FindVector2(const std::string& colTag, const NFVector2& value, NFDataList& varResult)
 {
-	if (colTag.empty())
-	{
-		return -1;
-	}
+    if (colTag.empty())
+    {
+        return -1;
+    }
 
-	int col = GetCol(colTag);
-	return FindVector2(col, value, varResult);
+    int col = GetCol(colTag);
+    return FindVector2(col, value, varResult);
 }
 
 int NFRecord::FindVector3(const int col, const NFVector3& value, NFDataList& varResult)
 {
-	if (!ValidCol(col))
-	{
-		return -1;
-	}
+    if (!ValidCol(col))
+    {
+        return -1;
+    }
 
-	if (TDATA_VECTOR3 != mVarRecordType->Type(col))
-	{
-		return -1;
-	}
+    if (TDATA_VECTOR3 != mVarRecordType->Type(col))
+    {
+        return -1;
+    }
 
-	{
-		for (int i = 0; i < mnMaxRow; ++i)
-		{
-			if (!IsUsed(i))
-			{
-				continue;
-			}
+    {
+        for (int i = 0; i < mnMaxRow; ++i)
+        {
+            if (!IsUsed(i))
+            {
+                continue;
+            }
 
-			if (GetVector3(i, col) == value)
-			{
-				varResult << (int64_t)i;
-			}
-		}
+            if (GetVector3(i, col) == value)
+            {
+                varResult << (int64_t)i;
+            }
+        }
 
-		return varResult.GetCount();
-	}
+        return varResult.GetCount();
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindRowByColValue(const int col, const NFData & var)
+int NFRecord::FindRowByColValue(const int col, const NFData& var)
 {
-	NFDataList xDataList;
-	int nRowCount = FindRowByColValue(col, var, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindRowByColValue(col, var, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
 int NFRecord::FindInt(const int col, const NFINT64 value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindInt(col, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindInt(col, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
 int NFRecord::FindFloat(const int col, const double value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindFloat(col, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindFloat(col, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindString(const int col, const std::string & value)
+int NFRecord::FindString(const int col, const std::string& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindString(col, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindString(col, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindObject(const int col, const NFGUID & value)
+int NFRecord::FindObject(const int col, const NFGUID& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindObject(col, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindObject(col, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindVector2(const int col, const NFVector2 & value)
+int NFRecord::FindVector2(const int col, const NFVector2& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindVector2(col, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindVector2(col, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindVector3(const int col, const NFVector3 & value)
+int NFRecord::FindVector3(const int col, const NFVector3& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindVector3(col, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindVector3(col, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
 int NFRecord::FindVector3(const std::string& colTag, const NFVector3& value, NFDataList& varResult)
 {
-	if (colTag.empty())
-	{
-		return -1;
-	}
+    if (colTag.empty())
+    {
+        return -1;
+    }
 
-	int col = GetCol(colTag);
-	return FindVector3(col, value, varResult);
+    int col = GetCol(colTag);
+    return FindVector3(col, value, varResult);
 }
 
-int NFRecord::FindRowByColValue(const std::string & colTag, const NFData & var)
+int NFRecord::FindRowByColValue(const std::string& colTag, const NFData& var)
 {
-	NFDataList xDataList;
-	int nRowCount = FindRowByColValue(colTag, var, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindRowByColValue(colTag, var, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindInt(const std::string & colTag, const NFINT64 value)
+int NFRecord::FindInt(const std::string& colTag, const NFINT64 value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindInt(colTag, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindInt(colTag, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindFloat(const std::string & colTag, const double value)
+int NFRecord::FindFloat(const std::string& colTag, const double value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindFloat(colTag, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindFloat(colTag, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindString(const std::string & colTag, const std::string & value)
+int NFRecord::FindString(const std::string& colTag, const std::string& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindString(colTag, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindString(colTag, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindObject(const std::string & colTag, const NFGUID & value)
+int NFRecord::FindObject(const std::string& colTag, const NFGUID& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindObject(colTag, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindObject(colTag, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindVector2(const std::string & colTag, const NFVector2 & value)
+int NFRecord::FindVector2(const std::string& colTag, const NFVector2& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindVector2(colTag, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindVector2(colTag, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
-int NFRecord::FindVector3(const std::string & colTag, const NFVector3 & value)
+int NFRecord::FindVector3(const std::string& colTag, const NFVector3& value)
 {
-	NFDataList xDataList;
-	int nRowCount = FindVector3(colTag, value, xDataList);
-	if (nRowCount > 0 && xDataList.GetCount() > 0)
-	{
-		return (int) xDataList.Int(0);
-	}
+    NFDataList xDataList;
+    int nRowCount = FindVector3(colTag, value, xDataList);
+    if (nRowCount > 0 && xDataList.GetCount() > 0)
+    {
+        return (int) xDataList.Int(0);
+    }
 
-	return -1;
+    return -1;
 }
 
 bool NFRecord::Remove(const int row)
@@ -1368,21 +1368,21 @@ bool NFRecord::Remove(const int row)
     {
         if (IsUsed(row))
         {
-			RECORD_EVENT_DATA eventData;
-			eventData.nOpType = RECORD_EVENT_DATA::Del;
-			eventData.row = row;
-			eventData.col = 0;
-			eventData.recordName = mstrRecordName;
+            RECORD_EVENT_DATA eventData;
+            eventData.nOpType = RECORD_EVENT_DATA::Del;
+            eventData.row = row;
+            eventData.col = 0;
+            eventData.recordName = mstrRecordName;
 
-			OnEventHandler(mSelf, eventData, NFData(), NFData());
+            OnEventHandler(mSelf, eventData, NFData(), NFData());
 
-			mVecUsedState[row] = 0;
+            mVecUsedState[row] = 0;
 
-			eventData.nOpType = RECORD_EVENT_DATA::AfterDel;
+            eventData.nOpType = RECORD_EVENT_DATA::AfterDel;
 
-			OnEventHandler(mSelf, eventData, NFData(), NFData());
+            OnEventHandler(mSelf, eventData, NFData(), NFData());
 
-			return true;
+            return true;
         }
     }
 
@@ -1416,17 +1416,17 @@ const bool NFRecord::GetCache()
 
 const bool NFRecord::GetRef()
 {
-	return mbRef;
+    return mbRef;
 }
 
 const bool NFRecord::GetForce()
 {
-	return mbForce;
+    return mbForce;
 }
 
 const bool NFRecord::GetUpload()
 {
-	return mbUpload;
+    return mbUpload;
 }
 
 const bool NFRecord::GetPublic()
@@ -1461,17 +1461,17 @@ void NFRecord::SetCache(const bool bCache)
 
 void NFRecord::SetRef(const bool bRef)
 {
-	mbRef = bRef;
+    mbRef = bRef;
 }
 
 void NFRecord::SetForce(const bool bForce)
 {
-	mbForce = bForce;
+    mbForce = bForce;
 }
 
 void NFRecord::SetUpload(const bool bUpload)
 {
-	mbUpload = bUpload;
+    mbUpload = bUpload;
 }
 
 void NFRecord::SetPublic(const bool bPublic)
@@ -1491,7 +1491,7 @@ void NFRecord::SetName(const std::string& name)
 
 NF_SHARE_PTR<NFDataList> NFRecord::GetInitData() const
 {
-    NF_SHARE_PTR<NFDataList> pIniData = NF_SHARE_PTR<NFDataList>( NF_NEW NFDataList());
+    NF_SHARE_PTR<NFDataList> pIniData = NF_SHARE_PTR<NFDataList>(NF_NEW NFDataList());
     pIniData->Append(*mVarRecordType);
 
     return pIniData;
@@ -1503,7 +1503,7 @@ void NFRecord::OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& event
     TRECORDCALLBACKEX::iterator end = mtRecordCallback.end();
     for (; itr != end; ++itr)
     {
-        
+
         RECORD_EVENT_FUNCTOR_PTR functorPtr = *itr;
         functorPtr->operator()(self, eventData, oldVar, newVar);
     }
@@ -1557,7 +1557,7 @@ bool NFRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow)
 
 const NF_SHARE_PTR<NFDataList> NFRecord::GetTag() const
 {
-	//TODO
+    //TODO
     NF_SHARE_PTR<NFDataList> pIniData = NF_SHARE_PTR<NFDataList>(NF_NEW NFDataList());
     pIniData->Append(*mVarRecordTag);
     return pIniData;
@@ -1581,22 +1581,22 @@ bool NFRecord::SetUsed(const int row, const int bUse)
 
 bool NFRecord::PreAllocMemoryForRow(const int row)
 {
-	if (!IsUsed(row))
-	{
-		return false;
-	}
+    if (!IsUsed(row))
+    {
+        return false;
+    }
 
-	for (int i = 0; i < GetCols(); ++i)
-	{
-		NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, i));
-		if (nullptr == pVar)
-		{
-			pVar = NF_SHARE_PTR<NFData>(NF_NEW NFData(mVarRecordType->Type(i)));
-		}
+    for (int i = 0; i < GetCols(); ++i)
+    {
+        NF_SHARE_PTR<NFData>& pVar = mtRecordVec.at(GetPos(row, i));
+        if (nullptr == pVar)
+        {
+            pVar = NF_SHARE_PTR<NFData>(NF_NEW NFData(mVarRecordType->Type(i)));
+        }
 
-		pVar->variantData = mVarRecordType->GetStack(i)->variantData;
-	}
-	return true;
+        pVar->variantData = mVarRecordType->GetStack(i)->variantData;
+    }
+    return true;
 }
 
 bool NFRecord::ValidPos(int row, int col) const

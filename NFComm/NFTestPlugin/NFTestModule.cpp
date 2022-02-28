@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -28,151 +28,151 @@
 
 bool NFTestModule::Awake()
 {
-	int argc = 0;
-	char* c = new char[1];
-	//::testing::GTEST_FLAG(output) = "xml:hello.xml";
-	//::testing::InitGoogleTest(&argc, &c);
+    int argc = 0;
+    char* c = new char[1];
+    //::testing::GTEST_FLAG(output) = "xml:hello.xml";
+    //::testing::InitGoogleTest(&argc, &c);
 
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->Awake();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->Awake();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFTestModule::Init()
 {
-	//find all plugins and all modules, then check whether they have a tester
-	//if any module have't a tester for it then  can not start the application
-	//this is a rule for NF's world to keep high quality code under TDD
+    //find all plugins and all modules, then check whether they have a tester
+    //if any module have't a tester for it then  can not start the application
+    //this is a rule for NF's world to keep high quality code under TDD
 
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->Init();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->Init();
+    }
 
     return true;
 }
 
 bool NFTestModule::AfterInit()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->AfterInit();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->AfterInit();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFTestModule::CheckConfig()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->CheckConfig();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->CheckConfig();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFTestModule::ReadyExecute()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->ReadyExecute();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->ReadyExecute();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFTestModule::Execute()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->Execute();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->Execute();
+    }
 
     return true;
 }
 
 bool NFTestModule::BeforeShut()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->BeforeShut();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->BeforeShut();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFTestModule::Shut()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->Shut();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->Shut();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFTestModule::Finalize()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->Finalize();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->Finalize();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFTestModule::OnReloadPlugin()
 {
-	std::list<NFIModule*> xModules = pPluginManager->Modules();
-	for (auto it : xModules)
-	{
-		NFIModule* pModule = it;
-		NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
-		pTestModule->OnReloadPlugin();
-	}
+    std::list<NFIModule*> xModules = pPluginManager->Modules();
+    for (auto it : xModules)
+    {
+        NFIModule* pModule = it;
+        NFIModule* pTestModule = pPluginManager->FindTestModule(pModule->name);
+        pTestModule->OnReloadPlugin();
+    }
 
-	return true;
+    return true;
 }
 
 int NFTestModule::Factorial(int n)
 {
-	if (1 == n)
-	{
-		return 1;
-	}
+    if (1 == n)
+    {
+        return 1;
+    }
 
-	return n*Factorial(n-1);
+    return n * Factorial(n - 1);
 }
 
 // 测试用例

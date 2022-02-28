@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: Stonexin
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -53,7 +53,8 @@ bool NFHttpClient::Init()
     WSADATA wsaData;
     wVersionRequested = MAKEWORD(2, 2);
     int err = WSAStartup(wVersionRequested, &wsaData);
-    if (err != 0) {
+    if (err != 0)
+    {
         return false;
     }
 #endif
@@ -71,7 +72,7 @@ bool NFHttpClient::Init()
     m_pSslCtx = SSL_CTX_new(SSLv23_client_method());
     if (!m_pSslCtx)
     {
-		//LOG(ERROR) << "SSL_CTX_new err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "SSL_CTX_new err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -80,7 +81,7 @@ bool NFHttpClient::Init()
     m_pBase = event_base_new();
     if (m_pBase == nullptr)
     {
-		//LOG(ERROR) << "event_base_new err " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "event_base_new err " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
     return true;
@@ -120,24 +121,24 @@ bool NFHttpClient::Final()
 }
 
 bool NFHttpClient::MakeRequest(const std::string& strUri,
-                                HTTP_RESP_FUNCTOR_PTR pCB,
-                                const std::string& strPostData,
-                                const std::map<std::string, std::string>& xHeaders,
-                                const NFHttpType eHttpType,
-                                const std::string& strMemoData,
-                                const NFGUID id)
+                               HTTP_RESP_FUNCTOR_PTR pCB,
+                               const std::string& strPostData,
+                               const std::map<std::string, std::string>& xHeaders,
+                               const NFHttpType eHttpType,
+                               const std::string& strMemoData,
+                               const NFGUID id)
 {
     struct evhttp_uri* http_uri = evhttp_uri_parse(strUri.c_str());
     if (http_uri == NULL)
     {
-		//LOG(ERROR) << "evhttp_uri_parse err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "evhttp_uri_parse err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
     const char*  scheme = evhttp_uri_get_scheme(http_uri);
     if (scheme == NULL)
     {
-		//LOG(ERROR) << "scheme == NULL err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "scheme == NULL err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -150,7 +151,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
             evhttp_uri_free(http_uri);
         }
 
-		//LOG(ERROR) << "scheme == NULL err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "scheme == NULL err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -168,7 +169,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
             evhttp_uri_free(http_uri);
         }
 
-		//LOG(ERROR) << "url must have a host err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "url must have a host err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -179,9 +180,9 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
     }
 
     const char* path = evhttp_uri_get_path(http_uri);
-    if(path == NULL)
+    if (path == NULL)
     {
-		//LOG(ERROR) << "path == NUL err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "path == NUL err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -197,7 +198,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
     {
         snprintf(uri, sizeof(uri) - 1, "%s", path);
     }
-	else
+    else
     {
         snprintf(uri, sizeof(uri) - 1, "%s?%s", path, query);
     }
@@ -207,8 +208,8 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
     //like the curl SSL_VERIFYPEER is set false
 
     //if (1 != SSL_CTX_load_verify_locations(ssl_ctx, crt, NULL)) {
-    //	err_openssl("SSL_CTX_load_verify_locations");
-    //	goto error;
+    //  err_openssl("SSL_CTX_load_verify_locations");
+    //  goto error;
     //}
     //SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_PEER, NULL);
     //SSL_CTX_set_cert_verify_callback(ssl_ctx, cert_verify_callback,(void *)host);
@@ -217,7 +218,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
 
 
 #if NF_ENABLE_SSL
-    SSL *pSSL = SSL_new(m_pSslCtx);
+    SSL* pSSL = SSL_new(m_pSslCtx);
     if (pSSL == NULL)
     {
         if (http_uri)
@@ -225,7 +226,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
             evhttp_uri_free(http_uri);
         }
 
-		//LOG(ERROR) << "SSL_new err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "SSL_new err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 #endif
@@ -233,13 +234,13 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
     if (!isHttps)
     {
         bev = bufferevent_socket_new(m_pBase, -1, BEV_OPT_CLOSE_ON_FREE);
-    } 
-	else
+    }
+    else
     {
 #if NF_ENABLE_SSL
         bev = bufferevent_openssl_socket_new(m_pBase, -1, pSSL,
-            BUFFEREVENT_SSL_CONNECTING,
-            BEV_OPT_CLOSE_ON_FREE | BEV_OPT_DEFER_CALLBACKS);
+                                             BUFFEREVENT_SSL_CONNECTING,
+                                             BEV_OPT_CLOSE_ON_FREE | BEV_OPT_DEFER_CALLBACKS);
 #endif
     }
 
@@ -250,7 +251,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
             evhttp_uri_free(http_uri);
         }
 
-		//LOG(ERROR) << " bev == NUL err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << " bev == NUL err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -269,7 +270,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
             evhttp_uri_free(http_uri);
         }
 
-		//LOG(ERROR) << " evcon == NUL err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << " evcon == NUL err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -290,17 +291,17 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
         pHttpObj->m_pHttpClient = this;
         pHttpObj->m_pBev = bev;
         pHttpObj->m_pCB = pCB;
-		pHttpObj->mID = id;
+        pHttpObj->mID = id;
         pHttpObj->strMemo = strMemoData;
     }
     else
     {
-        pHttpObj = new HttpObject(this, bev, pCB, id,strMemoData);
+        pHttpObj = new HttpObject(this, bev, pCB, id, strMemoData);
     }
 
     if (pHttpObj == nullptr)
     {
-		//LOG(ERROR) << "pHttpObj == nullptr err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "pHttpObj == nullptr err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -313,14 +314,14 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
             evhttp_uri_free(http_uri);
         }
 
-		//LOG(ERROR) << "req == NULL err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "req == NULL err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
     struct evkeyvalq* output_headers = evhttp_request_get_output_headers(req);
-    if(output_headers == NULL)
+    if (output_headers == NULL)
     {
-		//LOG(ERROR) << "output_headers == NULL err. " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "output_headers == NULL err. " << __FUNCTION__ << " " << __LINE__;
         return false;
     }
 
@@ -341,7 +342,7 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
         struct evbuffer* output_buffer = evhttp_request_get_output_buffer(req);
         if (output_buffer == NULL)
         {
-			//LOG(ERROR) << "output_buffer == NUL err. " << __FUNCTION__ << " " << __LINE__;
+            //LOG(ERROR) << "output_buffer == NUL err. " << __FUNCTION__ << " " << __LINE__;
             return false;
         }
 
@@ -360,9 +361,9 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
             evhttp_uri_free(http_uri);
         }
 
-		//LOG(ERROR) << " evhttp_make_request() failed" << " " << __FUNCTION__ << " " << __LINE__;
-        
-		return false;
+        //LOG(ERROR) << " evhttp_make_request() failed" << " " << __FUNCTION__ << " " << __LINE__;
+
+        return false;
     }
 
     if (http_uri)
@@ -374,24 +375,24 @@ bool NFHttpClient::MakeRequest(const std::string& strUri,
 }
 
 bool NFHttpClient::DoGet(const std::string& strUri, HTTP_RESP_FUNCTOR_PTR pCB,
-                               const std::map<std::string, std::string>& xHeaders, const NFGUID id)
+                         const std::map<std::string, std::string>& xHeaders, const NFGUID id)
 {
     std::string memo;
-    return MakeRequest(strUri, pCB, "", xHeaders, NFHttpType::NF_HTTP_REQ_GET,memo);
+    return MakeRequest(strUri, pCB, "", xHeaders, NFHttpType::NF_HTTP_REQ_GET, memo);
 }
 
 bool NFHttpClient::DoPost(const std::string& strUri, const std::string& strPostData, const std::string& strMemoData, HTTP_RESP_FUNCTOR_PTR pCB,
-                                const std::map<std::string, std::string>& xHeaders, const NFGUID id)
+                          const std::map<std::string, std::string>& xHeaders, const NFGUID id)
 {
     return MakeRequest(strUri, pCB, strPostData, xHeaders, NFHttpType::NF_HTTP_REQ_POST, strMemoData);
 }
 
 void NFHttpClient::OnHttpReqDone(struct evhttp_request* req, void* ctx)
 {
-    HttpObject* pHttpObj = (HttpObject*) (ctx);
-    if (pHttpObj ==NULL)
+    HttpObject* pHttpObj = (HttpObject*)(ctx);
+    if (pHttpObj == NULL)
     {
-		//LOG(ERROR) << "pHttpObj ==NULL" << " " << __FUNCTION__ << " " << __LINE__;
+        //LOG(ERROR) << "pHttpObj ==NULL" << " " << __FUNCTION__ << " " << __LINE__;
         return;
     }
     std::string strResp;
@@ -415,7 +416,8 @@ void NFHttpClient::OnHttpReqDone(struct evhttp_request* req, void* ctx)
         int nread = 0;
 
 #if NF_ENABLE_SSL
-        while ((oslerr = bufferevent_get_openssl_error(bev))) {
+        while ((oslerr = bufferevent_get_openssl_error(bev)))
+        {
             ERR_error_string_n(oslerr, buffer, sizeof(buffer));
             fprintf(stderr, "%s\n", buffer);
             strErrMsg += std::string(buffer);
@@ -437,8 +439,8 @@ void NFHttpClient::OnHttpReqDone(struct evhttp_request* req, void* ctx)
 
         NFHttpClient* pHttpClient = (NFHttpClient*)(pHttpObj->m_pHttpClient);
         pHttpClient->mlHttpObject.push_back(pHttpObj);
-        
-		//LOG(ERROR) << strErrMsg << __FUNCTION__ << " " << __LINE__;
+
+        //LOG(ERROR) << strErrMsg << __FUNCTION__ << " " << __LINE__;
         return;
     }
 
@@ -476,7 +478,7 @@ void NFHttpClient::OnHttpReqDone(struct evhttp_request* req, void* ctx)
     }
 
 #if NF_PLATFORM != NF_PLATFORM_WIN
-			NF_CRASH_TRY
+    NF_CRASH_TRY
 #endif
 
     if (pHttpObj->m_pCB)
@@ -484,14 +486,14 @@ void NFHttpClient::OnHttpReqDone(struct evhttp_request* req, void* ctx)
         if (pHttpObj->m_pCB.get())
         {
             HTTP_RESP_FUNCTOR fun(*pHttpObj->m_pCB.get());
-            fun(pHttpObj->mID, nRespCode, strResp,pHttpObj->strMemo);
+            fun(pHttpObj->mID, nRespCode, strResp, pHttpObj->strMemo);
         }
     }
 
 #if NF_PLATFORM != NF_PLATFORM_WIN
-			NF_CRASH_END
+    NF_CRASH_END
 #endif
-    
+
 
     NFHttpClient* pHttpClient = (NFHttpClient*)(pHttpObj->m_pHttpClient);
     pHttpClient->mlHttpObject.push_back(pHttpObj);

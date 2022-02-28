@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,41 +35,41 @@ class NFCommonConfigModule
 {
 public:
 public:
-	class CAttributeList : public NFMapEx<std::string, std::string>
-	{
-	public:
-		const int GetInt(const std::string& name)
-		{
-			NF_SHARE_PTR<std::string> pStr = GetElement(name);
-			if (pStr && !pStr->empty())
-			{
-				int nData = 0;
-				NF_StrTo(*pStr, nData);
-				return nData;
-			}
+    class CAttributeList : public NFMapEx<std::string, std::string>
+    {
+    public:
+        const int GetInt(const std::string& name)
+        {
+            NF_SHARE_PTR<std::string> pStr = GetElement(name);
+            if (pStr && !pStr->empty())
+            {
+                int nData = 0;
+                NF_StrTo(*pStr, nData);
+                return nData;
+            }
 
-			return 0;
-		}
+            return 0;
+        }
 
-		const std::string& GetString(const std::string& name)
-		{
-			NF_SHARE_PTR<std::string> pStr = GetElement(name);
-			if (pStr)
-			{
-				return *pStr;
-			}
+        const std::string& GetString(const std::string& name)
+        {
+            NF_SHARE_PTR<std::string> pStr = GetElement(name);
+            if (pStr)
+            {
+                return *pStr;
+            }
 
-			return NULL_STR;
-		}
-	};
+            return NULL_STR;
+        }
+    };
 
-	struct CStructInfo : public NFMapEx<std::string, CAttributeList>
-	{
-		CAttributeList  mmStructAttribute;
-	};
+    struct CStructInfo : public NFMapEx<std::string, CAttributeList>
+    {
+        CAttributeList  mmStructAttribute;
+    };
 
 public:
-    NFCommonConfigModule( NFIPluginManager* p )
+    NFCommonConfigModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -80,20 +80,20 @@ public:
     virtual bool Execute();
     virtual bool AfterInit();
 
-	virtual bool ClearConfig();
-	virtual bool LoadConfig(const std::string& strFile);
+    virtual bool ClearConfig();
+    virtual bool LoadConfig(const std::string& strFile);
 
-	virtual const int GetFieldInt(const std::string& strStructName, const std::string& strStructItemName, const std::string& strAttribute);
-	virtual const int GetFieldInt(const std::string& strStructName, const std::string& strSDKAttribute);
-	
-	virtual const std::string& GetFieldString(const std::string& strStructName, const std::string& strStructItemName, const std::string& strAttribute);
-	virtual const std::string& GetFieldString(const std::string& strStructName,const std::string& strSDKAttribute);
-	
-	virtual std::vector<std::string> GetSubKeyList(const std::string&strStructName);
-	virtual std::vector<std::string> GetFieldList(const std::string&strStructName);
+    virtual const int GetFieldInt(const std::string& strStructName, const std::string& strStructItemName, const std::string& strAttribute);
+    virtual const int GetFieldInt(const std::string& strStructName, const std::string& strSDKAttribute);
+
+    virtual const std::string& GetFieldString(const std::string& strStructName, const std::string& strStructItemName, const std::string& strAttribute);
+    virtual const std::string& GetFieldString(const std::string& strStructName, const std::string& strSDKAttribute);
+
+    virtual std::vector<std::string> GetSubKeyList(const std::string& strStructName);
+    virtual std::vector<std::string> GetFieldList(const std::string& strStructName);
 
 private:
-	NFMapEx<std::string, CStructInfo> mmData; //strStructName<-->CStructInfo
+    NFMapEx<std::string, CStructInfo> mmData; //strStructName<-->CStructInfo
 };
 
 

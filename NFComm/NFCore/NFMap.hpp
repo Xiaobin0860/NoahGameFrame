@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,7 +35,7 @@
 #include "NFMapEx.hpp"
 
 
-template <typename T , typename TD>
+template <typename T, typename TD>
 class NFMap
 {
 public:
@@ -87,16 +87,16 @@ public:
         }
     }
 
-	virtual bool ExistElement(const T& name)
-	{
-		typename NFMapOBJECT::iterator itr = mObjectList.find(name);
-		if (itr != mObjectList.end())
-		{
-			return true;
-		}
+    virtual bool ExistElement(const T& name)
+    {
+        typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+        if (itr != mObjectList.end())
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     virtual TD* First()
     {

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -51,50 +51,50 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-	virtual bool ReadyExecute();
+    virtual bool ReadyExecute();
     virtual bool Execute();
     virtual bool AfterInit();
 
-	virtual void SetDefaultSceneID(const int sceneID);
+    virtual void SetDefaultSceneID(const int sceneID);
 
 protected:
-	void OnRequireRoleListProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnResponseRoleListProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	
-	void OnCreateRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnDeleteRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientEnterGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	
-	void OnDBLoadRoleDataProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnRequireRoleListProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnResponseRoleListProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	int OnObjectPlayerEvent(const NFGUID & self, const std::string & className, const CLASS_OBJECT_EVENT classEvent, const NFDataList & var);
+    void OnCreateRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnDeleteRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientEnterGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
+    void OnDBLoadRoleDataProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-private:
+    int OnObjectPlayerEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
 
-	void AttachData(const NFGUID& self);
-	void SaveData(const NFGUID& self);
-
-	int SaveDataOnTime(const NFGUID& self, const std::string& name, const float fIntervalTime, const int count);
 
 private:
 
-	int defaultSceneID = 1;
-	std::map<NFGUID, NFMsg::RoleDataPack> mxObjectDataCache;
+    void AttachData(const NFGUID& self);
+    void SaveData(const NFGUID& self);
+
+    int SaveDataOnTime(const NFGUID& self, const std::string& name, const float fIntervalTime, const int count);
 
 private:
-	NFINetModule* m_pNetModule;
-	NFIClassModule* m_pClassModule;
-	NFIElementModule* m_pElementModule;
-	NFIKernelModule* m_pKernelModule;
-	NFISceneModule* m_pSceneModule;
-	NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
-	NFIGameServerToDBModule* m_pGameToDBModule;
-	NFISceneProcessModule* m_pSceneProcessModule;
-	NFINetClientModule* m_pNetClientModule;
-	NFIScheduleModule* m_pScheduleModule;
-	NFIDataTailModule* m_pDataTailModule;
-	NFIEventModule* m_pEventModule;
+
+    int defaultSceneID = 1;
+    std::map<NFGUID, NFMsg::RoleDataPack> mxObjectDataCache;
+
+private:
+    NFINetModule* m_pNetModule;
+    NFIClassModule* m_pClassModule;
+    NFIElementModule* m_pElementModule;
+    NFIKernelModule* m_pKernelModule;
+    NFISceneModule* m_pSceneModule;
+    NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
+    NFIGameServerToDBModule* m_pGameToDBModule;
+    NFISceneProcessModule* m_pSceneProcessModule;
+    NFINetClientModule* m_pNetClientModule;
+    NFIScheduleModule* m_pScheduleModule;
+    NFIDataTailModule* m_pDataTailModule;
+    NFIEventModule* m_pEventModule;
 };
 
 #endif

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,7 +37,7 @@ class NFSecurityModule
     : public NFISecurityModule
 {
 public:
-	NFSecurityModule(NFIPluginManager* p)
+    NFSecurityModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -48,25 +48,25 @@ public:
 
     virtual bool AfterInit();
 
-	//when a user login NF system, as a security module, you need to grant user an key.
-	virtual const std::string GetSecurityKey(const std::string& account);
+    //when a user login NF system, as a security module, you need to grant user an key.
+    virtual const std::string GetSecurityKey(const std::string& account);
 
-	//when the user want to connect to proxy, as a user need to provide the key that got in login system.
-	virtual bool VerifySecurityKey(const std::string& account, const std::string& strSecurityKey);
+    //when the user want to connect to proxy, as a user need to provide the key that got in login system.
+    virtual bool VerifySecurityKey(const std::string& account, const std::string& strSecurityKey);
 
-	//when the user want to post a message to proxy, the message-data need to be verified.
-	virtual std::string EncodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const char* strMessageData, const int len);
-	virtual std::string EncodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const std::string& strMessageData);
-	virtual std::string DecodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const char* strMessageData, const int len);
-	virtual std::string DecodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const std::string& strMessageData);
+    //when the user want to post a message to proxy, the message-data need to be verified.
+    virtual std::string EncodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const char* strMessageData, const int len);
+    virtual std::string EncodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const std::string& strMessageData);
+    virtual std::string DecodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const char* strMessageData, const int len);
+    virtual std::string DecodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const std::string& strMessageData);
 
 protected:
 
     //////////////////////////////////////////////////////////////////////////
     NFIKernelModule* m_pKernelModule;
     NFIClassModule* m_pClassModule;
-	NFILogModule* m_pLogModule;
-	NFIElementModule* m_pElementModule;
+    NFILogModule* m_pLogModule;
+    NFIElementModule* m_pElementModule;
     //////////////////////////////////////////////////////////////////////////
 };
 #endif

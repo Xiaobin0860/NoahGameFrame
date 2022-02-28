@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -118,11 +118,11 @@ public:
 
     const bool AddId(std::string& strId)
     {
-		mIdList.push_back(strId);
+        mIdList.push_back(strId);
         return true;
     }
 
-	const std::vector<std::string>& GetIDList()
+    const std::vector<std::string>& GetIDList()
     {
         return mIdList;
     }
@@ -159,20 +159,20 @@ private:
 public:
     NFClassModule(NFIPluginManager* p);
     virtual ~NFClassModule() override ;
-	
-	
-	virtual bool Awake() override ;
+
+
+    virtual bool Awake() override ;
     virtual bool Init() override ;
     virtual bool AfterInit() override ;
 
-	virtual bool Shut() override ;
+    virtual bool Shut() override ;
 
     virtual bool Load() override ;
     virtual bool Save() override ;
     virtual bool Clear() override ;
 
     virtual NFIClassModule* GetThreadClassModule() override;
-	virtual NFIClassModule* GetThreadClassModule(const int index) override;
+    virtual NFIClassModule* GetThreadClassModule(const int index) override;
 
     virtual bool AddClassCallBack(const std::string& className, const CLASS_EVENT_FUNCTOR_PTR& cb) override ;
     virtual bool DoEvent(const NFGUID& objectID, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& valueList) override ;
@@ -190,18 +190,18 @@ protected:
     virtual bool AddClassInclude(const char* pstrClassFilePath, NF_SHARE_PTR<NFIClass> pClass);
     virtual bool AddClass(const char* pstrClassFilePath, NF_SHARE_PTR<NFIClass> pClass);
 
-    
+
     virtual bool Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass> pParentClass);
 
 protected:
-	struct ThreadClassModule
-	{
-		bool used;
-		std::thread::id threadID;
-		NFClassModule* classModule;
-	};
+    struct ThreadClassModule
+    {
+        bool used;
+        std::thread::id threadID;
+        NFClassModule* classModule;
+    };
 
-	std::vector<ThreadClassModule> mThreadClasses;
+    std::vector<ThreadClassModule> mThreadClasses;
 
 protected:
     std::string mConfigFileName;

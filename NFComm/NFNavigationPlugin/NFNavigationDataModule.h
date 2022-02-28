@@ -1,6 +1,6 @@
 /*
     Copyright 2009 - 2021 NoahGameFrame/NoahFrame
-    
+
    This source file is part of NoahGameFrame/NoahFrame.
    NoahGameFrame/NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
@@ -53,7 +53,7 @@ public:
 
     virtual const std::string& GetDefaultMapData(const int scene) override ;
 
-	virtual const NF_SHARE_PTR<GroupNavigationData> GetMapData(const int scene) override ;
+    virtual const NF_SHARE_PTR<GroupNavigationData> GetMapData(const int scene) override ;
     virtual const NF_SHARE_PTR<GroupNavigationData> GetMapData(const int scene, const int group) override ;
     virtual const NF_SHARE_PTR<NFVoxel> GetMapData(const int scene, const int group, const int x, int z) override ;
 
@@ -72,8 +72,8 @@ protected:
     NFIClassModule* m_pClassModule;
     NFILogModule* m_pLogModule;
     NFIElementModule* m_pElementModule;
-	NFINetModule* m_pNetModule;
-	NFIEventModule* m_pEventModule;
-	NFISceneModule* m_pSceneModule;
+    NFINetModule* m_pNetModule;
+    NFIEventModule* m_pEventModule;
+    NFISceneModule* m_pSceneModule;
 };
 #endif

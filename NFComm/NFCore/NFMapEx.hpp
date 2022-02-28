@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,52 +35,52 @@
 #include "NFConsistentHash.hpp"
 #include "NFComm/NFPluginModule/NFPlatform.h"
 
-template <typename T , typename TD>
+template <typename T, typename TD>
 class NFMapEx
 {
 public:
     typedef std::map<T, NF_SHARE_PTR<TD> > NFMapOBJECT;
 
     NFMapEx()
-	{
-	};
+    {
+    };
     virtual ~NFMapEx()
     {
     };
 
-	virtual bool ExistElement(const T& name)
-	{
-		typename NFMapOBJECT::iterator itr = mObjectList.find(name);
-		if (itr != mObjectList.end())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-/*
-	virtual NF_SHARE_PTR<TD> AddElement(const T& name)
-	{
-		typename NFMapOBJECT::iterator itr = mObjectList.find(name);
-		if (itr == mObjectList.end())
-		{
-			NF_SHARE_PTR<TD> data(NF_NEW TD());
-			mObjectList.insert(typename NFMapOBJECT::value_type(name, data));
-			return data;
-		}
+    virtual bool ExistElement(const T& name)
+    {
+        typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+        if (itr != mObjectList.end())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    /*
+        virtual NF_SHARE_PTR<TD> AddElement(const T& name)
+        {
+            typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+            if (itr == mObjectList.end())
+            {
+                NF_SHARE_PTR<TD> data(NF_NEW TD());
+                mObjectList.insert(typename NFMapOBJECT::value_type(name, data));
+                return data;
+            }
 
-		return NF_SHARE_PTR<TD>();
-	}
-	*/
+            return NF_SHARE_PTR<TD>();
+        }
+        */
     virtual bool AddElement(const T& name, const NF_SHARE_PTR<TD> data)
     {
-		if (data == nullptr)
-		{
-			std::cout << "AddElement failed : " << std::endl;
-			return false;
-		}
+        if (data == nullptr)
+        {
+            std::cout << "AddElement failed : " << std::endl;
+            return false;
+        }
 
         typename NFMapOBJECT::iterator itr = mObjectList.find(name);
         if (itr == mObjectList.end())
@@ -299,93 +299,93 @@ template <typename T, typename TD>
 class NFConsistentHashMapEx : public NFMapEx<T, TD>
 {
 public:
-	virtual NF_SHARE_PTR<TD> GetElementBySuitRandom()
-	{
-		NFVirtualNode<T> vNode;
-		if (mxConsistentHash.GetSuitNodeRandom(vNode))
-		{
-			typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(vNode.mxData);
-			if (itr != NFMapEx<T, TD>::mObjectList.end())
-			{
-				return itr->second;
-			}
-		}
+    virtual NF_SHARE_PTR<TD> GetElementBySuitRandom()
+    {
+        NFVirtualNode<T> vNode;
+        if (mxConsistentHash.GetSuitNodeRandom(vNode))
+        {
+            typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(vNode.mxData);
+            if (itr != NFMapEx<T, TD>::mObjectList.end())
+            {
+                return itr->second;
+            }
+        }
 
-		return NULL;
-	}
+        return NULL;
+    }
 
-	virtual NF_SHARE_PTR<TD> GetElementBySuitConsistent()
-	{
-		NFVirtualNode<T> vNode;
-		if (mxConsistentHash.GetSuitNodeConsistent(vNode))
-		{
-			typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(vNode.mxData);
-			if (itr != NFMapEx<T, TD>::mObjectList.end())
-			{
-				return itr->second;
-			}
-		}
+    virtual NF_SHARE_PTR<TD> GetElementBySuitConsistent()
+    {
+        NFVirtualNode<T> vNode;
+        if (mxConsistentHash.GetSuitNodeConsistent(vNode))
+        {
+            typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(vNode.mxData);
+            if (itr != NFMapEx<T, TD>::mObjectList.end())
+            {
+                return itr->second;
+            }
+        }
 
-		return NULL;
-	}
+        return NULL;
+    }
 
-	virtual NF_SHARE_PTR<TD> GetElementBySuit(const T& name)
-	{
-		NFVirtualNode<T> vNode;
-		if (mxConsistentHash.GetSuitNode(name, vNode))
-		{
-			typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(vNode.mxData);
-			if (itr != NFMapEx<T, TD>::mObjectList.end())
-			{
-				return itr->second;
-			}
-		}
+    virtual NF_SHARE_PTR<TD> GetElementBySuit(const T& name)
+    {
+        NFVirtualNode<T> vNode;
+        if (mxConsistentHash.GetSuitNode(name, vNode))
+        {
+            typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(vNode.mxData);
+            if (itr != NFMapEx<T, TD>::mObjectList.end())
+            {
+                return itr->second;
+            }
+        }
 
-		return NULL;
-	}
+        return NULL;
+    }
 
-	virtual bool AddElement(const T& name, const NF_SHARE_PTR<TD> data) override
-	{
-		if (data == nullptr)
-		{
-			return false;
-		}
+    virtual bool AddElement(const T& name, const NF_SHARE_PTR<TD> data) override
+    {
+        if (data == nullptr)
+        {
+            return false;
+        }
 
-		typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(name);
-		if (itr == NFMapEx<T, TD>::mObjectList.end())
-		{
-			NFMapEx<T, TD>::mObjectList.insert(typename NFMapEx<T, TD>::NFMapOBJECT::value_type(name, data));
+        typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(name);
+        if (itr == NFMapEx<T, TD>::mObjectList.end())
+        {
+            NFMapEx<T, TD>::mObjectList.insert(typename NFMapEx<T, TD>::NFMapOBJECT::value_type(name, data));
 
-			mxConsistentHash.Insert(name);
+            mxConsistentHash.Insert(name);
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	virtual bool RemoveElement(const T& name) override
-	{
-		typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(name);
-		if (itr != NFMapEx<T, TD>::mObjectList.end())
-		{
-			NFMapEx<T, TD>::mObjectList.erase(itr);
-			mxConsistentHash.Erase(name);
+    virtual bool RemoveElement(const T& name) override
+    {
+        typename NFMapEx<T, TD>::NFMapOBJECT::iterator itr = NFMapEx<T, TD>::mObjectList.find(name);
+        if (itr != NFMapEx<T, TD>::mObjectList.end())
+        {
+            NFMapEx<T, TD>::mObjectList.erase(itr);
+            mxConsistentHash.Erase(name);
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     virtual bool ClearAll() override
-	{
-		NFMapEx<T, TD>::mObjectList.clear();
-		mxConsistentHash.ClearAll();
-		return true;
-	}
+    {
+        NFMapEx<T, TD>::mObjectList.clear();
+        mxConsistentHash.ClearAll();
+        return true;
+    }
 
 private:
-	NFConsistentHash<T> mxConsistentHash;
+    NFConsistentHash<T> mxConsistentHash;
 };
 #endif

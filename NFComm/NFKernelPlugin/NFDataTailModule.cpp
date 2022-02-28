@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,10 +34,10 @@
 
 bool NFDataTailModule::Init()
 {
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
 
     return true;
 }
@@ -64,49 +64,49 @@ bool NFDataTailModule::AfterInit()
 int NFDataTailModule::OnClassObjectEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var)
 {
     if (CLASS_OBJECT_EVENT::COE_CREATE_AFTER_ATTACHDATA == classEvent)
-	{
-	    TrailObjectData(self);
-	}
+    {
+        TrailObjectData(self);
+    }
 
     std::ostringstream stream;
     switch (classEvent)
     {
         case CLASS_OBJECT_EVENT::COE_CREATE_NODATA:
-        stream << " " + className + " COE_CREATE_NODATA";
-        break;
+            stream << " " + className + " COE_CREATE_NODATA";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_BEFORE_ATTACHDATA:
-        stream << " " + className + " COE_CREATE_BEFORE_ATTACHDATA";
-        break;
+            stream << " " + className + " COE_CREATE_BEFORE_ATTACHDATA";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA:
-        stream << " " + className + " COE_CREATE_LOADDATA";
-        break;
+            stream << " " + className + " COE_CREATE_LOADDATA";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_AFTER_ATTACHDATA:
-        stream << " " + className + " COE_CREATE_AFTER_ATTACHDATA";
-        break;
+            stream << " " + className + " COE_CREATE_AFTER_ATTACHDATA";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_BEFORE_EFFECT:
-        stream << " " + className + " COE_CREATE_BEFORE_EFFECT";
-        break;
+            stream << " " + className + " COE_CREATE_BEFORE_EFFECT";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_EFFECTDATA:
-        stream << " " + className + " COE_CREATE_EFFECTDATA";
-        break;
+            stream << " " + className + " COE_CREATE_EFFECTDATA";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_AFTER_EFFECT:
-        stream << " " + className + " COE_CREATE_AFTER_EFFECT";
-        break;
+            stream << " " + className + " COE_CREATE_AFTER_EFFECT";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_HASDATA:
-        stream << " " + className + " COE_CREATE_HASDATA";
-        break;
+            stream << " " + className + " COE_CREATE_HASDATA";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_FINISH:
-        stream << " " + className + " COE_CREATE_FINISH";
-        break;
+            stream << " " + className + " COE_CREATE_FINISH";
+            break;
         case CLASS_OBJECT_EVENT::COE_CREATE_CLIENT_FINISH:
-        stream << " " + className + " COE_CREATE_CLIENT_FINISH";
-        break;
+            stream << " " + className + " COE_CREATE_CLIENT_FINISH";
+            break;
         case CLASS_OBJECT_EVENT::COE_BEFOREDESTROY:
-        stream << " " + className + " COE_BEFOREDESTROY";
-        break;
+            stream << " " + className + " COE_BEFOREDESTROY";
+            break;
         case CLASS_OBJECT_EVENT::COE_DESTROY:
-        stream << " " + className + " COE_DESTROY";
-        break;
+            stream << " " + className + " COE_DESTROY";
+            break;
     }
 
     m_pLogModule->LogDebug(self, stream.str());
@@ -115,7 +115,7 @@ int NFDataTailModule::OnClassObjectEvent(const NFGUID& self, const std::string& 
 
 void NFDataTailModule::StartTrail(const NFGUID& self)
 {
-	TrailObjectData(self);
+    TrailObjectData(self);
 
 
 }
@@ -137,8 +137,8 @@ void NFDataTailModule::LogObjectData(const NFGUID& self)
             std::ostringstream stream;
 
             stream << " Start trail ";
-			stream << xProperty->GetKey();
-			stream << "==>";
+            stream << xProperty->GetKey();
+            stream << "==>";
             stream << xProperty->ToString();
 
             m_pLogModule->LogDebug(self, stream.str(),  __FUNCTION__, __LINE__);

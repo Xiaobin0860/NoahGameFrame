@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -51,7 +51,7 @@ class NFAutoBroadcastModule
     : public NFIAutoBroadcastModule
 {
 public:
-	NFAutoBroadcastModule(NFIPluginManager* p)
+    NFAutoBroadcastModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -61,21 +61,21 @@ public:
     virtual bool AfterInit();
 
 private:
-	int OnObjectClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
+    int OnObjectClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
 
-	int OnSceneEvent(const NFGUID & self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+    int OnSceneEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
 
-	//broad the data of argvar to self
-	int OnObjectListEnter(const NFDataList& self, const NFDataList& argVar);
-	int OnObjectDataFinished(const NFDataList& self, const NFDataList& argVar);
-	int OnObjectListLeave(const NFDataList& self, const NFDataList& argVar);
+    //broad the data of argvar to self
+    int OnObjectListEnter(const NFDataList& self, const NFDataList& argVar);
+    int OnObjectDataFinished(const NFDataList& self, const NFDataList& argVar);
+    int OnObjectListLeave(const NFDataList& self, const NFDataList& argVar);
 
-	//broad the data of self to argvar 
-	int OnPropertyEnter(const NFDataList& argVar, const NFGUID& self);
-	int OnRecordEnter(const NFDataList& argVar, const NFGUID& self);
+    //broad the data of self to argvar
+    int OnPropertyEnter(const NFDataList& argVar, const NFGUID& self);
+    int OnRecordEnter(const NFDataList& argVar, const NFGUID& self);
 
-	int OnPropertyEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFDataList& argVar, const NFINT64 reason);
-	int OnRecordEvent(const NFGUID& self, const std::string& recordName, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar, const NFDataList& argVar);
+    int OnPropertyEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFDataList& argVar, const NFINT64 reason);
+    int OnRecordEvent(const NFGUID& self, const std::string& recordName, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar, const NFDataList& argVar);
 
 
 private:
@@ -85,10 +85,10 @@ private:
     NFILogModule* m_pLogModule;
     NFISceneProcessModule* m_pSceneProcessModule;
     NFIElementModule* m_pElementModule;
-	NFINetModule* m_pNetModule;
-	NFIEventModule* m_pEventModule;
-	NFISceneModule* m_pSceneModule;
+    NFINetModule* m_pNetModule;
+    NFIEventModule* m_pEventModule;
+    NFISceneModule* m_pSceneModule;
     NFINetClientModule* m_pNetClientModule;
-	NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
+    NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
 #endif

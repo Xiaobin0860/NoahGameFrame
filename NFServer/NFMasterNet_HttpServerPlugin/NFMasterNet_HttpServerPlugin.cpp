@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -32,13 +32,13 @@
 NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
 {
 
-	CREATE_PLUGIN(pm, NFMasterNet_HttpServerPlugin)
+    CREATE_PLUGIN(pm, NFMasterNet_HttpServerPlugin)
 
 };
 
 NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
 {
-	DESTROY_PLUGIN(pm, NFMasterNet_HttpServerPlugin)
+    DESTROY_PLUGIN(pm, NFMasterNet_HttpServerPlugin)
 };
 
 #endif
@@ -47,20 +47,20 @@ NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
 
 const int NFMasterNet_HttpServerPlugin::GetPluginVersion()
 {
-	return 0;
+    return 0;
 }
 
 const std::string NFMasterNet_HttpServerPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFMasterNet_HttpServerPlugin);
+    return GET_CLASS_NAME(NFMasterNet_HttpServerPlugin);
 }
 
 void NFMasterNet_HttpServerPlugin::Install()
 {
-	REGISTER_MODULE(pPluginManager, NFIMasterNet_HttpServerModule, NFMasterNet_HttpServerModule)
+    REGISTER_MODULE(pPluginManager, NFIMasterNet_HttpServerModule, NFMasterNet_HttpServerModule)
 }
 
 void NFMasterNet_HttpServerPlugin::Uninstall()
 {
-	UNREGISTER_MODULE(pPluginManager, NFIMasterNet_HttpServerModule, NFMasterNet_HttpServerModule)
+    UNREGISTER_MODULE(pPluginManager, NFIMasterNet_HttpServerModule, NFMasterNet_HttpServerModule)
 }

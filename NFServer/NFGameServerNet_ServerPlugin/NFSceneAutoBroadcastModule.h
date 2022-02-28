@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -45,7 +45,7 @@ class NFSceneAutoBroadcastModule
     : public NFISceneAutoBroadcastModule
 {
 public:
-	NFSceneAutoBroadcastModule(NFIPluginManager* p)
+    NFSceneAutoBroadcastModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -55,18 +55,18 @@ public:
     virtual bool AfterInit();
 
 private:
-	int ClearProperty(const NFGUID& self, const int sceneID, const int groupID);
-	int ClearRecord(const NFGUID& self, const int sceneID, const int groupID);
+    int ClearProperty(const NFGUID& self, const int sceneID, const int groupID);
+    int ClearRecord(const NFGUID& self, const int sceneID, const int groupID);
 
-	int OnPropertyEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar);
-	int OnRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar);
+    int OnPropertyEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar);
+    int OnRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar);
 
-	int OnBeforeLeaveSceneEvent(const NFGUID & self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
-	int OnAfterEntrySceneEvent(const NFGUID & self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
-	
-	//broad the data of self to argvar 
-	int OnPropertyEnter(const NFDataList& argVar, const int sceneID, const int groupID);
-	int OnRecordEnter(const NFDataList& argVar, const int sceneID, const int groupID);
+    int OnBeforeLeaveSceneEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+    int OnAfterEntrySceneEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+
+    //broad the data of self to argvar
+    int OnPropertyEnter(const NFDataList& argVar, const int sceneID, const int groupID);
+    int OnRecordEnter(const NFDataList& argVar, const int sceneID, const int groupID);
 
 private:
 
@@ -75,10 +75,10 @@ private:
     NFILogModule* m_pLogModule;
     NFISceneProcessModule* m_pSceneProcessModule;
     NFIElementModule* m_pElementModule;
-	NFINetModule* m_pNetModule;
-	NFIEventModule* m_pEventModule;
-	NFISceneModule* m_pSceneModule;
+    NFINetModule* m_pNetModule;
+    NFIEventModule* m_pEventModule;
+    NFISceneModule* m_pSceneModule;
     NFINetClientModule* m_pNetClientModule;
-	NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
+    NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
 #endif

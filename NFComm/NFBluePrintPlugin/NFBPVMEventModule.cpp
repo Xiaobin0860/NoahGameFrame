@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -33,8 +33,8 @@ bool NFBPVMEventModule::Awake()
     m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
     m_pEventModule = pPluginManager->FindModule<NFIEventModule>();
     m_pNetModule = pPluginManager->FindModule<NFINetModule>();
-    
-	return true;
+
+    return true;
 }
 
 bool NFBPVMEventModule::Init()
@@ -52,17 +52,17 @@ bool NFBPVMEventModule::AfterInit()
 
     m_pNetModule->AddReceiveCallBack(this, &NFBPVMEventModule::OnMessageEvent);
 
-	return true;
+    return true;
 }
 
 bool NFBPVMEventModule::CheckConfig()
 {
-	return true;
+    return true;
 }
 
 bool NFBPVMEventModule::ReadyExecute()
 {
-	return true;
+    return true;
 }
 
 bool NFBPVMEventModule::Execute()
@@ -72,22 +72,22 @@ bool NFBPVMEventModule::Execute()
 
 bool NFBPVMEventModule::BeforeShut()
 {
-	return true;
+    return true;
 }
 
 bool NFBPVMEventModule::Shut()
 {
-	return true;
+    return true;
 }
 
 bool NFBPVMEventModule::Finalize()
 {
-	return true;
+    return true;
 }
 
 bool NFBPVMEventModule::OnReloadPlugin()
 {
-	return true;
+    return true;
 }
 
 int NFBPVMEventModule::OnEventCommonEvent(const NFGUID& self, const int eventID, const NFDataList& var)
@@ -172,18 +172,18 @@ void NFBPVMEventModule::OnMessageEvent(const NFSOCK sockIndex, const int msgID, 
 
 bool NFBPVMEventModule::RegisterGameEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor)
 {
-	auto blockAction = mBluePrintBlockAction.GetElement(blockID);
-	if (!blockAction)
-	{
-		blockAction = NF_SHARE_PTR<BluePrintBlockAction>(NF_NEW BluePrintBlockAction());
-		mBluePrintBlockAction.AddElement(blockID, blockAction);
-	}
+    auto blockAction = mBluePrintBlockAction.GetElement(blockID);
+    if (!blockAction)
+    {
+        blockAction = NF_SHARE_PTR<BluePrintBlockAction>(NF_NEW BluePrintBlockAction());
+        mBluePrintBlockAction.AddElement(blockID, blockAction);
+    }
 
-	auto xEventListPtr = blockAction->mGameEvent.GetElement(eventID);
+    auto xEventListPtr = blockAction->mGameEvent.GetElement(eventID);
     if (!xEventListPtr)
     {
         xEventListPtr = NF_SHARE_PTR<NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>>(NF_NEW NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>());
-		blockAction->mGameEvent.AddElement(eventID, xEventListPtr);
+        blockAction->mGameEvent.AddElement(eventID, xEventListPtr);
     }
 
     auto eventFunctor = xEventListPtr->GetElement(monitorID);
@@ -198,18 +198,18 @@ bool NFBPVMEventModule::RegisterGameEventCallBack(const NFGUID blockID, const in
 
 bool NFBPVMEventModule::RegisterNetEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor)
 {
-	auto blockAction = mBluePrintBlockAction.GetElement(blockID);
-	if (!blockAction)
-	{
-		blockAction = NF_SHARE_PTR<BluePrintBlockAction>(NF_NEW BluePrintBlockAction());
-		mBluePrintBlockAction.AddElement(blockID, blockAction);
-	}
+    auto blockAction = mBluePrintBlockAction.GetElement(blockID);
+    if (!blockAction)
+    {
+        blockAction = NF_SHARE_PTR<BluePrintBlockAction>(NF_NEW BluePrintBlockAction());
+        mBluePrintBlockAction.AddElement(blockID, blockAction);
+    }
 
-	auto xEventListPtr = blockAction->mNetEvent.GetElement(eventID);
+    auto xEventListPtr = blockAction->mNetEvent.GetElement(eventID);
     if (!xEventListPtr)
     {
         xEventListPtr = NF_SHARE_PTR<NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>>(NF_NEW NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>());
-		blockAction->mNetEvent.AddElement(eventID, xEventListPtr);
+        blockAction->mNetEvent.AddElement(eventID, xEventListPtr);
     }
 
     auto eventFunctor = xEventListPtr->GetElement(monitorID);
@@ -224,18 +224,18 @@ bool NFBPVMEventModule::RegisterNetEventCallBack(const NFGUID blockID, const int
 
 bool NFBPVMEventModule::RegisterNetMsgEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor)
 {
-	auto blockAction = mBluePrintBlockAction.GetElement(blockID);
-	if (!blockAction)
-	{
-		blockAction = NF_SHARE_PTR<BluePrintBlockAction>(NF_NEW BluePrintBlockAction());
-		mBluePrintBlockAction.AddElement(blockID, blockAction);
-	}
+    auto blockAction = mBluePrintBlockAction.GetElement(blockID);
+    if (!blockAction)
+    {
+        blockAction = NF_SHARE_PTR<BluePrintBlockAction>(NF_NEW BluePrintBlockAction());
+        mBluePrintBlockAction.AddElement(blockID, blockAction);
+    }
 
     auto xEventListPtr = blockAction->mNetMsgEvent.GetElement(eventID);
     if (!xEventListPtr)
     {
         xEventListPtr = NF_SHARE_PTR<NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>>(NF_NEW NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>());
-		blockAction->mNetMsgEvent.AddElement(eventID, xEventListPtr);
+        blockAction->mNetMsgEvent.AddElement(eventID, xEventListPtr);
     }
 
     auto eventFunctor = xEventListPtr->GetElement(monitorID);
@@ -256,5 +256,5 @@ bool NFBPVMEventModule::RegisterGameObjectEventCallBack(const NFGUID blockID, co
 
 bool NFBPVMEventModule::UnRegisterAllCallBack(const NFGUID blockID)
 {
-	return mBluePrintBlockAction.RemoveElement(blockID);
+    return mBluePrintBlockAction.RemoveElement(blockID);
 }

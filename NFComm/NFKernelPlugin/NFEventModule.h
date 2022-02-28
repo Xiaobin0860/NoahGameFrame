@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -47,44 +47,44 @@ public:
     {
     }
 
-	virtual bool Init();
-	virtual bool AfterInit();
-	virtual bool BeforeShut();
-	virtual bool Shut();
-	virtual bool Execute();
+    virtual bool Init();
+    virtual bool AfterInit();
+    virtual bool BeforeShut();
+    virtual bool Shut();
+    virtual bool Execute();
 
-	virtual bool DoEvent(const int eventID, const NFDataList& valueList);
+    virtual bool DoEvent(const int eventID, const NFDataList& valueList);
 
-	virtual bool ExistEventCallBack(const int eventID);
+    virtual bool ExistEventCallBack(const int eventID);
 
-	virtual bool RemoveEventCallBack(const int eventID);
+    virtual bool RemoveEventCallBack(const int eventID);
 
-	//////////////////////////////////////////////////////////
-	virtual bool DoEvent(const NFGUID self, const int eventID, const NFDataList& valueList);
+    //////////////////////////////////////////////////////////
+    virtual bool DoEvent(const NFGUID self, const int eventID, const NFDataList& valueList);
 
-	virtual bool ExistEventCallBack(const NFGUID self, const int eventID);
+    virtual bool ExistEventCallBack(const NFGUID self, const int eventID);
 
-	virtual bool RemoveEventCallBack(const NFGUID self, const int eventID);
-	virtual bool RemoveEventCallBack(const NFGUID self);
+    virtual bool RemoveEventCallBack(const NFGUID self, const int eventID);
+    virtual bool RemoveEventCallBack(const NFGUID self);
 
 protected:
 
-	virtual bool AddEventCallBack(const int eventID, const MODULE_EVENT_FUNCTOR cb);
+    virtual bool AddEventCallBack(const int eventID, const MODULE_EVENT_FUNCTOR cb);
     virtual bool AddEventCallBack(const NFGUID self, const int eventID, const OBJECT_EVENT_FUNCTOR cb);
     virtual bool AddCommonEventCallBack(const OBJECT_EVENT_FUNCTOR cb);
 
 private:
 
-	NFIKernelModule* m_pKernelModule;
+    NFIKernelModule* m_pKernelModule;
 
 private:
-	// for module
-	NFList<int> mModuleRemoveListEx;
-	NFMapEx<int, NFList<MODULE_EVENT_FUNCTOR>> mModuleEventInfoMapEx;
+    // for module
+    NFList<int> mModuleRemoveListEx;
+    NFMapEx<int, NFList<MODULE_EVENT_FUNCTOR>> mModuleEventInfoMapEx;
 
-	//for object
-	NFList<NFGUID> mObjectRemoveListEx;
-	NFMapEx<NFGUID, NFMapEx<int, NFList<OBJECT_EVENT_FUNCTOR>>> mObjectEventInfoMapEx;
+    //for object
+    NFList<NFGUID> mObjectRemoveListEx;
+    NFMapEx<NFGUID, NFMapEx<int, NFList<OBJECT_EVENT_FUNCTOR>>> mObjectEventInfoMapEx;
 
     //for common event
     NFList<OBJECT_EVENT_FUNCTOR> mCommonEventInfoMapEx;

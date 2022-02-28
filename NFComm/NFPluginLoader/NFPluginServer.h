@@ -1,12 +1,12 @@
 ﻿/*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -55,40 +55,40 @@
 class NFPluginServer
 {
 public:
-	NFPluginServer(const std::string& strArgv);
+    NFPluginServer(const std::string& strArgv);
 
-	virtual ~NFPluginServer()
-	{
-		Final();
-	}
+    virtual ~NFPluginServer()
+    {
+        Final();
+    }
 
 
-	void Init();
+    void Init();
 
-	void Execute();
+    void Execute();
 
-	void Final();
-	
-	void PrintfLogo();
+    void Final();
 
-	void SetBasicWareLoader(std::function<void(NFIPluginManager * p)> fun);
-	void SetMidWareLoader(std::function<void(NFIPluginManager * p)> fun);
+    void PrintfLogo();
 
-private:
-	NF_SHARE_PTR<NFIPluginManager> pPluginManager;
-	std::string strArgvList;
-	std::function<void(NFIPluginManager * p)> externalMidWarePluginLoader;
-	std::function<void(NFIPluginManager * p)> externalBasicWarePluginLoader;
+    void SetBasicWareLoader(std::function<void(NFIPluginManager* p)> fun);
+    void SetMidWareLoader(std::function<void(NFIPluginManager* p)> fun);
 
 private:
+    NF_SHARE_PTR<NFIPluginManager> pPluginManager;
+    std::string strArgvList;
+    std::function<void(NFIPluginManager* p)> externalMidWarePluginLoader;
+    std::function<void(NFIPluginManager* p)> externalBasicWarePluginLoader;
 
-	void ProcessParameter();
+private:
 
-	std::string FindParameterValue(const std::vector<std::string>& argList, const std::string& header);
+    void ProcessParameter();
 
-	void InitDaemon();
+    std::string FindParameterValue(const std::vector<std::string>& argList, const std::string& header);
 
-	static bool GetFileContent(NFIPluginManager* p, const std::string& strFilePath, std::string& content);
+    void InitDaemon();
+
+    static bool GetFileContent(NFIPluginManager* p, const std::string& strFilePath, std::string& content);
 };
 
 #endif

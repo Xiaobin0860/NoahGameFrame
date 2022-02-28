@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -41,10 +41,10 @@
 class NFGameServerToDBModule : public NFIGameServerToDBModule
 {
 public:
-	NFGameServerToDBModule(NFIPluginManager* p)
+    NFGameServerToDBModule(NFIPluginManager* p)
     {
         pPluginManager = p;
-		mLastReportTime = 0;
+        mLastReportTime = 0;
     }
     virtual bool Init();
     virtual bool Shut();
@@ -60,13 +60,13 @@ protected:
 protected:
     void TransPBToProxy(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	NFINT64 mLastReportTime;
+    NFINT64 mLastReportTime;
 
     NFILogModule* m_pLogModule;
     NFIKernelModule* m_pKernelModule;
     NFIClassModule* m_pClassModule;
     NFIElementModule* m_pElementModule;
-	NFINetClientModule* m_pNetClientModule;
+    NFINetClientModule* m_pNetClientModule;
     NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
 

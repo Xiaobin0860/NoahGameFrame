@@ -28,93 +28,93 @@
 class NFArithmetic : public NFIArithmetic
 {
 private:
-	NFArithmetic() {}
+    NFArithmetic() {}
 
 public:
-	NFArithmetic(NFIPluginManager* p, const NFGUID& blockID, const NFGUID& id, const std::string& name)
-	{
-		this->name = name;
-		this->id = id;
-		this->logicBlockId = blockID;
-		this->pPluginManager = p;
+    NFArithmetic(NFIPluginManager* p, const NFGUID& blockID, const NFGUID& id, const std::string& name)
+    {
+        this->name = name;
+        this->id = id;
+        this->logicBlockId = blockID;
+        this->pPluginManager = p;
 
 
-		Init();
+        Init();
 
-	}
+    }
 
-	virtual void InitInputArgs()
-	{
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::PreNode);
-			var->SetValueType(NFValueType::Node);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+    virtual void InitInputArgs()
+    {
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::PreNode);
+            var->SetValueType(NFValueType::Node);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::ValueType);
-			var->SetValueType(NFValueType::Int);
-			var->fromType = NFIODataComFromType::INTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::ValueType);
+            var->SetValueType(NFValueType::Int);
+            var->fromType = NFIODataComFromType::INTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::LeftInput);
-			var->SetValueType(NFValueType::UNKNOW);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::LeftInput);
+            var->SetValueType(NFValueType::UNKNOW);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::ArithmeticType);
-			var->SetValueType(NFValueType::Int);
-			var->fromType = NFIODataComFromType::INTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::ArithmeticType);
+            var->SetValueType(NFValueType::Int);
+            var->fromType = NFIODataComFromType::INTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::RightInput);
-			var->SetValueType(NFValueType::UNKNOW);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFArithmeticInputArg::toString(NFArithmeticInputArg::RightInput);
+            var->SetValueType(NFValueType::UNKNOW);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-	}
+            inputArgs.push_back(var);
+        }
+    }
 
-	virtual void InitOutputArgs()
-	{
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFArithmeticOutputArg::toString(NFArithmeticOutputArg::NextNode);
-			var->SetValueType(NFValueType::Node);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+    virtual void InitOutputArgs()
+    {
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFArithmeticOutputArg::toString(NFArithmeticOutputArg::NextNode);
+            var->SetValueType(NFValueType::Node);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			outputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFArithmeticOutputArg::toString(NFArithmeticOutputArg::Output);
-			var->SetValueType(NFValueType::Int);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            outputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFArithmeticOutputArg::toString(NFArithmeticOutputArg::Output);
+            var->SetValueType(NFValueType::Int);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			outputArgs.push_back(var);
-		}
-	}
+            outputArgs.push_back(var);
+        }
+    }
 
-	virtual void UpdateOutputData(const NFGUID& runTimeOwner) override;
+    virtual void UpdateOutputData(const NFGUID& runTimeOwner) override;
 
-	virtual NF_SHARE_PTR<NFIOData> FindOutputNodeIOData() override;
+    virtual NF_SHARE_PTR<NFIOData> FindOutputNodeIOData() override;
 };

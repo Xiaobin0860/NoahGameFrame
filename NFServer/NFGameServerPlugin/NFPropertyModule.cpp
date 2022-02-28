@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -28,7 +28,7 @@
 
 bool NFPropertyModule::Init()
 {
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
     m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
     m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
     m_pPropertyConfigModule = pPluginManager->FindModule<NFIPropertyConfigModule>();
@@ -49,8 +49,8 @@ bool NFPropertyModule::Execute()
 
 bool NFPropertyModule::AfterInit()
 {
-	m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &NFPropertyModule::OnObjectClassEvent);
-	m_pKernelModule->AddClassCallBack(NFrame::NPC::ThisName(), this, &NFPropertyModule::OnObjectClassEvent);
+    m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &NFPropertyModule::OnObjectClassEvent);
+    m_pKernelModule->AddClassCallBack(NFrame::NPC::ThisName(), this, &NFPropertyModule::OnObjectClassEvent);
 
     return true;
 }
@@ -99,9 +99,9 @@ int NFPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& 
     //normally, we modify the config id by hero module, so we don't need to modify the config id by job and level
     //but if you don't have a hero system, you could active this code
     if (!activeExtraController)
-	{
-		m_pKernelModule->SetPropertyString(self, NFrame::Player::ConfigID(), configID);
-	}
+    {
+        m_pKernelModule->SetPropertyString(self, NFrame::Player::ConfigID(), configID);
+    }
 
     RefreshBaseProperty(self);
 
@@ -113,24 +113,24 @@ int NFPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& 
 
 int NFPropertyModule::OnObjectMAXHPEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason)
 {
-	const int hp = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
-	if (hp > newVar.GetInt())
-	{
-		m_pKernelModule->SetPropertyInt(self, NFrame::Player::HP(), newVar.GetInt());
-	}
+    const int hp = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
+    if (hp > newVar.GetInt())
+    {
+        m_pKernelModule->SetPropertyInt(self, NFrame::Player::HP(), newVar.GetInt());
+    }
 
-	return 0;
+    return 0;
 }
 
 int NFPropertyModule::OnObjectConfigIDEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason)
 {
-	//for appearance
-	return 0;
+    //for appearance
+    return 0;
 }
 
 int NFPropertyModule::OnRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar)
 {
-	const std::string& recordName = eventData.recordName;
+    const std::string& recordName = eventData.recordName;
     const int nOpType = eventData.nOpType;
     const int row = eventData.row;
     const int col = eventData.col;
@@ -139,12 +139,12 @@ int NFPropertyModule::OnRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA&
     NF_SHARE_PTR<NFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::CommValue::ThisName());
     for (int i = 0; i < (int)(NFPropertyGroup::NPG_ALL); i++)
     {
-		if (activeExtraController && i == NFPropertyGroup::NPG_JOB_LEVEL)
-		{
-			continue;
-		}
+        if (activeExtraController && i == NFPropertyGroup::NPG_JOB_LEVEL)
+        {
+            continue;
+        }
 
-		if (i < pRecord->GetRows())
+        if (i < pRecord->GetRows())
         {
             int nValue = pRecord->GetInt32(i, col);
             nAllValue += nValue;
@@ -160,30 +160,30 @@ int NFPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& 
 {
     if (className == NFrame::Player::ThisName())
     {
-		if (CLASS_OBJECT_EVENT::COE_CREATE_NODATA == classEvent)
-		{
-			NF_SHARE_PTR<NFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::CommValue::ThisName());
-			if (pRecord)
-			{
-				for (int i = 0; i < NFPropertyGroup::NPG_ALL; i++)
-				{
-					pRecord->AddRow(-1);
-				}
-			}
-
-		}
-		else if (CLASS_OBJECT_EVENT::COE_CREATE_BEFORE_ATTACHDATA == classEvent)
+        if (CLASS_OBJECT_EVENT::COE_CREATE_NODATA == classEvent)
         {
-           //cant attach the level event here as we will reset the property configID and Level by sequence
-           //as a result, the level event will be triggered first, then configID event triggered late, or the trigger sequence in reverse
-           //that means if we added attach the level event here, we cant get the correct result
-        }
-		else if (CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == classEvent)
-        {
-           
+            NF_SHARE_PTR<NFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::CommValue::ThisName());
+            if (pRecord)
+            {
+                for (int i = 0; i < NFPropertyGroup::NPG_ALL; i++)
+                {
+                    pRecord->AddRow(-1);
+                }
+            }
 
         }
-		else if (CLASS_OBJECT_EVENT::COE_CREATE_AFTER_ATTACHDATA == classEvent)
+        else if (CLASS_OBJECT_EVENT::COE_CREATE_BEFORE_ATTACHDATA == classEvent)
+        {
+            //cant attach the level event here as we will reset the property configID and Level by sequence
+            //as a result, the level event will be triggered first, then configID event triggered late, or the trigger sequence in reverse
+            //that means if we added attach the level event here, we cant get the correct result
+        }
+        else if (CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == classEvent)
+        {
+
+
+        }
+        else if (CLASS_OBJECT_EVENT::COE_CREATE_AFTER_ATTACHDATA == classEvent)
         {
             int onlineCount = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::OnlineCount());
             m_pKernelModule->SetPropertyInt(self, NFrame::Player::OnlineCount(), (onlineCount + 1));
@@ -192,40 +192,40 @@ int NFPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& 
             {
                 //first time online
                 m_pKernelModule->SetPropertyInt(self, NFrame::Player::Level(), 1);
-				OnObjectLevelEvent(self, NFrame::Player::Level(), 1, 1, 0);
+                OnObjectLevelEvent(self, NFrame::Player::Level(), 1, 1, 0);
             }
             else
             {
                 int level = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Level());
                 OnObjectLevelEvent(self, NFrame::Player::Level(), level, level, 0);
             }
-		}
+        }
         else if (CLASS_OBJECT_EVENT::COE_CREATE_AFTER_EFFECT == classEvent)
         {
         }
         else if (CLASS_OBJECT_EVENT::COE_CREATE_READY == classEvent)
         {
-			RefreshAllProperty(self);
-			FullHPMP(self);
+            RefreshAllProperty(self);
+            FullHPMP(self);
 
-	        m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::Level(), this, &NFPropertyModule::OnObjectLevelEvent);
-	        m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::MAXHP(), this, &NFPropertyModule::OnObjectMAXHPEvent);
-			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::ConfigID(), this, &NFPropertyModule::OnObjectConfigIDEvent);
-			m_pKernelModule->AddRecordCallBack(self, NFrame::Player::CommValue::ThisName(), this, &NFPropertyModule::OnRecordEvent);
+            m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::Level(), this, &NFPropertyModule::OnObjectLevelEvent);
+            m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::MAXHP(), this, &NFPropertyModule::OnObjectMAXHPEvent);
+            m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::ConfigID(), this, &NFPropertyModule::OnObjectConfigIDEvent);
+            m_pKernelModule->AddRecordCallBack(self, NFrame::Player::CommValue::ThisName(), this, &NFPropertyModule::OnRecordEvent);
         }
-		else if (CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == classEvent)
-		{
-		}
+        else if (CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == classEvent)
+        {
+        }
         else if (CLASS_OBJECT_EVENT::COE_CREATE_FINISH == classEvent)
         {
         }
     }
     else
     {
-	    if (CLASS_OBJECT_EVENT::COE_CREATE_FINISH == classEvent)
-	    {
-		    m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::MAXHP(), this, &NFPropertyModule::OnObjectMAXHPEvent);
-	    }
+        if (CLASS_OBJECT_EVENT::COE_CREATE_FINISH == classEvent)
+        {
+            m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::MAXHP(), this, &NFPropertyModule::OnObjectMAXHPEvent);
+        }
     }
 
     return 0;
@@ -233,10 +233,10 @@ int NFPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& 
 
 void NFPropertyModule::RefreshBaseProperty(const NFGUID& self)
 {
-	const int job = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Job());
-	const int level = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Level());
-	const std::string& initPropertyID = m_pPropertyConfigModule->GetInitPropertyID(job, level);
-	const std::string& configID = m_pElementModule->GetPropertyString(initPropertyID, NFrame::InitProperty::HeroConfigID());
+    const int job = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Job());
+    const int level = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Level());
+    const std::string& initPropertyID = m_pPropertyConfigModule->GetInitPropertyID(job, level);
+    const std::string& configID = m_pElementModule->GetPropertyString(initPropertyID, NFrame::InitProperty::HeroConfigID());
 
     const std::string& effectData = m_pElementModule->GetPropertyString(configID, NFrame::NPC::EffectData());
     if (effectData.empty() || !m_pElementModule->ExistElement(effectData))
@@ -256,8 +256,8 @@ void NFPropertyModule::RefreshBaseProperty(const NFGUID& self)
         const std::string& colTag = pRecord->GetColTag(i);
         NFINT64 nValue = m_pElementModule->GetPropertyInt(effectData, colTag);
 
-		pRecord->SetUsed(NFPropertyGroup::NPG_JOB_LEVEL, true);
-		pRecord->SetInt(NFPropertyGroup::NPG_JOB_LEVEL, colTag, nValue);
+        pRecord->SetUsed(NFPropertyGroup::NPG_JOB_LEVEL, true);
+        pRecord->SetInt(NFPropertyGroup::NPG_JOB_LEVEL, colTag, nValue);
     }
 }
 
@@ -270,10 +270,10 @@ void NFPropertyModule::RefreshAllProperty(const NFGUID& self)
 
         for (int i = 0; i < (int)(NFPropertyGroup::NPG_ALL); i++)
         {
-        	if (activeExtraController && i == NFPropertyGroup::NPG_JOB_LEVEL)
-			{
-				continue;
-			}
+            if (activeExtraController && i == NFPropertyGroup::NPG_JOB_LEVEL)
+            {
+                continue;
+            }
 
             if (i < pRecord->GetRows())
             {
@@ -299,9 +299,9 @@ bool NFPropertyModule::AddExp(const NFGUID& self, const int64_t exp)
     int64_t nRemainExp = nCurExp - nMaxExp;
     while (nRemainExp >= 0)
     {
-        
+
         nLevel++;
-        
+
         m_pKernelModule->SetPropertyInt(self, NFrame::Player::Level(), nLevel);
 
         nCurExp = nRemainExp;
@@ -345,8 +345,8 @@ bool NFPropertyModule::AddHP(const NFGUID& self, const int nValue)
         return false;
     }
 
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
-	int nMaxValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXHP());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
+    int nMaxValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXHP());
 
     if (nCurValue > 0)
     {
@@ -373,25 +373,25 @@ bool NFPropertyModule::EnoughHP(const NFGUID& self, const int nValue)
     return false;
 }
 
-bool NFPropertyModule::DamageHP(const NFGUID & self, const int nValue)
+bool NFPropertyModule::DamageHP(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
-	if (nCurValue > 0)
-	{
-		nCurValue -= nValue;
-		nCurValue = (nCurValue >= 0) ? nCurValue : 0;
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
+    if (nCurValue > 0)
+    {
+        nCurValue -= nValue;
+        nCurValue = (nCurValue >= 0) ? nCurValue : 0;
 
-		m_pKernelModule->SetPropertyInt(self, NFrame::Player::HP(), nCurValue);
+        m_pKernelModule->SetPropertyInt(self, NFrame::Player::HP(), nCurValue);
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 bool NFPropertyModule::ConsumeHP(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
     if ((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         nCurValue -= nValue;
@@ -410,8 +410,8 @@ bool NFPropertyModule::AddMP(const NFGUID& self, const int nValue)
         return false;
     }
 
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
-	int nMaxValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXMP());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
+    int nMaxValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXMP());
 
     nCurValue += nValue;
     if (nCurValue > nMaxValue)
@@ -426,7 +426,7 @@ bool NFPropertyModule::AddMP(const NFGUID& self, const int nValue)
 
 bool NFPropertyModule::ConsumeMP(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
     if ((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         nCurValue -= nValue;
@@ -440,7 +440,7 @@ bool NFPropertyModule::ConsumeMP(const NFGUID& self, const int nValue)
 
 bool NFPropertyModule::EnoughMP(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
     if ((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -449,25 +449,25 @@ bool NFPropertyModule::EnoughMP(const NFGUID& self, const int nValue)
     return false;
 }
 
-bool NFPropertyModule::DamageMP(const NFGUID & self, const int nValue)
+bool NFPropertyModule::DamageMP(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
-	if (nCurValue > 0)
-	{
-		nCurValue -= nValue;
-		nCurValue = (nCurValue >= 0) ? nCurValue : 0;
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MP());
+    if (nCurValue > 0)
+    {
+        nCurValue -= nValue;
+        nCurValue = (nCurValue >= 0) ? nCurValue : 0;
 
-		m_pKernelModule->SetPropertyInt(self, NFrame::Player::MP(), nCurValue);
+        m_pKernelModule->SetPropertyInt(self, NFrame::Player::MP(), nCurValue);
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 bool NFPropertyModule::FullSP(const NFGUID& self)
 {
-	int nMAXCSP = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXSP());
+    int nMAXCSP = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXSP());
     if (nMAXCSP > 0)
     {
         m_pKernelModule->SetPropertyInt(self, NFrame::Player::SP(), nMAXCSP);
@@ -485,8 +485,8 @@ bool NFPropertyModule::AddSP(const NFGUID& self, const int nValue)
         return false;
     }
 
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::SP());
-	int nMaxValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXSP());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::SP());
+    int nMaxValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::MAXSP());
 
     nCurValue += nValue;
     if (nCurValue > nMaxValue)
@@ -501,7 +501,7 @@ bool NFPropertyModule::AddSP(const NFGUID& self, const int nValue)
 
 bool NFPropertyModule::ConsumeSP(const NFGUID& self, const int nValue)
 {
-	int nCSP = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::SP());
+    int nCSP = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::SP());
     if ((nCSP > 0) && (nCSP - nValue >= 0))
     {
         nCSP -= nValue;
@@ -515,7 +515,7 @@ bool NFPropertyModule::ConsumeSP(const NFGUID& self, const int nValue)
 
 bool NFPropertyModule::EnoughSP(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::SP());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::SP());
     if ((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -526,12 +526,12 @@ bool NFPropertyModule::EnoughSP(const NFGUID& self, const int nValue)
 
 bool NFPropertyModule::AddGold(const NFGUID& self, const int64_t nValue)
 {
-	int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
     nCurValue += nValue;
-	if (nCurValue < 0)
-	{
-		nCurValue = 0;
-	}
+    if (nCurValue < 0)
+    {
+        nCurValue = 0;
+    }
 
     m_pKernelModule->SetPropertyInt(self, NFrame::Player::Gold(), nCurValue);
 
@@ -545,7 +545,7 @@ bool NFPropertyModule::ConsumeGold(const NFGUID& self, const int64_t nValue)
         return false;
     }
 
-	int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
     nCurValue -= nValue;
     if (nCurValue >= 0)
     {
@@ -559,7 +559,7 @@ bool NFPropertyModule::ConsumeGold(const NFGUID& self, const int64_t nValue)
 
 bool NFPropertyModule::EnoughGold(const NFGUID& self, const int64_t nValue)
 {
-	int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
     if ((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -570,12 +570,12 @@ bool NFPropertyModule::EnoughGold(const NFGUID& self, const int64_t nValue)
 
 bool NFPropertyModule::AddDiamond(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Diamond());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Diamond());
     nCurValue += nValue;
-	if (nCurValue < 0)
-	{
-		nCurValue = 0;
-	}
+    if (nCurValue < 0)
+    {
+        nCurValue = 0;
+    }
 
     m_pKernelModule->SetPropertyInt(self, NFrame::Player::Diamond(), nCurValue);
 
@@ -589,7 +589,7 @@ bool NFPropertyModule::ConsumeDiamond(const NFGUID& self, const int nValue)
         return false;
     }
 
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Diamond());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Diamond());
     nCurValue -= nValue;
     if (nCurValue >= 0)
     {
@@ -603,7 +603,7 @@ bool NFPropertyModule::ConsumeDiamond(const NFGUID& self, const int nValue)
 
 bool NFPropertyModule::EnoughDiamond(const NFGUID& self, const int nValue)
 {
-	int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Diamond());
+    int nCurValue = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Diamond());
     if ((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -614,5 +614,5 @@ bool NFPropertyModule::EnoughDiamond(const NFGUID& self, const int nValue)
 
 void NFPropertyModule::ActiveExtraController()
 {
-	activeExtraController = true;
+    activeExtraController = true;
 }

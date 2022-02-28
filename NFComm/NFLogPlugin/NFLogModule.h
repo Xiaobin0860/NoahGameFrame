@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -79,7 +79,7 @@ public:
 
     virtual bool LogDebugFunctionDump(const NFGUID ident, const int nMsg, const std::string& strArg, const char* func = "", const int line = 0);
     virtual bool ChangeLogLevel(const std::string& strLevel);
-    
+
     virtual void SetHooker(LOG_HOOKER_FUNCTOR_PTR hooker);
 
 protected:
@@ -88,17 +88,17 @@ protected:
     static bool CheckLogFileExist(const char* filename);
     static void rolloutHandler(const char* filename, std::size_t size);
 
-	std::string GetConfigPath(const std::string& fileName);
+    std::string GetConfigPath(const std::string& fileName);
 
 private:
 
-	NFIKernelModule* m_pKernelModule;
+    NFIKernelModule* m_pKernelModule;
 
     std::string mstrLocalStream;
     LOG_HOOKER_FUNCTOR_PTR mLogHooker;
     static unsigned int idx;
     uint64_t mnLogCountTotal;
-	std::list<NFPerformance> mxPerformanceList;
+    std::list<NFPerformance> mxPerformanceList;
 };
 
 #endif

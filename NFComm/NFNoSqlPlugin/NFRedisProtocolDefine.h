@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -41,9 +41,9 @@
  */
 enum NFREDIS_RESULT_STATUS
 {
-	NFREDIS_RESULT_STATUS_OK,
-	NFREDIS_RESULT_STATUS_UNKNOW,
-	NFREDIS_RESULT_STATUS_IMCOMPLETE,
+    NFREDIS_RESULT_STATUS_OK,
+    NFREDIS_RESULT_STATUS_UNKNOW,
+    NFREDIS_RESULT_STATUS_IMCOMPLETE,
 };
 
 enum NFREDIS_RESP_TYPE
@@ -57,15 +57,15 @@ enum NFREDIS_RESP_TYPE
     NFREDIS_RESP_ARRAY,
 };
 
-static const std::string NFREDIS_CRLF = "\r\n";	///结束标志 terminated by CRLF
-static const int NFREDIS_SIZEOF_CRLF = 2;	///the size of CRLF
+static const std::string NFREDIS_CRLF = "\r\n"; ///结束标志 terminated by CRLF
+static const int NFREDIS_SIZEOF_CRLF = 2;   ///the size of CRLF
 static const std::string NFREDIS_STATUS_OK = "OK";
 
 static const char* NFREDIS_STATUS_REPLY = "+";    //状态回复（status reply）的第一个字节是 "+"
-static const char* NFREDIS_ERROR_REPLY = "-";	    //错误回复（error reply）的第一个字节是 "-"
-static const char* NFREDIS_INT_REPLY = ":";	    //整数回复（integer reply）的第一个字节是 ":"
-static const char* NFREDIS_BULK_REPLY = "$";	    //批量回复（bulk reply）的第一个字节是 "$"
-static const char* NFREDIS_ARRAY_REPLY = "*";	    //多条批量回复（multi bulk reply）的第一个字节是 "*"
+static const char* NFREDIS_ERROR_REPLY = "-";       //错误回复（error reply）的第一个字节是 "-"
+static const char* NFREDIS_INT_REPLY = ":";     //整数回复（integer reply）的第一个字节是 ":"
+static const char* NFREDIS_BULK_REPLY = "$";        //批量回复（bulk reply）的第一个字节是 "$"
+static const char* NFREDIS_ARRAY_REPLY = "*";       //多条批量回复（multi bulk reply）的第一个字节是 "*"
 
 #define GET_NAME(functionName)   (#functionName)
 

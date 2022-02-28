@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,9 +34,9 @@ class NFIPlayerRedisModule
 {
 
 public:
-	virtual bool ExistRoleName(const std::string& strRoleName) = 0;
-	virtual bool CreateRole(const std::string& account, const std::string& strRoleName, const NFGUID& id, const int nHomeSceneID) = 0;
-	virtual bool GetRoleInfo(const std::string& account, std::string& strRoleName, NFGUID& id) = 0;
+    virtual bool ExistRoleName(const std::string& strRoleName) = 0;
+    virtual bool CreateRole(const std::string& account, const std::string& strRoleName, const NFGUID& id, const int nHomeSceneID) = 0;
+    virtual bool GetRoleInfo(const std::string& account, std::string& strRoleName, NFGUID& id) = 0;
 
 
 };

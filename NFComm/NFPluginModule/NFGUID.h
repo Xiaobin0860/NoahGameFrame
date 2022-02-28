@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,26 +34,26 @@
 class NFGUID
 {
 private:
-	static NFINT64 nInstanceID;
-	static NFINT64 nGUIDIndex;
+    static NFINT64 nInstanceID;
+    static NFINT64 nGUIDIndex;
 
 public:
 
     NFINT64 nData64;
     NFINT64 nHead64;
 
-	static void SetInstanceID(NFINT64 id)
-	{
-		/*
-		if (nInstanceID != 0)
-		{
-			std::cout << "ERROR-------------------- set instance id again!!!" << std::endl;
-			return;
-		}
-		*/
-		nInstanceID = id;
-		nGUIDIndex = 0;
-	}
+    static void SetInstanceID(NFINT64 id)
+    {
+        /*
+        if (nInstanceID != 0)
+        {
+            std::cout << "ERROR-------------------- set instance id again!!!" << std::endl;
+            return;
+        }
+        */
+        nInstanceID = id;
+        nGUIDIndex = 0;
+    }
 
     NFGUID()
     {
@@ -72,37 +72,37 @@ public:
         nHead64 = xData.nHead64;
         nData64 = xData.nData64;
     }
-  
+
     NFGUID(const std::string& strID)
     {
         FromString(strID);
     }
 
-	static NFGUID CreateID()
-	{
-		int64_t value = 0;
-		uint64_t time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    static NFGUID CreateID()
+    {
+        int64_t value = 0;
+        uint64_t time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 
-		//value = time << 16;
-		value = time * 1000000;
+        //value = time << 16;
+        value = time * 1000000;
 
 
-		//value |= nGUIDIndex++;
-		value += nGUIDIndex++;
+        //value |= nGUIDIndex++;
+        value += nGUIDIndex++;
 
-		//if (sequence_ == 0x7FFF)
-		if (nGUIDIndex == 999999)
-		{
-			nGUIDIndex = 0;
-		}
+        //if (sequence_ == 0x7FFF)
+        if (nGUIDIndex == 999999)
+        {
+            nGUIDIndex = 0;
+        }
 
-		NFGUID xID;
-		xID.nHead64 = nInstanceID;
-		xID.nData64 = value;
+        NFGUID xID;
+        xID.nHead64 = nInstanceID;
+        xID.nData64 = value;
 
-		return xID;
-	}
+        return xID;
+    }
 
     NFGUID& operator=(const NFGUID& xData)
     {
@@ -111,7 +111,7 @@ public:
 
         return *this;
     }
-  
+
     NFGUID& operator=(const std::string& strID)
     {
         FromString(strID);

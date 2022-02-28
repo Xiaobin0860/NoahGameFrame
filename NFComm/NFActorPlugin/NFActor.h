@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -40,16 +40,16 @@ class NFActor
     : public NFIActor
 {
 public:
-	NFActor(const NFGUID id, NFIActorModule* pModule);
-	virtual ~NFActor();
+    NFActor(const NFGUID id, NFIActorModule* pModule);
+    virtual ~NFActor();
 
-	const NFGUID ID();
-	
+    const NFGUID ID();
+
     virtual bool Execute();
 
     virtual bool AddComponent(NF_SHARE_PTR<NFIComponent> component);
-	virtual bool RemoveComponent(const std::string& componentName);
-	virtual NF_SHARE_PTR<NFIComponent> FindComponent(const std::string& componentName);
+    virtual bool RemoveComponent(const std::string& componentName);
+    virtual NF_SHARE_PTR<NFIComponent> FindComponent(const std::string& componentName);
 
     virtual bool SendMsg(const NFActorMessage& message);
     virtual bool SendMsg(const int eventID, const std::string& data, const std::string& arg);
@@ -59,14 +59,14 @@ public:
 
     virtual void ToMemoryCounterString(std::string& info);
 protected:
-	NFGUID id;
+    NFGUID id;
 
-	NFIActorModule* m_pActorModule;
+    NFIActorModule* m_pActorModule;
 
     NFQueue<NFActorMessage> mMessageQueue;
 
-	NFMapEx<std::string, NFIComponent> mComponent;
+    NFMapEx<std::string, NFIComponent> mComponent;
 
-	NFMapEx<int, ACTOR_PROCESS_FUNCTOR> mxProcessFunctor;
+    NFMapEx<int, ACTOR_PROCESS_FUNCTOR> mxProcessFunctor;
 };
 #endif

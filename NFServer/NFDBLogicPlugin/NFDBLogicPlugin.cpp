@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -52,19 +52,19 @@ const int NFDBLogicPlugin::GetPluginVersion()
 
 const std::string NFDBLogicPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFDBLogicPlugin);
+    return GET_CLASS_NAME(NFDBLogicPlugin);
 }
 
 void NFDBLogicPlugin::Install()
 {
-	REGISTER_MODULE(pPluginManager, NFIPlayerRedisModule, NFPlayerRedisModule)
-	REGISTER_MODULE(pPluginManager, NFICommonRedisModule, NFCommonRedisModule)
-	REGISTER_MODULE(pPluginManager, NFIAccountRedisModule, NFAccountRedisModule)
+    REGISTER_MODULE(pPluginManager, NFIPlayerRedisModule, NFPlayerRedisModule)
+    REGISTER_MODULE(pPluginManager, NFICommonRedisModule, NFCommonRedisModule)
+    REGISTER_MODULE(pPluginManager, NFIAccountRedisModule, NFAccountRedisModule)
 }
 
 void NFDBLogicPlugin::Uninstall()
 {
-	UNREGISTER_MODULE(pPluginManager, NFIAccountRedisModule, NFAccountRedisModule)
-	UNREGISTER_MODULE(pPluginManager, NFICommonRedisModule, NFCommonRedisModule)
-	UNREGISTER_MODULE(pPluginManager, NFIPlayerRedisModule, NFPlayerRedisModule)
+    UNREGISTER_MODULE(pPluginManager, NFIAccountRedisModule, NFAccountRedisModule)
+    UNREGISTER_MODULE(pPluginManager, NFICommonRedisModule, NFCommonRedisModule)
+    UNREGISTER_MODULE(pPluginManager, NFIPlayerRedisModule, NFPlayerRedisModule)
 }

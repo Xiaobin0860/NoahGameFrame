@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -39,7 +39,7 @@ class NFBPVMEventModule
     : public NFIBPVMEventModule
 {
 public:
-    NFBPVMEventModule( NFIPluginManager* p )
+    NFBPVMEventModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -58,11 +58,11 @@ public:
     bool OnReloadPlugin() override;
 
 private:
-	struct BluePrintBlockAction
-	{
-		//event -> <monitorID, handler>
-		NFMapEx<int, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mGameEvent;
-		NFMapEx<int, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mNetEvent;
+    struct BluePrintBlockAction
+    {
+        //event -> <monitorID, handler>
+        NFMapEx<int, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mGameEvent;
+        NFMapEx<int, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mNetEvent;
         NFMapEx<int, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mNetMsgEvent;
 
         //className
@@ -70,16 +70,16 @@ private:
         //NFMapEx<std::string, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mObjectPropEvent;
         //NFMapEx<std::string, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mObjectRecordEvent;
         //NFMapEx<std::string, NFMapEx<NFGUID, BLUEPRINT_EVENT_FUNCTOR>> mObjectSceneEvent;
-	};
+    };
 
 private:
 
     virtual bool UnRegisterAllCallBack(const NFGUID blockID) override;
 
-	// Inherited via NFIBPVMEventModule
-	virtual bool RegisterGameEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) override;
+    // Inherited via NFIBPVMEventModule
+    virtual bool RegisterGameEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) override;
 
-	virtual bool RegisterNetEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) override;
+    virtual bool RegisterNetEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) override;
 
     virtual bool RegisterNetMsgEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) override;
 
@@ -96,7 +96,7 @@ private:
 
 private:
     //block id ->
-	NFMapEx<NFGUID, BluePrintBlockAction> mBluePrintBlockAction;
+    NFMapEx<NFGUID, BluePrintBlockAction> mBluePrintBlockAction;
 
 
 private:

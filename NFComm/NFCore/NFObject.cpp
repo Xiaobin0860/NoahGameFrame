@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -32,7 +32,7 @@
 NFObject::NFObject(NFGUID self, NFIPluginManager* pLuginManager)
     : NFIObject(self)
 {
-	mObjectEventState = COE_CREATE_NODATA;
+    mObjectEventState = COE_CREATE_NODATA;
 
     mSelf = self;
     m_pPluginManager = pLuginManager;
@@ -74,12 +74,12 @@ bool NFObject::AddPropertyCallBack(const std::string& strCriticalName, const PRO
 
 CLASS_OBJECT_EVENT NFObject::GetState()
 {
-	return mObjectEventState;
+    return mObjectEventState;
 }
 
 void NFObject::SetState(const CLASS_OBJECT_EVENT eState)
 {
-	mObjectEventState = eState;
+    mObjectEventState = eState;
 }
 
 bool NFObject::ObjectReady()
@@ -97,7 +97,7 @@ bool NFObject::ObjectReady()
 
 inline NF_SHARE_PTR<NFIProperty> NFObject::AddProperty(const std::string& propertyName, const NFDATA_TYPE varType)
 {
-   return this->GetPropertyManager()->AddProperty(this->Self(), propertyName, varType);
+    return this->GetPropertyManager()->AddProperty(this->Self(), propertyName, varType);
 }
 
 bool NFObject::FindProperty(const std::string& propertyName)
@@ -156,24 +156,24 @@ bool NFObject::SetPropertyObject(const std::string& propertyName, const NFGUID& 
 
 bool NFObject::SetPropertyVector2(const std::string& propertyName, const NFVector2& value, const NFINT64 reason)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->SetVector2(value, reason);
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->SetVector2(value, reason);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFObject::SetPropertyVector3(const std::string& propertyName, const NFVector3& value, const NFINT64 reason)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->SetVector3(value, reason);
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->SetVector3(value, reason);
+    }
 
-	return false;
+    return false;
 }
 
 NFINT64 NFObject::GetPropertyInt(const std::string& propertyName)
@@ -189,13 +189,13 @@ NFINT64 NFObject::GetPropertyInt(const std::string& propertyName)
 
 int NFObject::GetPropertyInt32(const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetInt32();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetInt32();
+    }
 
-	return 0;
+    return 0;
 }
 
 double NFObject::GetPropertyFloat(const std::string& propertyName)
@@ -233,29 +233,29 @@ const NFGUID& NFObject::GetPropertyObject(const std::string& propertyName)
 
 const NFVector2& NFObject::GetPropertyVector2(const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetVector2();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetVector2();
+    }
 
-	return NULL_VECTOR2;
+    return NULL_VECTOR2;
 }
 
 const NFVector3& NFObject::GetPropertyVector3(const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetVector3();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetVector3();
+    }
 
-	return NULL_VECTOR3;
+    return NULL_VECTOR3;
 }
 
 NF_SHARE_PTR<NFIRecord> NFObject::FindRecord(const std::string& recordName)
 {
-	return GetRecordManager()->GetElement(recordName);
+    return GetRecordManager()->GetElement(recordName);
 }
 
 bool NFObject::SetRecordInt(const std::string& recordName, const int row, const int col, const NFINT64 nValue)
@@ -348,46 +348,46 @@ bool NFObject::SetRecordObject(const std::string& recordName, const int row, con
 
 bool NFObject::SetRecordVector2(const std::string& recordName, const int row, const int col, const NFVector2& obj)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->SetVector2(row, col, obj);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->SetVector2(row, col, obj);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFObject::SetRecordVector2(const std::string& recordName, const int row, const std::string& colTag, const NFVector2& value)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->SetVector2(row, colTag, value);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->SetVector2(row, colTag, value);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFObject::SetRecordVector3(const std::string& recordName, const int row, const int col, const NFVector3& obj)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->SetVector3(row, col, obj);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->SetVector3(row, col, obj);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFObject::SetRecordVector3(const std::string& recordName, const int row, const std::string& colTag, const NFVector3& value)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->SetVector3(row, colTag, value);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->SetVector3(row, colTag, value);
+    }
 
-	return false;
+    return false;
 }
 
 NFINT64 NFObject::GetRecordInt(const std::string& recordName, const int row, const int col)
@@ -480,46 +480,46 @@ const NFGUID& NFObject::GetRecordObject(const std::string& recordName, const int
 
 const NFVector2& NFObject::GetRecordVector2(const std::string& recordName, const int row, const int col)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->GetVector2(row, col);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->GetVector2(row, col);
+    }
 
-	return NULL_VECTOR2;
+    return NULL_VECTOR2;
 }
 
 const NFVector2& NFObject::GetRecordVector2(const std::string& recordName, const int row, const std::string& colTag)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->GetVector2(row, colTag);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->GetVector2(row, colTag);
+    }
 
-	return NULL_VECTOR2;
+    return NULL_VECTOR2;
 }
 
 const NFVector3& NFObject::GetRecordVector3(const std::string& recordName, const int row, const int col)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->GetVector3(row, col);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->GetVector3(row, col);
+    }
 
-	return NULL_VECTOR3;
+    return NULL_VECTOR3;
 }
 
 const NFVector3& NFObject::GetRecordVector3(const std::string& recordName, const int row, const std::string& colTag)
 {
-	NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
-	if (pRecord)
-	{
-		return pRecord->GetVector3(row, colTag);
-	}
+    NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(recordName);
+    if (pRecord)
+    {
+        return pRecord->GetVector3(row, colTag);
+    }
 
-	return NULL_VECTOR3;
+    return NULL_VECTOR3;
 }
 
 NF_SHARE_PTR<NFIRecordManager> NFObject::GetRecordManager()
@@ -534,12 +534,12 @@ NF_SHARE_PTR<NFIPropertyManager> NFObject::GetPropertyManager()
 
 void NFObject::SetRecordManager(NF_SHARE_PTR<NFIRecordManager> xRecordManager)
 {
-	m_pRecordManager = xRecordManager;
+    m_pRecordManager = xRecordManager;
 }
 
 void NFObject::SetPropertyManager(NF_SHARE_PTR<NFIPropertyManager> xPropertyManager)
 {
-	m_pPropertyManager = xPropertyManager;
+    m_pPropertyManager = xPropertyManager;
 }
 
 NFGUID NFObject::Self()
@@ -554,12 +554,12 @@ void NFObject::ToMemoryCounterString(std::string& info)
     info.append(m_pPropertyManager->GetPropertyString("ClassName"));
 }
 
-const NFVector3 &NFObject::GetPosition()
+const NFVector3& NFObject::GetPosition()
 {
-	return mPosition;
+    return mPosition;
 }
 
-void NFObject::SetPosition(const NFVector3 &pos)
+void NFObject::SetPosition(const NFVector3& pos)
 {
-	mPosition = pos;
+    mPosition = pos;
 }

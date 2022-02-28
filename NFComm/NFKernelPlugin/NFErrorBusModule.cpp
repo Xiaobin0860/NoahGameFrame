@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -27,33 +27,33 @@
 
 NFIErrorBusModule::ErrorData NFErrorBusModule::GetLastError()
 {
-	if (mErrList.size() > 0)
-	{
-		return mErrList.back();
-	}
+    if (mErrList.size() > 0)
+    {
+        return mErrList.back();
+    }
 
-	return ErrorData();
+    return ErrorData();
 }
 
-void NFErrorBusModule::AddError(const NFGUID object, const ErrID err, const std::string & stData)
+void NFErrorBusModule::AddError(const NFGUID object, const ErrID err, const std::string& stData)
 {
-	ErrorData xErrData;
-	xErrData.data = stData;
-	xErrData.errID = err;
-	xErrData.id = object;
+    ErrorData xErrData;
+    xErrData.data = stData;
+    xErrData.errID = err;
+    xErrData.id = object;
 
-	mErrList.push_back(xErrData);
+    mErrList.push_back(xErrData);
 
-	if (mErrList.size() > 1000)
-	{
-		auto it = mErrList.end();
-		std::advance(it, -100);
-		mErrList.erase(mErrList.begin(), it);
-	}
+    if (mErrList.size() > 1000)
+    {
+        auto it = mErrList.end();
+        std::advance(it, -100);
+        mErrList.erase(mErrList.begin(), it);
+    }
 }
 
 void NFErrorBusModule::ClearAllError()
 {
-	mErrList.clear();
+    mErrList.clear();
 }
 

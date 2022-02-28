@@ -49,56 +49,56 @@ public:
 };
 
 class NFGameManagerModule
-		: public NFIGameManagerModule
+    : public NFIGameManagerModule
 {
 public:
-	NFGameManagerModule(NFIPluginManager* p)
-	{
-		pPluginManager = p;
-	}
+    NFGameManagerModule(NFIPluginManager* p)
+    {
+        pPluginManager = p;
+    }
 
-	virtual bool Init();
-	virtual bool Shut();
-	virtual bool Execute();
-	virtual bool AfterInit();
-
-protected:
-	void OnClientPropertyIntProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientPropertyFloatProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientPropertyStringProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientPropertyObjectProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientPropertyVector2Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientPropertyVector3Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-
-	void OnClientAddRowProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientRemoveRowProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientSwapRowProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientRecordIntProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientRecordFloatProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientRecordStringProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientRecordObjectProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientRecordVector2Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnClientRecordVector3Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    virtual bool Init();
+    virtual bool Shut();
+    virtual bool Execute();
+    virtual bool AfterInit();
 
 protected:
-	//get GM Level and what you want to modify
-	std::shared_ptr<NFIProperty> CalProperty(NF_SHARE_PTR<NFIObject> pObject, const NFGUID objectID, const std::string& propertyName, int& gmLevel);
-	std::shared_ptr<NFIRecord> CalRecord(NF_SHARE_PTR<NFIObject> pObject, const NFGUID objectID, const std::string& recordName, int& gmLevel);
+    void OnClientPropertyIntProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientPropertyFloatProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientPropertyStringProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientPropertyObjectProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientPropertyVector2Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientPropertyVector3Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+
+    void OnClientAddRowProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientRemoveRowProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientSwapRowProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientRecordIntProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientRecordFloatProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientRecordStringProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientRecordObjectProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientRecordVector2Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientRecordVector3Process(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+
+protected:
+    //get GM Level and what you want to modify
+    std::shared_ptr<NFIProperty> CalProperty(NF_SHARE_PTR<NFIObject> pObject, const NFGUID objectID, const std::string& propertyName, int& gmLevel);
+    std::shared_ptr<NFIRecord> CalRecord(NF_SHARE_PTR<NFIObject> pObject, const NFGUID objectID, const std::string& recordName, int& gmLevel);
 
 private:
 
-	//////////////////////////////////////////////////////////////////////////
-	NFIKernelModule* m_pKernelModule;
-	NFIClassModule* m_pClassModule;
-	NFILogModule* m_pLogModule;
-	NFISceneProcessModule* m_pSceneProcessModule;
-	NFIElementModule* m_pElementModule;
-	NFINetModule* m_pNetModule;
-	NFIEventModule* m_pEventModule;
-	NFISceneModule* m_pSceneModule;
-	NFINetClientModule* m_pNetClientModule;
-	NFIScheduleModule* m_pScheduleModule;
-	NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
+    //////////////////////////////////////////////////////////////////////////
+    NFIKernelModule* m_pKernelModule;
+    NFIClassModule* m_pClassModule;
+    NFILogModule* m_pLogModule;
+    NFISceneProcessModule* m_pSceneProcessModule;
+    NFIElementModule* m_pElementModule;
+    NFINetModule* m_pNetModule;
+    NFIEventModule* m_pEventModule;
+    NFISceneModule* m_pSceneModule;
+    NFINetClientModule* m_pNetClientModule;
+    NFIScheduleModule* m_pScheduleModule;
+    NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
 
 #endif

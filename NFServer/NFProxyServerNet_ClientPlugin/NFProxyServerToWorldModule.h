@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -47,7 +47,7 @@ public:
     {
         m_bIsExecute = true;
         pPluginManager = p;
-		mLastReportTime = 0;
+        mLastReportTime = 0;
     }
 
     virtual bool Init();
@@ -59,7 +59,7 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-	virtual NFINetClientModule* GetClusterModule();
+    virtual NFINetClientModule* GetClusterModule();
     virtual bool VerifyConnectData(const std::string& account, const std::string& strKey);
 
 protected:
@@ -67,14 +67,14 @@ protected:
     void OnSocketWSEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
 
     void Register(NFINet* pNet);
-	void ServerReport();
+    void ServerReport();
 
     void OnSelectServerResultProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
     void OnServerInfoProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
     void LogServerInfo(const std::string& strServerInfo);
 
-	void OnOtherMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnOtherMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 private:
     struct ClientConnectData
     {
@@ -92,7 +92,7 @@ private:
     NFMapEx<std::string, ClientConnectData> mWantToConnectMap;
 
 private:
-	NFINT64 mLastReportTime;
+    NFINT64 mLastReportTime;
 
     NFILogModule* m_pLogModule;
     NFIProxyLogicModule* m_pProxyLogicModule;
@@ -100,8 +100,8 @@ private:
     NFIProxyServerNet_ServerModule* m_pProxyServerNet_ServerModule;
     NFIElementModule* m_pElementModule;
     NFIClassModule* m_pClassModule;
-	NFINetClientModule* m_pNetClientModule;
-	NFISecurityModule* m_pSecurityModule;
+    NFINetClientModule* m_pNetClientModule;
+    NFISecurityModule* m_pSecurityModule;
 
 };
 

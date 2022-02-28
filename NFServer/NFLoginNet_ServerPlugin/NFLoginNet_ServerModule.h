@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -70,9 +70,9 @@ protected:
     void OnSelectWorldProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
     void OnViewWorldProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	void OnHeartBeat(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnLogOut(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void InvalidMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnHeartBeat(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnLogOut(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void InvalidMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
 protected:
 
@@ -83,13 +83,13 @@ protected:
 
 private:
 
-	NFINetModule* m_pNetModule;
-	NFINetClientModule* m_pNetClientModule;
+    NFINetModule* m_pNetModule;
+    NFINetClientModule* m_pNetClientModule;
     NFIClassModule* m_pClassModule;
     NFIElementModule* m_pElementModule;
     NFIKernelModule* m_pKernelModule;
     NFILogModule* m_pLogModule;
-	NFILoginToMasterModule* m_pLoginToMasterModule;
+    NFILoginToMasterModule* m_pLoginToMasterModule;
     NFIThreadPoolModule* m_pThreadPoolModule;
 };
 

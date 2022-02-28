@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -30,15 +30,15 @@
 #include "NFIModule.h"
 
 class NFIItemConsumeProcessModule
-		: public NFIModule
+    : public NFIModule
 {
 public:
 
-	// > 0, error code
-	virtual int ConsumeLegal(const NFGUID& self, const std::string& strItemID, const NFDataList& targetID, const NFVector3& vector) = 0;
+    // > 0, error code
+    virtual int ConsumeLegal(const NFGUID& self, const std::string& strItemID, const NFDataList& targetID, const NFVector3& vector) = 0;
 
-	//> 0, error code
-	virtual int ConsumeProcess(const NFGUID& self, const std::string& strItemID, const NFDataList& targetID, const NFVector3& vector) = 0;
+    //> 0, error code
+    virtual int ConsumeProcess(const NFGUID& self, const std::string& strItemID, const NFDataList& targetID, const NFVector3& vector) = 0;
 
 };
 
@@ -46,11 +46,11 @@ class NFIItemConsumeManagerModule
     : public NFIModule
 {
 public:
-	virtual bool SetConsumeModule(const int itemType, NFIItemConsumeProcessModule* pModule) = 0;
+    virtual bool SetConsumeModule(const int itemType, NFIItemConsumeProcessModule* pModule) = 0;
     virtual bool SetConsumeModule(const int itemType, const int itemSubType, NFIItemConsumeProcessModule* pModule) = 0;
 
     virtual NFIItemConsumeProcessModule* GetConsumeModule(const int itemType) = 0;
-	virtual NFIItemConsumeProcessModule* GetConsumeModule(const int itemType, const int itemSubType) = 0;
+    virtual NFIItemConsumeProcessModule* GetConsumeModule(const int itemType, const int itemSubType) = 0;
 };
 
 #endif

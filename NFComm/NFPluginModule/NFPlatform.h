@@ -150,7 +150,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #endif
 
-#pragma warning(disable:4091) 
+#pragma warning(disable:4091)
 #include <Windows.h>
 #define NF_EXPORT extern "C"  __declspec(dllexport)
 
@@ -394,13 +394,13 @@ inline bool IsZeroDouble(const double dValue, double epsilon = 1e-15)
 
 inline int64_t NFGetTimeMSEx()
 {
-	return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 //millisecond
 inline int64_t NFGetTimeMS()
 {
-	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 //second

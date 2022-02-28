@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,35 +34,35 @@
 
 NFClassModule::NFClassModule()
 {
-	mConfigFileName = "NFDataCfg/Struct/LogicClass.xml";
+    mConfigFileName = "NFDataCfg/Struct/LogicClass.xml";
 }
 
 NFClassModule::NFClassModule(NFIPluginManager* p)
 {
     pPluginManager = p;
-	mConfigFileName = "NFDataCfg/Struct/LogicClass.xml";
+    mConfigFileName = "NFDataCfg/Struct/LogicClass.xml";
 
     std::cout << "Using [" << pPluginManager->GetConfigPath() + mConfigFileName << "]" << std::endl;
 
-	if (!this->mbBackup)
-	{
-		//NFIThreadPoolModule *threadPoolModule = pPluginManager->FindModule<NFIThreadPoolModule>();
-		//const int threadCount = threadPoolModule->GetThreadCount();
-		for (int i = 0; i < 10; ++i)
-		{
-			ThreadClassModule threadElement;
-			threadElement.used = false;
-			threadElement.classModule = new NFClassModule();
-			threadElement.classModule->mbBackup = true;
-			threadElement.classModule->pPluginManager = pPluginManager;
+    if (!this->mbBackup)
+    {
+        //NFIThreadPoolModule *threadPoolModule = pPluginManager->FindModule<NFIThreadPoolModule>();
+        //const int threadCount = threadPoolModule->GetThreadCount();
+        for (int i = 0; i < 10; ++i)
+        {
+            ThreadClassModule threadElement;
+            threadElement.used = false;
+            threadElement.classModule = new NFClassModule();
+            threadElement.classModule->mbBackup = true;
+            threadElement.classModule->pPluginManager = pPluginManager;
 
-			threadElement.classModule->Awake();
-			threadElement.classModule->Init();
-			threadElement.classModule->AfterInit();
+            threadElement.classModule->Awake();
+            threadElement.classModule->Init();
+            threadElement.classModule->AfterInit();
 
-			mThreadClasses.push_back(threadElement);
-		}
-	}
+            mThreadClasses.push_back(threadElement);
+        }
+    }
 }
 
 NFClassModule::~NFClassModule()
@@ -73,31 +73,31 @@ NFClassModule::~NFClassModule()
 bool NFClassModule::Awake()
 {
     for (int i = 0; i < mThreadClasses.size(); ++i)
-	{
-		mThreadClasses[i].classModule->Awake();
-	}
+    {
+        mThreadClasses[i].classModule->Awake();
+    }
 
     Load();
 
-	return true;
-	
+    return true;
+
 }
 
 bool NFClassModule::Init()
 {
-	for (int i = 0; i < mThreadClasses.size(); ++i)
-	{
-		mThreadClasses[i].classModule->Init();
-	}
+    for (int i = 0; i < mThreadClasses.size(); ++i)
+    {
+        mThreadClasses[i].classModule->Init();
+    }
     return true;
 }
 
 bool NFClassModule::Shut()
 {
-	for (int i = 0; i < mThreadClasses.size(); ++i)
-	{
-		mThreadClasses[i].classModule->Shut();
-	}
+    for (int i = 0; i < mThreadClasses.size(); ++i)
+    {
+        mThreadClasses[i].classModule->Shut();
+    }
 
     ClearAll();
 
@@ -106,26 +106,26 @@ bool NFClassModule::Shut()
 
 NFIClassModule* NFClassModule::GetThreadClassModule()
 {
-	std::thread::id threadID = std::this_thread::get_id();
+    std::thread::id threadID = std::this_thread::get_id();
 
-	for (int i = 0; i < mThreadClasses.size(); ++i)
-	{
-		if (mThreadClasses[i].used)
-		{
-			if (mThreadClasses[i].threadID == threadID)
-			{
-				return mThreadClasses[i].classModule;
-			}
-		}
-		else
-		{
-			mThreadClasses[i].used = true;
-			mThreadClasses[i].threadID = threadID;
-			return mThreadClasses[i].classModule;
-		}
-	}
+    for (int i = 0; i < mThreadClasses.size(); ++i)
+    {
+        if (mThreadClasses[i].used)
+        {
+            if (mThreadClasses[i].threadID == threadID)
+            {
+                return mThreadClasses[i].classModule;
+            }
+        }
+        else
+        {
+            mThreadClasses[i].used = true;
+            mThreadClasses[i].threadID = threadID;
+            return mThreadClasses[i].classModule;
+        }
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 NFDATA_TYPE NFClassModule::ComputerType(const char* pstrTypeName, NFData& var)
@@ -150,16 +150,16 @@ NFDATA_TYPE NFClassModule::ComputerType(const char* pstrTypeName, NFData& var)
         var.SetObject(NULL_OBJECT);
         return var.GetType();
     }
-	else if (0 == strcmp(pstrTypeName, "vector2"))
-	{
-		var.SetVector2(NULL_VECTOR2);
-		return var.GetType();
-	}
-	else if (0 == strcmp(pstrTypeName, "vector3"))
-	{
-		var.SetVector3(NULL_VECTOR3);
-		return var.GetType();
-	}
+    else if (0 == strcmp(pstrTypeName, "vector2"))
+    {
+        var.SetVector2(NULL_VECTOR2);
+        return var.GetType();
+    }
+    else if (0 == strcmp(pstrTypeName, "vector3"))
+    {
+        var.SetVector3(NULL_VECTOR3);
+        return var.GetType();
+    }
 
     return TDATA_UNKNOWN;
 }
@@ -183,17 +183,17 @@ bool NFClassModule::AddProperties(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
             const char* pstrPrivate = pPropertyNode->first_attribute("Private")->value();
             const char* pstrSave = pPropertyNode->first_attribute("Save")->value();
             const char* pstrCache = pPropertyNode->first_attribute("Cache")->value();
-			const char* pstrRef = pPropertyNode->first_attribute("Ref")->value();
-			const char* pstrForce = pPropertyNode->first_attribute("Force")->value();
-			const char* pstrUpload = pPropertyNode->first_attribute("Upload")->value();
+            const char* pstrRef = pPropertyNode->first_attribute("Ref")->value();
+            const char* pstrForce = pPropertyNode->first_attribute("Force")->value();
+            const char* pstrUpload = pPropertyNode->first_attribute("Upload")->value();
 
             bool bPublic = lexical_cast<bool>(pstrPublic);
             bool bPrivate = lexical_cast<bool>(pstrPrivate);
             bool bSave = lexical_cast<bool>(pstrSave);
             bool bCache = lexical_cast<bool>(pstrCache);
-			bool bRef = lexical_cast<bool>(pstrRef);
-			bool bForce = lexical_cast<bool>(pstrForce);
-			bool bUpload = lexical_cast<bool>(pstrUpload);
+            bool bRef = lexical_cast<bool>(pstrRef);
+            bool bForce = lexical_cast<bool>(pstrForce);
+            bool bUpload = lexical_cast<bool>(pstrUpload);
 
             NFData varProperty;
             if (TDATA_UNKNOWN == ComputerType(pstrType, varProperty))
@@ -210,9 +210,9 @@ bool NFClassModule::AddProperties(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
             xProperty->SetPrivate(bPrivate);
             xProperty->SetSave(bSave);
             xProperty->SetCache(bCache);
-			xProperty->SetRef(bRef);
-			xProperty->SetForce(bForce);
-			xProperty->SetUpload(bUpload);
+            xProperty->SetRef(bRef);
+            xProperty->SetForce(bForce);
+            xProperty->SetUpload(bUpload);
 
         }
     }
@@ -243,10 +243,10 @@ bool NFClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_P
             const char* pstrPublic = pRecordNode->first_attribute("Public")->value();
             const char* pstrPrivate = pRecordNode->first_attribute("Private")->value();
             const char* pstrSave = pRecordNode->first_attribute("Save")->value();
-			const char* pstrCache = pRecordNode->first_attribute("Cache")->value();
-			const char* pstrRef = pRecordNode->first_attribute("Ref")->value();
-			const char* pstrForce = pRecordNode->first_attribute("Force")->value();
-			const char* pstrUpload = pRecordNode->first_attribute("Upload")->value();
+            const char* pstrCache = pRecordNode->first_attribute("Cache")->value();
+            const char* pstrRef = pRecordNode->first_attribute("Ref")->value();
+            const char* pstrForce = pRecordNode->first_attribute("Force")->value();
+            const char* pstrUpload = pRecordNode->first_attribute("Upload")->value();
 
             std::string strView;
             if (pRecordNode->first_attribute("View") != NULL)
@@ -257,13 +257,13 @@ bool NFClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_P
             bool bPublic = lexical_cast<bool>(pstrPublic);
             bool bPrivate = lexical_cast<bool>(pstrPrivate);
             bool bSave = lexical_cast<bool>(pstrSave);
-			bool bCache = lexical_cast<bool>(pstrCache);
-			bool bRef = lexical_cast<bool>(pstrCache);
-			bool bForce = lexical_cast<bool>(pstrCache);
-			bool bUpload = lexical_cast<bool>(pstrUpload);
+            bool bCache = lexical_cast<bool>(pstrCache);
+            bool bRef = lexical_cast<bool>(pstrCache);
+            bool bForce = lexical_cast<bool>(pstrCache);
+            bool bUpload = lexical_cast<bool>(pstrUpload);
 
-			NF_SHARE_PTR<NFDataList> recordVar(NF_NEW NFDataList());
-			NF_SHARE_PTR<NFDataList> recordTag(NF_NEW NFDataList());
+            NF_SHARE_PTR<NFDataList> recordVar(NF_NEW NFDataList());
+            NF_SHARE_PTR<NFDataList> recordTag(NF_NEW NFDataList());
 
             for (rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
             {
@@ -291,13 +291,13 @@ bool NFClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_P
 
             NF_SHARE_PTR<NFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NFGUID(), pstrRecordName, recordVar, recordTag, atoi(pstrRow));
 
-			xRecord->SetPublic(bPublic);
+            xRecord->SetPublic(bPublic);
             xRecord->SetPrivate(bPrivate);
             xRecord->SetSave(bSave);
             xRecord->SetCache(bCache);
-			xRecord->SetRef(bRef);
-			xRecord->SetForce(bForce);
-			xRecord->SetUpload(bUpload);
+            xRecord->SetRef(bRef);
+            xRecord->SetForce(bForce);
+            xRecord->SetUpload(bUpload);
         }
     }
 
@@ -306,7 +306,7 @@ bool NFClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_P
 
 bool NFClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_SHARE_PTR<NFIClass> pClass)
 {
-	/*
+    /*
     for (rapidxml::xml_node<>* pComponentNode = pComponentRootNode->first_node(); pComponentNode; pComponentNode = pComponentNode->next_sibling())
     {
         if (pComponentNode)
@@ -328,7 +328,7 @@ bool NFClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_S
             }
         }
     }
-	*/
+    */
     return true;
 }
 
@@ -341,10 +341,10 @@ bool NFClassModule::AddClassInclude(const char* pstrClassFilePath, NF_SHARE_PTR<
 
     //////////////////////////////////////////////////////////////////////////
     std::string strFile = pPluginManager->GetConfigPath() + pstrClassFilePath;
-	std::string content;
-	pPluginManager->GetFileContent(strFile, content);
+    std::string content;
+    pPluginManager->GetFileContent(strFile, content);
 
-	rapidxml::xml_document<> xDoc;
+    rapidxml::xml_document<> xDoc;
     xDoc.parse<0>((char*)content.c_str());
     //////////////////////////////////////////////////////////////////////////
 
@@ -354,7 +354,7 @@ bool NFClassModule::AddClassInclude(const char* pstrClassFilePath, NF_SHARE_PTR<
     rapidxml::xml_node<>* pRropertyRootNode = root->first_node("Propertys");
     if (pRropertyRootNode)
     {
-		AddProperties(pRropertyRootNode, pClass);
+        AddProperties(pRropertyRootNode, pClass);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -480,12 +480,12 @@ bool NFClassModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass> 
 bool NFClassModule::Load()
 {
     //////////////////////////////////////////////////////////////////////////
-	std::string strFile = pPluginManager->GetConfigPath() + mConfigFileName;
-	std::string content;
-	pPluginManager->GetFileContent(strFile, content);
+    std::string strFile = pPluginManager->GetConfigPath() + mConfigFileName;
+    std::string content;
+    pPluginManager->GetFileContent(strFile, content);
 
-	rapidxml::xml_document<> xDoc;
-	xDoc.parse<0>((char*)content.c_str());
+    rapidxml::xml_document<> xDoc;
+    xDoc.parse<0>((char*)content.c_str());
     //////////////////////////////////////////////////////////////////////////
     //support for unlimited layer class inherits
     rapidxml::xml_node<>* root = xDoc.first_node();
@@ -494,10 +494,10 @@ bool NFClassModule::Load()
         Load(attrNode, NULL);
     }
 
-	for (int i = 0; i < mThreadClasses.size(); ++i)
-	{
-		mThreadClasses[i].classModule->Load();
-	}
+    for (int i = 0; i < mThreadClasses.size(); ++i)
+    {
+        mThreadClasses[i].classModule->Load();
+    }
 
     return true;
 }
@@ -560,10 +560,10 @@ bool NFClassModule::AfterInit()
 {
 
 
-	return true;
+    return true;
 }
 
-NFIClassModule *NFClassModule::GetThreadClassModule(const int index)
+NFIClassModule* NFClassModule::GetThreadClassModule(const int index)
 {
-	return mThreadClasses[index].classModule;
+    return mThreadClasses[index].classModule;
 }

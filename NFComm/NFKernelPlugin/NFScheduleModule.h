@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -47,14 +47,14 @@ class TickElement
 {
 public:
 
-	bool operator< (const TickElement& b) const
-	{
-		return this->triggerTime < b.triggerTime;
-	}
+    bool operator< (const TickElement& b) const
+    {
+        return this->triggerTime < b.triggerTime;
+    }
 
-	std::string scheduleName;
-	NFINT64 triggerTime;
-	NFGUID self;
+    std::string scheduleName;
+    NFINT64 triggerTime;
+    NFGUID self;
 };
 
 class NFScheduleModule : public NFIScheduleModule
@@ -62,30 +62,30 @@ class NFScheduleModule : public NFIScheduleModule
 public:
     NFScheduleModule(NFIPluginManager* p);
 
-	virtual ~NFScheduleModule();
+    virtual ~NFScheduleModule();
 
-	virtual bool Init();
-	virtual bool Execute();
+    virtual bool Init();
+    virtual bool Execute();
 
-	virtual bool AddSchedule(const NFGUID self, const std::string& scheduleName, const OBJECT_SCHEDULE_FUNCTOR_PTR& cb, const float time, const int count);
-	virtual bool RemoveSchedule(const NFGUID self);
-	virtual bool RemoveSchedule(const NFGUID self, const std::string& scheduleName);
-	virtual bool ExistSchedule(const NFGUID self, const std::string& scheduleName);
-	virtual NF_SHARE_PTR<NFScheduleElement> GetSchedule(const NFGUID self, const std::string& scheduleName);
-
-protected:
-	int OnClassCommonEvent(const NFGUID & self, const std::string & className, const CLASS_OBJECT_EVENT classEvent, const NFDataList & var);
-
-	int OnGroupCommonEvent(const NFGUID& self, const int scene, const int group, const int type, const NFDataList& arg);
+    virtual bool AddSchedule(const NFGUID self, const std::string& scheduleName, const OBJECT_SCHEDULE_FUNCTOR_PTR& cb, const float time, const int count);
+    virtual bool RemoveSchedule(const NFGUID self);
+    virtual bool RemoveSchedule(const NFGUID self, const std::string& scheduleName);
+    virtual bool ExistSchedule(const NFGUID self, const std::string& scheduleName);
+    virtual NF_SHARE_PTR<NFScheduleElement> GetSchedule(const NFGUID self, const std::string& scheduleName);
 
 protected:
-	NFMapEx<NFGUID, NFMapEx<std::string, NFScheduleElement >> mObjectScheduleMap;
+    int OnClassCommonEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
 
-	std::multiset<TickElement> mScheduleMap;
+    int OnGroupCommonEvent(const NFGUID& self, const int scene, const int group, const int type, const NFDataList& arg);
 
-	NFILogModule* m_pLogModule;
-	NFIKernelModule* m_pKernelModule;
-	NFISceneModule* m_pSceneModule;
+protected:
+    NFMapEx<NFGUID, NFMapEx<std::string, NFScheduleElement >> mObjectScheduleMap;
+
+    std::multiset<TickElement> mScheduleMap;
+
+    NFILogModule* m_pLogModule;
+    NFIKernelModule* m_pKernelModule;
+    NFISceneModule* m_pSceneModule;
 
 };
 

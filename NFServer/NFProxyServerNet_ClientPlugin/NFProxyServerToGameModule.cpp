@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,12 +29,12 @@
 
 bool NFProxyServerToGameModule::Init()
 {
-	m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pProxyServerNet_ServerModule = pPluginManager->FindModule<NFIProxyServerNet_ServerModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pProxyServerNet_ServerModule = pPluginManager->FindModule<NFIProxyServerNet_ServerModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
 
     return true;
 }
@@ -48,16 +48,16 @@ bool NFProxyServerToGameModule::Shut()
 
 bool NFProxyServerToGameModule::Execute()
 {
-	return true;
+    return true;
 }
 
 bool NFProxyServerToGameModule::AfterInit()
 {
-	m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_GAME, NFMsg::ACK_ENTER_GAME, this, &NFProxyServerToGameModule::OnAckEnterGame);
-	m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_GAME, this, &NFProxyServerToGameModule::Transport);
+    m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_GAME, NFMsg::ACK_ENTER_GAME, this, &NFProxyServerToGameModule::OnAckEnterGame);
+    m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_GAME, this, &NFProxyServerToGameModule::Transport);
 
-	m_pNetClientModule->AddEventCallBack(NF_SERVER_TYPES::NF_ST_GAME, this, &NFProxyServerToGameModule::OnSocketGSEvent);
-	m_pNetClientModule->ExpandBufferSize();
+    m_pNetClientModule->AddEventCallBack(NF_SERVER_TYPES::NF_ST_GAME, this, &NFProxyServerToGameModule::OnSocketGSEvent);
+    m_pNetClientModule->ExpandBufferSize();
 
     return true;
 }
@@ -85,10 +85,10 @@ void NFProxyServerToGameModule::Register(NFINet* pNet)
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Server::ThisName());
     if (xLogicClass)
     {
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
 
             const int serverType = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Type());
             const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::ServerID());
@@ -129,16 +129,16 @@ void NFProxyServerToGameModule::OnAckEnterGame(const NFSOCK sockIndex, const int
 {
     NFGUID nPlayerID;
     NFMsg::AckEventResult xData;
-    if (!NFINetModule::ReceivePB( msgID, msg, len, xData, nPlayerID))
+    if (!NFINetModule::ReceivePB(msgID, msg, len, xData, nPlayerID))
     {
         return;
     }
- 
-	const NFGUID& xClient = NFINetModule::PBToNF(xData.event_client());
-	const NFGUID& xPlayer = NFINetModule::PBToNF(xData.event_object());
 
-	m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
-	m_pProxyServerNet_ServerModule->Transport(sockIndex, msgID, msg, len);
+    const NFGUID& xClient = NFINetModule::PBToNF(xData.event_client());
+    const NFGUID& xPlayer = NFINetModule::PBToNF(xData.event_object());
+
+    m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
+    m_pProxyServerNet_ServerModule->Transport(sockIndex, msgID, msg, len);
 }
 
 void NFProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
@@ -146,7 +146,7 @@ void NFProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
     m_pLogModule->LogInfo(NFGUID(), strServerInfo, "");
 }
 
-void NFProxyServerToGameModule::Transport(const NFSOCK sockIndex, const int msgID, const char * msg, const uint32_t len)
+void NFProxyServerToGameModule::Transport(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
-	m_pProxyServerNet_ServerModule->Transport(sockIndex, msgID, msg, len);
+    m_pProxyServerNet_ServerModule->Transport(sockIndex, msgID, msg, len);
 }

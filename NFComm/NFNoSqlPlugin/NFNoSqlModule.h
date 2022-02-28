@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,46 +35,49 @@
 #include "NFComm/NFPluginModule/NFILogModule.h"
 
 class NFNoSqlModule
-	: public NFINoSqlModule
+    : public NFINoSqlModule
 {
 public:
 
-	NFNoSqlModule(NFIPluginManager* p);
-	virtual ~NFNoSqlModule();
+    NFNoSqlModule(NFIPluginManager* p);
+    virtual ~NFNoSqlModule();
 
-	virtual bool Init();
-	virtual bool Shut();
-	virtual bool Execute();
-	virtual bool AfterInit();
-	
-	virtual bool Connect(const std::string& ip, const int nPort, const std::string& strPass) { return false; };
-	virtual bool Enable();
-	virtual bool Busy();
-	virtual bool KeepLive();
+    virtual bool Init();
+    virtual bool Shut();
+    virtual bool Execute();
+    virtual bool AfterInit();
+
+    virtual bool Connect(const std::string& ip, const int nPort, const std::string& strPass)
+    {
+        return false;
+    };
+    virtual bool Enable();
+    virtual bool Busy();
+    virtual bool KeepLive();
 
 
-	virtual bool AddConnectSql(const std::string& strID, const std::string& ip);
-	virtual bool AddConnectSql(const std::string& strID, const std::string& ip, const int nPort);
-	virtual bool AddConnectSql(const std::string& strID, const std::string& ip, const int nPort, const std::string& strPass);
+    virtual bool AddConnectSql(const std::string& strID, const std::string& ip);
+    virtual bool AddConnectSql(const std::string& strID, const std::string& ip, const int nPort);
+    virtual bool AddConnectSql(const std::string& strID, const std::string& ip, const int nPort, const std::string& strPass);
 
-	virtual NFList<std::string> GetDriverIdList();
-	virtual NF_SHARE_PTR<NFIRedisClient> GetDriver(const std::string& strID);
-	virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuitRandom();
-	virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuitConsistent();
-	virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuit(const std::string& strHash);
-	//virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuit(const int nHash);
-	virtual bool RemoveConnectSql(const std::string& strID);
+    virtual NFList<std::string> GetDriverIdList();
+    virtual NF_SHARE_PTR<NFIRedisClient> GetDriver(const std::string& strID);
+    virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuitRandom();
+    virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuitConsistent();
+    virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuit(const std::string& strHash);
+    //virtual NF_SHARE_PTR<NFIRedisClient> GetDriverBySuit(const int nHash);
+    virtual bool RemoveConnectSql(const std::string& strID);
 
 protected:
-	void CheckConnect();
+    void CheckConnect();
 
 protected:
-	NFINT64 mLastCheckTime;
-	NFIClassModule* m_pClassModule;
-	NFIElementModule* m_pElementModule;
-	NFILogModule* m_pLogModule;
+    NFINT64 mLastCheckTime;
+    NFIClassModule* m_pClassModule;
+    NFIElementModule* m_pElementModule;
+    NFILogModule* m_pLogModule;
 
-	NFConsistentHashMapEx<std::string, NFIRedisClient> mxNoSqlDriver;
+    NFConsistentHashMapEx<std::string, NFIRedisClient> mxNoSqlDriver;
 
 };
 

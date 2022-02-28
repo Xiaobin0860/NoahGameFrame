@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -32,7 +32,7 @@ class NFELOModule
     : public NFIELOModule
 {
 public:
-	NFELOModule(NFIPluginManager* p)
+    NFELOModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -44,15 +44,15 @@ public:
     virtual bool AfterInit() override;
 
 
-	virtual float Probability(int ratingA, int ratingB) override;
+    virtual float Probability(int ratingA, int ratingB) override;
 
-	virtual void EloRating(int ratingA, int ratingB, bool aWin, int& resultA, int& resultB) override;
-
-private:
-	int EloK();
+    virtual void EloRating(int ratingA, int ratingB, bool aWin, int& resultA, int& resultB) override;
 
 private:
-	int K = 50;
+    int EloK();
+
+private:
+    int K = 50;
 };
 
 

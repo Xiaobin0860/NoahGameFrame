@@ -53,25 +53,25 @@ const int NFNetPlugin::GetPluginVersion()
 
 const std::string NFNetPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFNetPlugin);
+    return GET_CLASS_NAME(NFNetPlugin);
 }
 
 void NFNetPlugin::Install()
 {
     REGISTER_MODULE(pPluginManager, NFINetModule, NFNetModule)
-	REGISTER_MODULE(pPluginManager, NFIWSModule, NFWSModule)
-	REGISTER_MODULE(pPluginManager, NFIHttpServerModule, NFHttpServerModule)
+    REGISTER_MODULE(pPluginManager, NFIWSModule, NFWSModule)
+    REGISTER_MODULE(pPluginManager, NFIHttpServerModule, NFHttpServerModule)
     REGISTER_MODULE(pPluginManager, NFINetClientModule, NFNetClientModule)
-	REGISTER_MODULE(pPluginManager, NFIHttpClientModule, NFHttpClientModule)
-	//REGISTER_MODULE(pPluginManager, NFIUDPModule, NFUDPModule)
+    REGISTER_MODULE(pPluginManager, NFIHttpClientModule, NFHttpClientModule)
+    //REGISTER_MODULE(pPluginManager, NFIUDPModule, NFUDPModule)
 }
 
 void NFNetPlugin::Uninstall()
 {
-	//UNREGISTER_MODULE(pPluginManager, NFIUDPModule, NFUDPModule)
-	UNREGISTER_MODULE(pPluginManager, NFIHttpClientModule, NFHttpClientModule)
+    //UNREGISTER_MODULE(pPluginManager, NFIUDPModule, NFUDPModule)
+    UNREGISTER_MODULE(pPluginManager, NFIHttpClientModule, NFHttpClientModule)
     UNREGISTER_MODULE(pPluginManager, NFINetClientModule, NFNetClientModule)
-	UNREGISTER_MODULE(pPluginManager, NFIHttpServerModule, NFHttpServerModule)
-	UNREGISTER_MODULE(pPluginManager, NFIWSModule, NFWSModule)
+    UNREGISTER_MODULE(pPluginManager, NFIHttpServerModule, NFHttpServerModule)
+    UNREGISTER_MODULE(pPluginManager, NFIWSModule, NFWSModule)
     UNREGISTER_MODULE(pPluginManager, NFINetModule, NFNetModule)
 }

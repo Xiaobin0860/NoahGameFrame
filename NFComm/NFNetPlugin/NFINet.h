@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -56,7 +56,7 @@
 # endif
 
 #include <netinet/in.h>
-#include <netinet/tcp.h> 
+#include <netinet/tcp.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -159,7 +159,7 @@ struct NFIMsgHead
 #elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
         return OSSwapBigToHostInt16(nData);
 #elif NF_PLATFORM == NF_PLATFORM_ANDROID
-        return betoh16 (nData);
+        return betoh16(nData);
 #else
         return be16toh(nData);
 #endif
@@ -182,12 +182,12 @@ public:
         uint32_t nOffset = 0;
 
         uint16_t msgID = NF_HTONS(mumsgID);
-        memcpy(data + nOffset, (void*) (&msgID), sizeof(mumsgID));
+        memcpy(data + nOffset, (void*)(&msgID), sizeof(mumsgID));
         nOffset += sizeof(mumsgID);
 
         uint32_t nPackSize = munSize + NF_HEAD_LENGTH;
         uint32_t nSize = NF_HTONL(nPackSize);
-        memcpy(data + nOffset, (void*) (&nSize), sizeof(munSize));
+        memcpy(data + nOffset, (void*)(&nSize), sizeof(munSize));
         nOffset += sizeof(munSize);
 
         if (nOffset != NF_HEAD_LENGTH)
@@ -262,14 +262,14 @@ class NetObject
 public:
     NetObject(NFINet* pNet, NFSOCK sock, sockaddr_in& addr, void* pBev)
     {
-		logicState = 0;
-		gameID = 0;
+        logicState = 0;
+        gameID = 0;
         fd = sock;
         bNeedRemove = false;
 
-		netObject = pNet;
+        netObject = pNet;
 
-		userData = pBev;
+        userData = pBev;
         memset(&sin, 0, sizeof(sin));
         sin = addr;
     }
@@ -277,7 +277,7 @@ public:
     virtual ~NetObject()
     {
     }
-	
+
     int AddBuff(const char* str, size_t len)
     {
         ringBuff.append(str, len);
@@ -337,7 +337,7 @@ public:
 
     void SetSecurityKey(const std::string& key)
     {
-		securityKey = key;
+        securityKey = key;
     }
 
     int GetConnectKeyState() const
@@ -347,7 +347,7 @@ public:
 
     void SetConnectKeyState(const int state)
     {
-		logicState = state;
+        logicState = state;
     }
 
     bool NeedRemove()
@@ -367,7 +367,7 @@ public:
 
     void SetAccount(const std::string& data)
     {
-		account = data;
+        account = data;
     }
 
     int GetGameID() const
@@ -377,7 +377,7 @@ public:
 
     void SetGameID(const int nData)
     {
-		gameID = nData;
+        gameID = nData;
     }
 
     const NFGUID& GetUserID()
@@ -387,7 +387,7 @@ public:
 
     void SetUserID(const NFGUID& nUserID)
     {
-		userID = nUserID;
+        userID = nUserID;
     }
 
     const NFGUID& GetClientID()
@@ -397,17 +397,17 @@ public:
 
     void SetClientID(const NFGUID& xClientID)
     {
-		clientID = xClientID;
+        clientID = xClientID;
     }
 
     const NFGUID& GetHashIdentID()
-		{
+    {
         return hashIdentID;
     }
 
     void SetHashIdentID(const NFGUID& xHashIdentID)
     {
-		hashIdentID = xHashIdentID;
+        hashIdentID = xHashIdentID;
     }
 
     NFSOCK GetRealFD()

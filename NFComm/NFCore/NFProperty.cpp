@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -30,151 +30,151 @@
 
 NFProperty::NFProperty()
 {
-	mbPublic = false;
-	mbPrivate = false;
-	mbSave = false;
-	mbCache = false;
-	mbRef = false;
-	mbForce = false;
-	mbUpload = false;
+    mbPublic = false;
+    mbPrivate = false;
+    mbSave = false;
+    mbCache = false;
+    mbRef = false;
+    mbForce = false;
+    mbUpload = false;
 
-	mSelf = NFGUID();
-	eType = TDATA_UNKNOWN;
+    mSelf = NFGUID();
+    eType = TDATA_UNKNOWN;
 
-	msPropertyName = "";
+    msPropertyName = "";
 }
 
 NFProperty::NFProperty(const NFGUID& self, const std::string& propertyName, const NFDATA_TYPE varType)
 {
-	mbPublic = false;
-	mbPrivate = false;
-	mbSave = false;
-	mbCache = false;
-	mbRef = false;
-	mbUpload = false;
+    mbPublic = false;
+    mbPrivate = false;
+    mbSave = false;
+    mbCache = false;
+    mbRef = false;
+    mbUpload = false;
 
-	mSelf = self;
+    mSelf = self;
 
-	msPropertyName = propertyName;
-	eType = varType;
+    msPropertyName = propertyName;
+    eType = varType;
 }
 
 NFProperty::~NFProperty()
 {
-	for (TPROPERTYCALLBACKEX::iterator iter = mtPropertyCallback.begin(); iter != mtPropertyCallback.end(); ++iter)
-	{
-		iter->reset();
-	}
+    for (TPROPERTYCALLBACKEX::iterator iter = mtPropertyCallback.begin(); iter != mtPropertyCallback.end(); ++iter)
+    {
+        iter->reset();
+    }
 
-	mtPropertyCallback.clear();
-	mxData.reset();
+    mtPropertyCallback.clear();
+    mxData.reset();
 }
 
 void NFProperty::SetValue(const NFData& xData)
 {
-	if (eType != xData.GetType()
-		|| xData.GetType() == NFDATA_TYPE::TDATA_UNKNOWN)
-	{
-		return;
-	}
+    if (eType != xData.GetType()
+        || xData.GetType() == NFDATA_TYPE::TDATA_UNKNOWN)
+    {
+        return;
+    }
 
-	if (xData.IsNullValue())
-	{
-		return;
-	}
+    if (xData.IsNullValue())
+    {
+        return;
+    }
 
-	if (nullptr == mxData)
-	{
-		mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(xData));
-	}
+    if (nullptr == mxData)
+    {
+        mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(xData));
+    }
 
-	if (mtPropertyCallback.size() == 0)
-	{
-		mxData->variantData = xData.variantData;
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue = *mxData;
+    if (mtPropertyCallback.size() == 0)
+    {
+        mxData->variantData = xData.variantData;
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue = *mxData;
 
-		mxData->variantData = xData.variantData;
+        mxData->variantData = xData.variantData;
 
-		NFData newValue;
-		newValue = *mxData;
+        NFData newValue;
+        newValue = *mxData;
 
-		OnEventHandler(oldValue, newValue, 0);
-	}
+        OnEventHandler(oldValue, newValue, 0);
+    }
 
 }
 
 void NFProperty::SetValue(const NFIProperty* property)
 {
-	SetValue(property->GetValue());
+    SetValue(property->GetValue());
 }
 
 const NFData& NFProperty::GetValue() const
 {
-	if (mxData)
-	{
-		return *mxData;
-	}
+    if (mxData)
+    {
+        return *mxData;
+    }
 
-	return NULL_TDATA;
+    return NULL_TDATA;
 }
 
 const std::string&  NFProperty::GetKey() const
 {
-	return msPropertyName;
+    return msPropertyName;
 }
 
 const bool NFProperty::GetSave() const
 {
-	return mbSave;
+    return mbSave;
 }
 
 const bool NFProperty::GetPublic() const
 {
-	return mbPublic;
+    return mbPublic;
 }
 
 const bool NFProperty::GetPrivate() const
 {
-	return mbPrivate;
+    return mbPrivate;
 }
 
 const bool NFProperty::GetCache() const
 {
-	return mbCache;
+    return mbCache;
 }
 
 const bool NFProperty::GetRef() const
 {
-	return mbRef;
+    return mbRef;
 }
 
 const bool NFProperty::GetForce() const
 {
-	return mbForce;
+    return mbForce;
 }
 
 const bool NFProperty::GetUpload() const
 {
-	return mbUpload;
+    return mbUpload;
 }
 
 void NFProperty::SetSave(bool bSave)
 {
-	mbSave = bSave;
+    mbSave = bSave;
 }
 
 void NFProperty::SetPublic(bool bPublic)
 {
-	mbPublic = bPublic;
+    mbPublic = bPublic;
 }
 
 void NFProperty::SetPrivate(bool bPrivate)
 {
-	mbPrivate = bPrivate;
+    mbPrivate = bPrivate;
 }
 
 void NFProperty::SetCache(bool bCache)
@@ -184,574 +184,574 @@ void NFProperty::SetCache(bool bCache)
 
 void NFProperty::SetRef(bool bRef)
 {
-	mbRef = bRef;
+    mbRef = bRef;
 }
 
 void NFProperty::SetForce(bool bRef)
 {
-	mbForce = bRef;
+    mbForce = bRef;
 }
 
 void NFProperty::SetUpload(bool bUpload)
 {
-	mbUpload = bUpload;
+    mbUpload = bUpload;
 }
 
 NFINT64 NFProperty::GetInt() const
 {
-	if (!mxData)
-	{
-		return 0;
-	}
+    if (!mxData)
+    {
+        return 0;
+    }
 
-	return mxData->GetInt();
+    return mxData->GetInt();
 }
 
 int NFProperty::GetInt32() const
 {
-	if (!mxData)
-	{
-		return 0;
-	}
+    if (!mxData)
+    {
+        return 0;
+    }
 
-	return (int)mxData->GetInt();
+    return (int)mxData->GetInt();
 }
 
 
 double NFProperty::GetFloat() const
 {
-	if (!mxData)
-	{
-		return 0.0;
-	}
+    if (!mxData)
+    {
+        return 0.0;
+    }
 
-	return mxData->GetFloat();
+    return mxData->GetFloat();
 }
 
 const std::string& NFProperty::GetString() const
 {
-	if (!mxData)
-	{
-		return NULL_STR;
-	}
+    if (!mxData)
+    {
+        return NULL_STR;
+    }
 
-	return mxData->GetString();
+    return mxData->GetString();
 }
 
 const NFGUID& NFProperty::GetObject() const
 {
-	if (!mxData)
-	{
-		return NULL_OBJECT;
-	}
+    if (!mxData)
+    {
+        return NULL_OBJECT;
+    }
 
-	return mxData->GetObject();
+    return mxData->GetObject();
 }
 
 const NFVector2& NFProperty::GetVector2() const
 {
-	if (!mxData)
-	{
-		return NULL_VECTOR2;
-	}
+    if (!mxData)
+    {
+        return NULL_VECTOR2;
+    }
 
-	return mxData->GetVector2();
+    return mxData->GetVector2();
 }
 
 const NFVector3& NFProperty::GetVector3() const
 {
-	if (!mxData)
-	{
-		return NULL_VECTOR3;
-	}
+    if (!mxData)
+    {
+        return NULL_VECTOR3;
+    }
 
-	return mxData->GetVector3();
+    return mxData->GetVector3();
 }
 
 void NFProperty::RegisterCallback(const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
-	mtPropertyCallback.push_back(cb);
+    mtPropertyCallback.push_back(cb);
 }
 
 int NFProperty::OnEventHandler(const NFData& oldVar, const NFData& newVar, const NFINT64 reason)
 {
-	if (mtPropertyCallback.size() <= 0)
-	{
-		return 0;
-	}
+    if (mtPropertyCallback.size() <= 0)
+    {
+        return 0;
+    }
 
-	TPROPERTYCALLBACKEX::iterator it = mtPropertyCallback.begin();
-	TPROPERTYCALLBACKEX::iterator end = mtPropertyCallback.end();
-	for (; it != end; ++it)
-	{
-		
-		PROPERTY_EVENT_FUNCTOR_PTR& pFunPtr = *it;
-		PROPERTY_EVENT_FUNCTOR* pFunc = pFunPtr.get();
-		pFunc->operator()(mSelf, msPropertyName, oldVar, newVar, reason);
-	}
+    TPROPERTYCALLBACKEX::iterator it = mtPropertyCallback.begin();
+    TPROPERTYCALLBACKEX::iterator end = mtPropertyCallback.end();
+    for (; it != end; ++it)
+    {
 
-	return 0;
+        PROPERTY_EVENT_FUNCTOR_PTR& pFunPtr = *it;
+        PROPERTY_EVENT_FUNCTOR* pFunc = pFunPtr.get();
+        pFunc->operator()(mSelf, msPropertyName, oldVar, newVar, reason);
+    }
+
+    return 0;
 }
 
 bool NFProperty::SetInt(const NFINT64 value, const NFINT64 reason)
 {
-	if (eType != TDATA_INT)
-	{
-		return false;
-	}
+    if (eType != TDATA_INT)
+    {
+        return false;
+    }
 
-	if (!mxData)
-	{
-		
-		if (0 == value)
-		{
-			return false;
-		}
+    if (!mxData)
+    {
 
-		mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_INT));
-		mxData->SetInt(0);
-	}
+        if (0 == value)
+        {
+            return false;
+        }
 
-	if (value == mxData->GetInt())
-	{
-		return false;
-	}
+        mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_INT));
+        mxData->SetInt(0);
+    }
 
-	if (mtPropertyCallback.size() == 0)
-	{
-		mxData->SetInt(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue = *mxData;
+    if (value == mxData->GetInt())
+    {
+        return false;
+    }
 
-		mxData->SetInt(value);
+    if (mtPropertyCallback.size() == 0)
+    {
+        mxData->SetInt(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue = *mxData;
 
-		OnEventHandler(oldValue, *mxData, reason);
-	}
+        mxData->SetInt(value);
 
-	return true;
+        OnEventHandler(oldValue, *mxData, reason);
+    }
+
+    return true;
 }
 
 bool NFProperty::SetFloat(const double value, const NFINT64 reason)
 {
-	if (eType != TDATA_FLOAT)
-	{
-		return false;
-	}
+    if (eType != TDATA_FLOAT)
+    {
+        return false;
+    }
 
-	if (!mxData)
-	{
-		
-		if (IsZeroDouble(value))
-		{
-			return false;
-		}
+    if (!mxData)
+    {
 
-		mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_FLOAT));
-		mxData->SetFloat(0.0);
-	}
+        if (IsZeroDouble(value))
+        {
+            return false;
+        }
 
-	if (IsZeroDouble(value - mxData->GetFloat()))
-	{
-		return false;
-	}
+        mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_FLOAT));
+        mxData->SetFloat(0.0);
+    }
 
-	if (mtPropertyCallback.size() == 0)
-	{
-		mxData->SetFloat(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue = *mxData;
+    if (IsZeroDouble(value - mxData->GetFloat()))
+    {
+        return false;
+    }
 
-		mxData->SetFloat(value);
+    if (mtPropertyCallback.size() == 0)
+    {
+        mxData->SetFloat(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue = *mxData;
 
-		OnEventHandler(oldValue, *mxData, reason);
-	}
+        mxData->SetFloat(value);
 
-	return true;
+        OnEventHandler(oldValue, *mxData, reason);
+    }
+
+    return true;
 }
 
 bool NFProperty::SetString(const std::string& value, const NFINT64 reason)
 {
-	if (eType != TDATA_STRING)
-	{
-		return false;
-	}
+    if (eType != TDATA_STRING)
+    {
+        return false;
+    }
 
-	if (!mxData)
-	{
-		
-		if (value.empty())
-		{
-			return false;
-		}
+    if (!mxData)
+    {
 
-		mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_STRING));
-		mxData->SetString(NULL_STR);
-	}
+        if (value.empty())
+        {
+            return false;
+        }
 
-	if (value == mxData->GetString())
-	{
-		return false;
-	}
+        mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_STRING));
+        mxData->SetString(NULL_STR);
+    }
 
-	if (mtPropertyCallback.size() == 0)
-	{
-		mxData->SetString(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue = *mxData;
+    if (value == mxData->GetString())
+    {
+        return false;
+    }
 
-		mxData->SetString(value);
+    if (mtPropertyCallback.size() == 0)
+    {
+        mxData->SetString(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue = *mxData;
 
-		OnEventHandler(oldValue, *mxData, reason);
-	}
+        mxData->SetString(value);
 
-	return true;
+        OnEventHandler(oldValue, *mxData, reason);
+    }
+
+    return true;
 }
 
 bool NFProperty::SetObject(const NFGUID& value, const NFINT64 reason)
 {
-	if (eType != TDATA_OBJECT)
-	{
-		return false;
-	}
+    if (eType != TDATA_OBJECT)
+    {
+        return false;
+    }
 
-	if (!mxData)
-	{
-		
-		if (value.IsNull())
-		{
-			return false;
-		}
+    if (!mxData)
+    {
 
-		mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_OBJECT));
-		mxData->SetObject(NFGUID());
-	}
+        if (value.IsNull())
+        {
+            return false;
+        }
 
-	if (value == mxData->GetObject())
-	{
-		return false;
-	}
+        mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_OBJECT));
+        mxData->SetObject(NFGUID());
+    }
 
-	if (mtPropertyCallback.size() == 0)
-	{
-		mxData->SetObject(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue = *mxData;
+    if (value == mxData->GetObject())
+    {
+        return false;
+    }
 
-		mxData->SetObject(value);
+    if (mtPropertyCallback.size() == 0)
+    {
+        mxData->SetObject(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue = *mxData;
 
-		OnEventHandler(oldValue, *mxData, reason);
-	}
+        mxData->SetObject(value);
 
-	return true;
+        OnEventHandler(oldValue, *mxData, reason);
+    }
+
+    return true;
 }
 
 bool NFProperty::SetVector2(const NFVector2& value, const NFINT64 reason)
 {
-	if (eType != TDATA_VECTOR2)
-	{
-		return false;
-	}
+    if (eType != TDATA_VECTOR2)
+    {
+        return false;
+    }
 
-	if (!mxData)
-	{
-		
-		if (value.IsZero())
-		{
-			return false;
-		}
+    if (!mxData)
+    {
 
-		mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_VECTOR2));
-		mxData->SetVector2(NFVector2());
-	}
+        if (value.IsZero())
+        {
+            return false;
+        }
 
-	if (value == mxData->GetVector2())
-	{
-		return false;
-	}
+        mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_VECTOR2));
+        mxData->SetVector2(NFVector2());
+    }
 
-	if (mtPropertyCallback.size() == 0)
-	{
-		mxData->SetVector2(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue = *mxData;
+    if (value == mxData->GetVector2())
+    {
+        return false;
+    }
 
-		mxData->SetVector2(value);
+    if (mtPropertyCallback.size() == 0)
+    {
+        mxData->SetVector2(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue = *mxData;
 
-		OnEventHandler(oldValue, *mxData, reason);
-	}
+        mxData->SetVector2(value);
 
-	return true;
+        OnEventHandler(oldValue, *mxData, reason);
+    }
+
+    return true;
 }
 
 bool NFProperty::SetVector3(const NFVector3& value, const NFINT64 reason)
 {
-	if (eType != TDATA_VECTOR3)
-	{
-		return false;
-	}
+    if (eType != TDATA_VECTOR3)
+    {
+        return false;
+    }
 
-	if (!mxData)
-	{
-		
-		if (value.IsZero())
-		{
-			return false;
-		}
+    if (!mxData)
+    {
 
-		mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_VECTOR3));
-		mxData->SetVector3(NFVector3());
-	}
+        if (value.IsZero())
+        {
+            return false;
+        }
 
-	if (value == mxData->GetVector3())
-	{
-		return false;
-	}
+        mxData = NF_SHARE_PTR<NFData>(NF_NEW NFData(TDATA_VECTOR3));
+        mxData->SetVector3(NFVector3());
+    }
 
-	if (mtPropertyCallback.size() == 0)
-	{
-		mxData->SetVector3(value);
-	}
-	else
-	{
-		NFData oldValue;
-		oldValue = *mxData;
+    if (value == mxData->GetVector3())
+    {
+        return false;
+    }
 
-		mxData->SetVector3(value);
+    if (mtPropertyCallback.size() == 0)
+    {
+        mxData->SetVector3(value);
+    }
+    else
+    {
+        NFData oldValue;
+        oldValue = *mxData;
 
-		OnEventHandler(oldValue, *mxData, reason);
-	}
+        mxData->SetVector3(value);
 
-	return true;
+        OnEventHandler(oldValue, *mxData, reason);
+    }
+
+    return true;
 }
 
 bool NFProperty::Changed() const
 {
-	return !(GetValue().IsNullValue());
+    return !(GetValue().IsNullValue());
 }
 
 const NFDATA_TYPE NFProperty::GetType() const
 {
-	return eType;
+    return eType;
 }
 
 const bool NFProperty::GeUsed() const
 {
-	if (mxData)
-	{
-		return true;
-	}
+    if (mxData)
+    {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 std::string NFProperty::ToString()
 {
-	std::string strData;
-	const NFDATA_TYPE eType = GetType();
-	switch (eType)
-	{
-	case TDATA_INT:
-		strData = lexical_cast<std::string> (GetInt());
-		break;
-	case TDATA_FLOAT:
-		strData = lexical_cast<std::string> (GetFloat());
-		break;
-	case TDATA_STRING:
-		strData = GetString();
-		break;
-	case TDATA_OBJECT:
-		strData = GetObject().ToString();
-		break;
-	case TDATA_VECTOR2:
-		strData = GetVector2().ToString();
-		break;
-	case TDATA_VECTOR3:
-		strData = GetVector3().ToString();
-		break;
-	default:
-		strData = NULL_STR;
-		break;
-	}
+    std::string strData;
+    const NFDATA_TYPE eType = GetType();
+    switch (eType)
+    {
+        case TDATA_INT:
+            strData = lexical_cast<std::string> (GetInt());
+            break;
+        case TDATA_FLOAT:
+            strData = lexical_cast<std::string> (GetFloat());
+            break;
+        case TDATA_STRING:
+            strData = GetString();
+            break;
+        case TDATA_OBJECT:
+            strData = GetObject().ToString();
+            break;
+        case TDATA_VECTOR2:
+            strData = GetVector2().ToString();
+            break;
+        case TDATA_VECTOR3:
+            strData = GetVector3().ToString();
+            break;
+        default:
+            strData = NULL_STR;
+            break;
+    }
 
-	return strData;
+    return strData;
 }
 
 void NFProperty::ToMemoryCounterString(std::string& data)
 {
-	data.append(this->mSelf.ToString());
-	data.append(":");
-	data.append(this->msPropertyName);
+    data.append(this->mSelf.ToString());
+    data.append(":");
+    data.append(this->msPropertyName);
 }
 
 bool NFProperty::FromString(const std::string& strData)
 {
-	try
-	{
-		switch (GetType())
-		{
-		case TDATA_INT:
-			SetInt(lexical_cast<int64_t> (strData));
-			break;
+    try
+    {
+        switch (GetType())
+        {
+            case TDATA_INT:
+                SetInt(lexical_cast<int64_t> (strData));
+                break;
 
-		case TDATA_FLOAT:
-			SetFloat(lexical_cast<float> (strData));
-			break;
+            case TDATA_FLOAT:
+                SetFloat(lexical_cast<float> (strData));
+                break;
 
-		case TDATA_STRING:
-			SetString(strData);
-			break;
+            case TDATA_STRING:
+                SetString(strData);
+                break;
 
-		case TDATA_OBJECT:
-		{
-			NFGUID xID;
-			xID.FromString(strData);
-			SetObject(xID);
-		}
-		break;
+            case TDATA_OBJECT:
+            {
+                NFGUID xID;
+                xID.FromString(strData);
+                SetObject(xID);
+            }
+            break;
 
-		case TDATA_VECTOR2:
-		{
-			NFVector2 v;
-			v.FromString(strData);
-			SetVector2(v);
-		}
-		break;
+            case TDATA_VECTOR2:
+            {
+                NFVector2 v;
+                v.FromString(strData);
+                SetVector2(v);
+            }
+            break;
 
-		case TDATA_VECTOR3:
-		{
-			NFVector3 v;
-			v.FromString(strData);
-			SetVector3(v);
-		}
-		break;
+            case TDATA_VECTOR3:
+            {
+                NFVector3 v;
+                v.FromString(strData);
+                SetVector3(v);
+            }
+            break;
 
-		default:
-			break;
-		}
+            default:
+                break;
+        }
 
-		return true;
-	}
-	catch (...)
-	{
-		return false;
-	}
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
 
-	return false;
+    return false;
 }
 
 bool NFProperty::DeSerialization()
 {
-	bool bRet = false;
+    bool bRet = false;
 
-	const NFDATA_TYPE eType = GetType();
-	if (eType == TDATA_STRING && nullptr != mxData && !mxData->IsNullValue())
-	{
-		NFDataList xDataList;
-		const std::string& strData = mxData->GetString();
+    const NFDATA_TYPE eType = GetType();
+    if (eType == TDATA_STRING && nullptr != mxData && !mxData->IsNullValue())
+    {
+        NFDataList xDataList;
+        const std::string& strData = mxData->GetString();
 
-		xDataList.Split(strData.c_str(), ";");
-		if (xDataList.GetCount() <= 0)
-		{
-			return bRet;
-		}
+        xDataList.Split(strData.c_str(), ";");
+        if (xDataList.GetCount() <= 0)
+        {
+            return bRet;
+        }
 
-		NFDataList xTemDataList;
-		xTemDataList.Split(xDataList.String(0).c_str(), ",");
-		const int nSubDataLength = xTemDataList.GetCount();
+        NFDataList xTemDataList;
+        xTemDataList.Split(xDataList.String(0).c_str(), ",");
+        const int nSubDataLength = xTemDataList.GetCount();
 
-		if (xDataList.GetCount() == 1 && nSubDataLength == 1)
-		{
-			//most of property value only one value
-			return bRet;
-		}
+        if (xDataList.GetCount() == 1 && nSubDataLength == 1)
+        {
+            //most of property value only one value
+            return bRet;
+        }
 
-		if (nullptr == mxEmbeddedList)
-		{
-			mxEmbeddedList = NF_SHARE_PTR<NFList<std::string>>(NF_NEW NFList<std::string>());
-		}
-		else
-		{
-			mxEmbeddedList->ClearAll();
-		}
+        if (nullptr == mxEmbeddedList)
+        {
+            mxEmbeddedList = NF_SHARE_PTR<NFList<std::string>>(NF_NEW NFList<std::string>());
+        }
+        else
+        {
+            mxEmbeddedList->ClearAll();
+        }
 
-		for (int i = 0; i < xDataList.GetCount(); ++i)
-		{
-			if (xDataList.String(i).empty())
-			{
-				NFASSERT(0, strData, __FILE__, __FUNCTION__);
-			}
+        for (int i = 0; i < xDataList.GetCount(); ++i)
+        {
+            if (xDataList.String(i).empty())
+            {
+                NFASSERT(0, strData, __FILE__, __FUNCTION__);
+            }
 
-			mxEmbeddedList->Add(xDataList.String(i));
-		}
+            mxEmbeddedList->Add(xDataList.String(i));
+        }
 
 
 
-		////////////////////////////////////////
+        ////////////////////////////////////////
 
-		if (nSubDataLength < 2 || nSubDataLength > 2)
-		{
-			return bRet;
-		}
+        if (nSubDataLength < 2 || nSubDataLength > 2)
+        {
+            return bRet;
+        }
 
-		if (nullptr == mxEmbeddedMap)
-		{
-			mxEmbeddedMap = NF_SHARE_PTR<NFMapEx<std::string, std::string>>(NF_NEW NFMapEx<std::string, std::string>());
-		}
-		else
-		{
-			mxEmbeddedMap->ClearAll();
-		}
+        if (nullptr == mxEmbeddedMap)
+        {
+            mxEmbeddedMap = NF_SHARE_PTR<NFMapEx<std::string, std::string>>(NF_NEW NFMapEx<std::string, std::string>());
+        }
+        else
+        {
+            mxEmbeddedMap->ClearAll();
+        }
 
-		for (int i = 0; i < xDataList.GetCount(); ++i)
-		{
-			NFDataList xTemDataList;
-			const std::string& strTemData = xDataList.String(i);
-			xTemDataList.Split(strTemData.c_str(), ",");
-			{
-				if (xTemDataList.GetCount() != nSubDataLength)
-				{
-					NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
-				}
+        for (int i = 0; i < xDataList.GetCount(); ++i)
+        {
+            NFDataList xTemDataList;
+            const std::string& strTemData = xDataList.String(i);
+            xTemDataList.Split(strTemData.c_str(), ",");
+            {
+                if (xTemDataList.GetCount() != nSubDataLength)
+                {
+                    NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
+                }
 
-				const std::string& strKey = xTemDataList.String(0);
-				const std::string& value = xTemDataList.String(1);
+                const std::string& strKey = xTemDataList.String(0);
+                const std::string& value = xTemDataList.String(1);
 
-				if (strKey.empty() || value.empty())
-				{
-					NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
-				}
+                if (strKey.empty() || value.empty())
+                {
+                    NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
+                }
 
-				mxEmbeddedMap->AddElement(strKey, NF_SHARE_PTR<std::string>(NF_NEW std::string(value)));
-			}
-		}
+                mxEmbeddedMap->AddElement(strKey, NF_SHARE_PTR<std::string>(NF_NEW std::string(value)));
+            }
+        }
 
-		bRet = true;
-	}
+        bRet = true;
+    }
 
-	return bRet;
+    return bRet;
 }
 
 const NF_SHARE_PTR<NFList<std::string>> NFProperty::GetEmbeddedList() const
 {
-	return this->mxEmbeddedList;
+    return this->mxEmbeddedList;
 }
 
 const NF_SHARE_PTR<NFMapEx<std::string, std::string>> NFProperty::GetEmbeddedMap() const
 {
-	return this->mxEmbeddedMap;
+    return this->mxEmbeddedMap;
 }

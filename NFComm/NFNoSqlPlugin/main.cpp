@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -33,40 +33,42 @@ using namespace std;
 #pragma comment( lib, "ws2_32" )
 
 #ifdef _DEBUG
-#pragma comment( lib, "hiredis_d.lib") 
+#pragma comment( lib, "hiredis_d.lib")
 #else
-#pragma comment( lib, "hiredis.lib") 
-#endif	
+#pragma comment( lib, "hiredis.lib")
+#endif
 
 #define _IP_ "127.0.0.1"
 #define _PORT_ 6379
 
 int main()
 {
-	NFRedisTester xRedisTester(_IP_, _PORT_);
+    NFRedisTester xRedisTester(_IP_, _PORT_);
 
-	while (1)
-	{
-		if (xRedisTester.IsConnect())
-		{
-			break;
-		}
+    while (1)
+    {
+        if (xRedisTester.IsConnect())
+        {
+            break;
+        }
 
-		xRedisTester.Execute();
-	}
+        xRedisTester.Execute();
+    }
 
-	cout << "test begin......" << endl;
-	while (1)
-	{
-		//std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    cout << "test begin......" << endl;
+    while (1)
+    {
+        //std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
-		if (xRedisTester.RunTester())
-			break;
+        if (xRedisTester.RunTester())
+        {
+            break;
+        }
 
-		xRedisTester.Execute();
-	}
+        xRedisTester.Execute();
+    }
 
-	cout << "test end......" << endl;
-	std::getchar();
-	return 0;
+    cout << "test end......" << endl;
+    std::getchar();
+    return 0;
 }

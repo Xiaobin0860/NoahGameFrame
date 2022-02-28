@@ -1,7 +1,7 @@
 ﻿/*
-			This file is part of:
-				NoahFrame
-			https://github.com/ketoo/NoahGameFrame
+            This file is part of:
+                NoahFrame
+            https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
@@ -14,7 +14,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-	   http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,80 +32,80 @@
 
 namespace NodeSystem
 {
-    class NFNode
+class NFNode
+{
+private:
+    NFNode() {}
+
+public:
+    NFNode(const NFGUID id, const int size, const std::string& name, const NFVector2 vec, const int color)
     {
-    private:
-       NFNode(){}
+        this->id = id;
+        this->color = color;
+        this->size = size;
+        this->name = name;
+        this->pos = vec;
+    }
 
-    public:
-	    NFNode(const NFGUID id, const int size, const std::string& name, const NFVector2 vec, const int color)
-       {
-          this->id = id;
-          this->color = color;
-          this->size = size;
-          this->name = name;
-          this->pos = vec;
-       }
+    void Execute(const NFVector2& offset);
 
-	    void Execute(const NFVector2& offset);
+    std::string name;
+    NFGUID id;
+    int color;
+    int size;
+    NFVector2 pos;
+    bool selected = false;
+};
 
-       std::string name;
-       NFGUID id;
-       int color;
-       int size;
-       NFVector2 pos;
-       bool selected = false;
-    };
+class NFNodeSystem
+{
+public:
+    NFNodeSystem();
+    ~NFNodeSystem();
 
-    class NFNodeSystem
-    {
-    public:
-        NFNodeSystem();
-       ~NFNodeSystem();
-
-	    void Execute();
+    void Execute();
 
 
-        void SetBeginRenderCallBack(std::function<void()> functor);
+    void SetBeginRenderCallBack(std::function<void()> functor);
 
-        void CleanNodes();
+    void CleanNodes();
 
-        std::shared_ptr<NFNode> AddNode(const NFGUID nodeId, const std::string& name, const NFVector2 vec = NFVector2(), const int color = -100000);
-        void DeleteNode(const NFGUID nodeId);
-        std::shared_ptr<NFNode> FindNode(const NFGUID nodeId);
+    std::shared_ptr<NFNode> AddNode(const NFGUID nodeId, const std::string& name, const NFVector2 vec = NFVector2(), const int color = -100000);
+    void DeleteNode(const NFGUID nodeId);
+    std::shared_ptr<NFNode> FindNode(const NFGUID nodeId);
 
-        void ResetToCenter();
-        void MoveToNode(const NFGUID nodeId);
-        void SelectNode(const NFGUID nodeId);
+    void ResetToCenter();
+    void MoveToNode(const NFGUID nodeId);
+    void SelectNode(const NFGUID nodeId);
 
-        void SetBackGroundColor(const int color);
-        void SetNodeSize(const int size);
-        int GetNodeSize();
-        NFVector2 GetOffset();
+    void SetBackGroundColor(const int color);
+    void SetNodeSize(const int size);
+    int GetNodeSize();
+    NFVector2 GetOffset();
 
-        void DrawRect(const NFVector2& p_min, const NFVector2& p_max, int col);
-        void DrawRectFilled(const NFVector2& p_min, const NFVector2& p_max, int col);
-        void DrawText(const NFVector2& pos, int col, const std::string& text);
+    void DrawRect(const NFVector2& p_min, const NFVector2& p_max, int col);
+    void DrawRectFilled(const NFVector2& p_min, const NFVector2& p_max, int col);
+    void DrawText(const NFVector2& pos, int col, const std::string& text);
 
-        void DrawCircle(const NFVector2& center, const float radius, const int col);
-        void DrawCircleFilled(const NFVector2& center, const float radius, int const col);
+    void DrawCircle(const NFVector2& center, const float radius, const int col);
+    void DrawCircleFilled(const NFVector2& center, const float radius, int const col);
 
-        void DrawArrow(const NFVector2& start, const NFVector2& end, int col);
+    void DrawArrow(const NFVector2& start, const NFVector2& end, int col);
 
-    private:
-        bool init = false;
+private:
+    bool init = false;
 
-        std::function<void()> mBeginRenderFunctor;
+    std::function<void()> mBeginRenderFunctor;
 
-        int idIndex = 0;
-        int nodeSize = 10;
-        int backgroundColor;
+    int idIndex = 0;
+    int nodeSize = 10;
+    int backgroundColor;
 
-        NFGUID selectedObject;
+    NFGUID selectedObject;
 
-        NFVector2 offset;
-        std::map<NFGUID, NF_SHARE_PTR<NFNode>> mNodes;
-    };
+    NFVector2 offset;
+    std::map<NFGUID, NF_SHARE_PTR<NFNode>> mNodes;
+};
 
 }
 #endif

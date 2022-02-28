@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,9 +29,9 @@
 
 bool NFLoginLogicModule::Init()
 {
-	m_pAccountRedisModule = pPluginManager->FindModule<NFIAccountRedisModule>();
-	m_pNetModule = pPluginManager->FindModule<NFINetModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pAccountRedisModule = pPluginManager->FindModule<NFIAccountRedisModule>();
+    m_pNetModule = pPluginManager->FindModule<NFINetModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
 
     return true;
 }
@@ -43,75 +43,75 @@ bool NFLoginLogicModule::Shut()
 
 void NFLoginLogicModule::OnLoginProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
-	NFGUID nPlayerID;
-	NFMsg::ReqAccountLogin xMsg;
-	if (!m_pNetModule->ReceivePB(msgID, msg, len, xMsg, nPlayerID))
-	{
-	    m_pLogModule->LogError("Failed to ReceivePB for message id:" + std::to_string(msgID));
-		return;
-	}
+    NFGUID nPlayerID;
+    NFMsg::ReqAccountLogin xMsg;
+    if (!m_pNetModule->ReceivePB(msgID, msg, len, xMsg, nPlayerID))
+    {
+        m_pLogModule->LogError("Failed to ReceivePB for message id:" + std::to_string(msgID));
+        return;
+    }
 
-	NetObject* pNetObject = m_pNetModule->GetNet()->GetNetObject(sockIndex);
-	if (pNetObject)
-	{
-		if (pNetObject->GetConnectKeyState() == 0)
-		{
-			NFMsg::AckEventResult xAckMsg;
+    NetObject* pNetObject = m_pNetModule->GetNet()->GetNetObject(sockIndex);
+    if (pNetObject)
+    {
+        if (pNetObject->GetConnectKeyState() == 0)
+        {
+            NFMsg::AckEventResult xAckMsg;
 
-			switch (xMsg.loginmode())
-			{
-			case NFMsg::ELM_AUTO_REGISTER_LOGIN: // auto register when login
-				if (m_pAccountRedisModule->AddAccount(xMsg.account(), xMsg.password()))
-				{
-					break;
-				}
-				// goto case NFMsg::ELM_LOGIN
+            switch (xMsg.loginmode())
+            {
+                case NFMsg::ELM_AUTO_REGISTER_LOGIN: // auto register when login
+                    if (m_pAccountRedisModule->AddAccount(xMsg.account(), xMsg.password()))
+                    {
+                        break;
+                    }
+                // goto case NFMsg::ELM_LOGIN
 
-			case NFMsg::ELM_LOGIN: // login
-				if (!m_pAccountRedisModule->VerifyAccount(xMsg.account(), xMsg.password()))
-				{
-					std::ostringstream strLog;
-					strLog << "Check password failed, Account = " << xMsg.account() << " Password = " << xMsg.password();
-					m_pLogModule->LogError(NFGUID(0, sockIndex), strLog, __FUNCTION__, __LINE__);
+                case NFMsg::ELM_LOGIN: // login
+                    if (!m_pAccountRedisModule->VerifyAccount(xMsg.account(), xMsg.password()))
+                    {
+                        std::ostringstream strLog;
+                        strLog << "Check password failed, Account = " << xMsg.account() << " Password = " << xMsg.password();
+                        m_pLogModule->LogError(NFGUID(0, sockIndex), strLog, __FUNCTION__, __LINE__);
 
-					xAckMsg.set_event_code(NFMsg::ACCOUNTPWD_INVALID);
-					m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::ACK_LOGIN, xAckMsg, sockIndex);
-					return;
-				}
-				break;
+                        xAckMsg.set_event_code(NFMsg::ACCOUNTPWD_INVALID);
+                        m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::ACK_LOGIN, xAckMsg, sockIndex);
+                        return;
+                    }
+                    break;
 
-			case NFMsg::ELM_REGISTER: // register
-				if (!m_pAccountRedisModule->AddAccount(xMsg.account(), xMsg.password()))
-				{
-					std::ostringstream strLog;
-					strLog << "Create account failed, Account = " << xMsg.account() << " Password = " << xMsg.password();
-					m_pLogModule->LogError(NFGUID(0, sockIndex), strLog, __FUNCTION__, __LINE__);
+                case NFMsg::ELM_REGISTER: // register
+                    if (!m_pAccountRedisModule->AddAccount(xMsg.account(), xMsg.password()))
+                    {
+                        std::ostringstream strLog;
+                        strLog << "Create account failed, Account = " << xMsg.account() << " Password = " << xMsg.password();
+                        m_pLogModule->LogError(NFGUID(0, sockIndex), strLog, __FUNCTION__, __LINE__);
 
-					xAckMsg.set_event_code(NFMsg::ACCOUNT_EXIST);
-					m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::ACK_LOGIN, xAckMsg, sockIndex);
-					return;
-				}
-				break;
+                        xAckMsg.set_event_code(NFMsg::ACCOUNT_EXIST);
+                        m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::ACK_LOGIN, xAckMsg, sockIndex);
+                        return;
+                    }
+                    break;
 
-			default:
-				break;
-			}
+                default:
+                    break;
+            }
 
-			pNetObject->SetConnectKeyState(1);
-			pNetObject->SetAccount(xMsg.account());
+            pNetObject->SetConnectKeyState(1);
+            pNetObject->SetAccount(xMsg.account());
 
-			xAckMsg.set_event_code(NFMsg::ACCOUNT_LOGIN_SUCCESS);
-			m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::ACK_LOGIN, xAckMsg, sockIndex);
+            xAckMsg.set_event_code(NFMsg::ACCOUNT_LOGIN_SUCCESS);
+            m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::ACK_LOGIN, xAckMsg, sockIndex);
 
-			m_pLogModule->LogInfo(NFGUID(0, sockIndex), "Login successed :", xMsg.account().c_str());
-		}
-	}
+            m_pLogModule->LogInfo(NFGUID(0, sockIndex), "Login successed :", xMsg.account().c_str());
+        }
+    }
 }
 
 bool NFLoginLogicModule::ReadyExecute()
 {
-	m_pNetModule->RemoveReceiveCallBack(NFMsg::REQ_LOGIN);
-	m_pNetModule->AddReceiveCallBack(NFMsg::REQ_LOGIN, this, &NFLoginLogicModule::OnLoginProcess);
+    m_pNetModule->RemoveReceiveCallBack(NFMsg::REQ_LOGIN);
+    m_pNetModule->AddReceiveCallBack(NFMsg::REQ_LOGIN, this, &NFLoginLogicModule::OnLoginProcess);
 
     return true;
 }

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -51,18 +51,18 @@ const int NFLuaScriptPlugin::GetPluginVersion()
 
 const std::string NFLuaScriptPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFLuaScriptPlugin);
+    return GET_CLASS_NAME(NFLuaScriptPlugin);
 }
 
 void NFLuaScriptPlugin::Install()
 {
-	REGISTER_MODULE(pPluginManager, NFILuaScriptModule, NFLuaScriptModule)
-	REGISTER_MODULE(pPluginManager, NFILuaPBModule, NFLuaPBModule)
+    REGISTER_MODULE(pPluginManager, NFILuaScriptModule, NFLuaScriptModule)
+    REGISTER_MODULE(pPluginManager, NFILuaPBModule, NFLuaPBModule)
 
 }
 
 void NFLuaScriptPlugin::Uninstall()
 {
-	UNREGISTER_MODULE(pPluginManager, NFILuaPBModule, NFLuaPBModule)
-	UNREGISTER_MODULE(pPluginManager, NFILuaScriptModule, NFLuaScriptModule)
+    UNREGISTER_MODULE(pPluginManager, NFILuaPBModule, NFLuaPBModule)
+    UNREGISTER_MODULE(pPluginManager, NFILuaScriptModule, NFLuaScriptModule)
 }

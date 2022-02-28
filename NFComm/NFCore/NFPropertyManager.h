@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -50,7 +50,7 @@ public:
 
     virtual const NFGUID& Self();
 
-	virtual std::string ToString();
+    virtual std::string ToString();
 
     virtual bool SetProperty(const std::string& propertyName, const NFData& TData);
 
@@ -58,16 +58,16 @@ public:
     virtual bool SetPropertyFloat(const std::string& propertyName, const double dwValue);
     virtual bool SetPropertyString(const std::string& propertyName, const std::string& value);
     virtual bool SetPropertyObject(const std::string& propertyName, const NFGUID& obj);
-	virtual bool SetPropertyVector2(const std::string& propertyName, const NFVector2& value);
-	virtual bool SetPropertyVector3(const std::string& propertyName, const NFVector3& value);
+    virtual bool SetPropertyVector2(const std::string& propertyName, const NFVector2& value);
+    virtual bool SetPropertyVector3(const std::string& propertyName, const NFVector3& value);
 
     virtual NFINT64 GetPropertyInt(const std::string& propertyName);
-	virtual int GetPropertyInt32(const std::string& propertyName);
+    virtual int GetPropertyInt32(const std::string& propertyName);
     virtual double GetPropertyFloat(const std::string& propertyName);
     virtual const std::string& GetPropertyString(const std::string& propertyName);
     virtual const NFGUID& GetPropertyObject(const std::string& propertyName);
-	virtual const NFVector2& GetPropertyVector2(const std::string& propertyName);
-	virtual const NFVector3& GetPropertyVector3(const std::string& propertyName);
+    virtual const NFVector2& GetPropertyVector2(const std::string& propertyName);
+    virtual const NFVector3& GetPropertyVector3(const std::string& propertyName);
 
 private:
     NFGUID mSelf;

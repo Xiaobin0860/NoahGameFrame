@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,90 +34,90 @@
 NFElementModule::NFElementModule(NFElementModule* p)
 {
     mbLoaded = false;
-	originalElementModule = p;
+    originalElementModule = p;
 }
 
 NFElementModule::NFElementModule(NFIPluginManager* p)
 {
-	originalElementModule = this;
+    originalElementModule = this;
     pPluginManager = p;
     mbLoaded = false;
 
-	if (!this->mbBackup)
-	{
-		for (int i = 0; i < pPluginManager->GetAppCPUCount(); ++i)
-		{
-			ThreadElementModule threadElement;
-			threadElement.used = false;
-			threadElement.elementModule = new NFElementModule(this);
-			threadElement.elementModule->mbBackup = true;
-			threadElement.elementModule->pPluginManager = pPluginManager;
+    if (!this->mbBackup)
+    {
+        for (int i = 0; i < pPluginManager->GetAppCPUCount(); ++i)
+        {
+            ThreadElementModule threadElement;
+            threadElement.used = false;
+            threadElement.elementModule = new NFElementModule(this);
+            threadElement.elementModule->mbBackup = true;
+            threadElement.elementModule->pPluginManager = pPluginManager;
 
-			mThreadElements.push_back(threadElement);
-		}
-	}
+            mThreadElements.push_back(threadElement);
+        }
+    }
 }
 
 NFElementModule::~NFElementModule()
 {
     if (!this->mbBackup)
     {
-		for (int i = 0; i < mThreadElements.size(); ++i)
-		{
-			delete mThreadElements[i].elementModule;
-		}
+        for (int i = 0; i < mThreadElements.size(); ++i)
+        {
+            delete mThreadElements[i].elementModule;
+        }
 
-		mThreadElements.clear();
+        mThreadElements.clear();
     }
 }
 
 bool NFElementModule::Awake()
 {
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
 
-	if (this->mbBackup)
-	{
-		for (int i = 0; i < originalElementModule->mThreadElements.size(); ++i)
-		{
-			if (originalElementModule->mThreadElements[i].elementModule == this)
-			{
-				m_pClassModule = m_pClassModule->GetThreadClassModule(i);
-				break;
-			}
-		}
-	}
+    if (this->mbBackup)
+    {
+        for (int i = 0; i < originalElementModule->mThreadElements.size(); ++i)
+        {
+            if (originalElementModule->mThreadElements[i].elementModule == this)
+            {
+                m_pClassModule = m_pClassModule->GetThreadClassModule(i);
+                break;
+            }
+        }
+    }
 
-	for (int i = 0; i < mThreadElements.size(); ++i)
-	{
-		mThreadElements[i].elementModule->Awake();
-	}
+    for (int i = 0; i < mThreadElements.size(); ++i)
+    {
+        mThreadElements[i].elementModule->Awake();
+    }
 
-	Load();
+    Load();
 
-	return true;
+    return true;
 }
 
 bool NFElementModule::Init()
 {
-	for (int i = 0; i < mThreadElements.size(); ++i)
-	{
-		mThreadElements[i].elementModule->Init();
-	}
+    for (int i = 0; i < mThreadElements.size(); ++i)
+    {
+        mThreadElements[i].elementModule->Init();
+    }
 
     return true;
 }
 
 bool NFElementModule::AfterInit()
 {
-	CheckRef();
+    CheckRef();
 
-	for (int i = 0; i < mThreadElements.size(); ++i)
-	{
-		mThreadElements[i].elementModule->AfterInit();
-	}
+    for (int i = 0; i < mThreadElements.size(); ++i)
+    {
+        mThreadElements[i].elementModule->AfterInit();
+    }
 
-	return true;
+    return true;
 }
 
 bool NFElementModule::Shut()
@@ -129,26 +129,26 @@ bool NFElementModule::Shut()
 
 NFIElementModule* NFElementModule::GetThreadElementModule()
 {
-	std::thread::id threadID = std::this_thread::get_id();
+    std::thread::id threadID = std::this_thread::get_id();
 
-	for (int i = 0; i < mThreadElements.size(); ++i)
-	{
-		if (mThreadElements[i].used)
-		{
-			if (mThreadElements[i].threadID == threadID)
-			{
-				return mThreadElements[i].elementModule;
-			}
-		}
-		else
-		{
-			mThreadElements[i].used = true;
-			mThreadElements[i].threadID = threadID;
-			return mThreadElements[i].elementModule;
-		}
-	}
+    for (int i = 0; i < mThreadElements.size(); ++i)
+    {
+        if (mThreadElements[i].used)
+        {
+            if (mThreadElements[i].threadID == threadID)
+            {
+                return mThreadElements[i].elementModule;
+            }
+        }
+        else
+        {
+            mThreadElements[i].used = true;
+            mThreadElements[i].threadID = threadID;
+            return mThreadElements[i].elementModule;
+        }
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 bool NFElementModule::Load()
@@ -168,12 +168,12 @@ bool NFElementModule::Load()
             continue;
         }
         //////////////////////////////////////////////////////////////////////////
-		std::string strFile = pPluginManager->GetConfigPath() + strInstancePath;
-		std::string content;
-		pPluginManager->GetFileContent(strFile, content);
+        std::string strFile = pPluginManager->GetConfigPath() + strInstancePath;
+        std::string content;
+        pPluginManager->GetFileContent(strFile, content);
 
-		rapidxml::xml_document<> xDoc;
-		xDoc.parse<0>((char*)content.c_str());
+        rapidxml::xml_document<> xDoc;
+        xDoc.parse<0>((char*)content.c_str());
         //////////////////////////////////////////////////////////////////////////
         //support for unlimited layer class inherits
         rapidxml::xml_node<>* root = xDoc.first_node();
@@ -186,10 +186,10 @@ bool NFElementModule::Load()
         pLogicClass = m_pClassModule->Next();
     }
 
-	for (int i = 0; i < mThreadElements.size(); ++i)
-	{
-		mThreadElements[i].elementModule->Load();
-	}
+    for (int i = 0; i < mThreadElements.size(); ++i)
+    {
+        mThreadElements[i].elementModule->Load();
+    }
 
     return true;
 }
@@ -199,34 +199,34 @@ bool NFElementModule::CheckRef()
     NF_SHARE_PTR<NFIClass> pLogicClass = m_pClassModule->First();
     while (pLogicClass)
     {
-		NF_SHARE_PTR<NFIPropertyManager> pClassPropertyManager = pLogicClass->GetPropertyManager();
-		if (pClassPropertyManager)
-		{
-			NF_SHARE_PTR<NFIProperty> pProperty = pClassPropertyManager->First();
-			while (pProperty)
-			{
-				//if one property is ref,check every config
-				if (pProperty->GetRef())
-				{
-					const std::vector<std::string>& strIdList = pLogicClass->GetIDList();
-					for (int i = 0; i < strIdList.size(); ++i)
-					{
-						const std::string& strId = strIdList[i];
+        NF_SHARE_PTR<NFIPropertyManager> pClassPropertyManager = pLogicClass->GetPropertyManager();
+        if (pClassPropertyManager)
+        {
+            NF_SHARE_PTR<NFIProperty> pProperty = pClassPropertyManager->First();
+            while (pProperty)
+            {
+                //if one property is ref,check every config
+                if (pProperty->GetRef())
+                {
+                    const std::vector<std::string>& strIdList = pLogicClass->GetIDList();
+                    for (int i = 0; i < strIdList.size(); ++i)
+                    {
+                        const std::string& strId = strIdList[i];
 
-						const std::string& strRefValue= this->GetPropertyString(strId, pProperty->GetKey());
-						if (!strRefValue.empty() && !this->GetElement(strRefValue))
-						{
-							std::string msg = "check ref failed id:" + strRefValue + ", in " + pLogicClass->GetClassName() + "=>" + strId;
-							NFASSERT(nRet, msg.c_str(), __FILE__, __FUNCTION__);
+                        const std::string& strRefValue = this->GetPropertyString(strId, pProperty->GetKey());
+                        if (!strRefValue.empty() && !this->GetElement(strRefValue))
+                        {
+                            std::string msg = "check ref failed id:" + strRefValue + ", in " + pLogicClass->GetClassName() + "=>" + strId;
+                            NFASSERT(nRet, msg.c_str(), __FILE__, __FUNCTION__);
 
-							m_pLogModule->LogError(msg, __FUNCTION__, __LINE__);
-							exit(0);
-						}
-					}
-				}
-				pProperty = pClassPropertyManager->Next();
-			}
-		}
+                            m_pLogModule->LogError(msg, __FUNCTION__, __LINE__);
+                            exit(0);
+                        }
+                    }
+                }
+                pProperty = pClassPropertyManager->Next();
+            }
+        }
         //////////////////////////////////////////////////////////////////////////
         pLogicClass = m_pClassModule->Next();
     }
@@ -284,9 +284,9 @@ bool NFElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass
             xRecord->SetPrivate(pRecord->GetPrivate());
             xRecord->SetSave(pRecord->GetSave());
             xRecord->SetCache(pRecord->GetCache());
-			xRecord->SetRef(pRecord->GetRef());
-			xRecord->SetForce(pRecord->GetForce());
-			xRecord->SetUpload(pRecord->GetUpload());
+            xRecord->SetRef(pRecord->GetRef());
+            xRecord->SetForce(pRecord->GetForce());
+            xRecord->SetUpload(pRecord->GetUpload());
 
             pRecord = pClassRecordManager->Next();
         }
@@ -331,10 +331,10 @@ bool NFElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass
             }
             break;
             case TDATA_STRING:
-                {
-                    var.SetString(pstrConfigValue);
-                }
-                break;
+            {
+                var.SetString(pstrConfigValue);
+            }
+            break;
             case TDATA_OBJECT:
             {
                 if (strlen(pstrConfigValue) <= 0)
@@ -344,35 +344,35 @@ bool NFElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass
                 var.SetObject(NFGUID());
             }
             break;
-			case TDATA_VECTOR2:
-			{
-				if (strlen(pstrConfigValue) <= 0)
-				{
-					NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
-				}
+            case TDATA_VECTOR2:
+            {
+                if (strlen(pstrConfigValue) <= 0)
+                {
+                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+                }
 
-				NFVector2 tmp;
-				if (!tmp.FromString(pstrConfigValue))
-				{
-					NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
-				}
-				var.SetVector2(tmp);
-			}
-			break;
-			case TDATA_VECTOR3:
-			{
-				if (strlen(pstrConfigValue) <= 0)
-				{
-					NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
-				}
-				NFVector3 tmp;
-				if (!tmp.FromString(pstrConfigValue))
-				{
-					NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
-				}
-				var.SetVector3(tmp);
-			}
-			break;
+                NFVector2 tmp;
+                if (!tmp.FromString(pstrConfigValue))
+                {
+                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+                }
+                var.SetVector2(tmp);
+            }
+            break;
+            case TDATA_VECTOR3:
+            {
+                if (strlen(pstrConfigValue) <= 0)
+                {
+                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+                }
+                NFVector3 tmp;
+                if (!tmp.FromString(pstrConfigValue))
+                {
+                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+                }
+                var.SetVector3(tmp);
+            }
+            break;
             default:
                 NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
                 break;
@@ -416,13 +416,13 @@ NFINT64 NFElementModule::GetPropertyInt(const std::string& configName, const std
 
 int NFElementModule::GetPropertyInt32(const std::string& configName, const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetProperty(configName, propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetInt32();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetProperty(configName, propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetInt32();
+    }
 
-	return 0;
+    return 0;
 }
 
 double NFElementModule::GetPropertyFloat(const std::string& configName, const std::string& propertyName)
@@ -447,70 +447,70 @@ const std::string& NFElementModule::GetPropertyString(const std::string& configN
     return  NULL_STR;
 }
 
-const NFVector2 NFElementModule::GetPropertyVector2(const std::string & configName, const std::string & propertyName)
+const NFVector2 NFElementModule::GetPropertyVector2(const std::string& configName, const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetProperty(configName, propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetVector2();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetProperty(configName, propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetVector2();
+    }
 
-	return NFVector2();
+    return NFVector2();
 }
 
-const NFVector3 NFElementModule::GetPropertyVector3(const std::string & configName, const std::string & propertyName)
+const NFVector3 NFElementModule::GetPropertyVector3(const std::string& configName, const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetProperty(configName, propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetVector3();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetProperty(configName, propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetVector3();
+    }
 
-	return NFVector3();
+    return NFVector3();
 }
 
-const std::vector<std::string> NFElementModule::GetListByProperty(const std::string & className, const std::string & propertyName, NFINT64 nValue)
+const std::vector<std::string> NFElementModule::GetListByProperty(const std::string& className, const std::string& propertyName, NFINT64 nValue)
 {
-	std::vector<std::string> xList;
+    std::vector<std::string> xList;
 
-	NF_SHARE_PTR<NFIClass> xClass = m_pClassModule->GetElement(className);
-	if (nullptr != xClass)
-	{
-		const std::vector<std::string>& xElementList = xClass->GetIDList();
-		for (int i = 0; i < xElementList.size(); ++i)
-		{
-			const std::string& configID = xElementList[i];
-			NFINT64 nElementValue = GetPropertyInt(configID, propertyName);
-			if (nValue == nElementValue)
-			{
-				xList.push_back(configID);
-			}
-		}
-	}
+    NF_SHARE_PTR<NFIClass> xClass = m_pClassModule->GetElement(className);
+    if (nullptr != xClass)
+    {
+        const std::vector<std::string>& xElementList = xClass->GetIDList();
+        for (int i = 0; i < xElementList.size(); ++i)
+        {
+            const std::string& configID = xElementList[i];
+            NFINT64 nElementValue = GetPropertyInt(configID, propertyName);
+            if (nValue == nElementValue)
+            {
+                xList.push_back(configID);
+            }
+        }
+    }
 
-	return xList;
+    return xList;
 }
 
-const std::vector<std::string> NFElementModule::GetListByProperty(const std::string & className, const std::string & propertyName, const std::string & nValue)
+const std::vector<std::string> NFElementModule::GetListByProperty(const std::string& className, const std::string& propertyName, const std::string& nValue)
 {
-	std::vector<std::string> xList;
+    std::vector<std::string> xList;
 
-	NF_SHARE_PTR<NFIClass> xClass = m_pClassModule->GetElement(className);
-	if (nullptr != xClass)
-	{
-		const std::vector<std::string>& xElementList = xClass->GetIDList();
-		for (int i = 0; i < xElementList.size(); ++i)
-		{
-			const std::string& configID = xElementList[i];
-			const std::string& strElementValue = GetPropertyString(configID, propertyName);
-			if (nValue == strElementValue)
-			{
-				xList.push_back(configID);
-			}
-		}
-	}
+    NF_SHARE_PTR<NFIClass> xClass = m_pClassModule->GetElement(className);
+    if (nullptr != xClass)
+    {
+        const std::vector<std::string>& xElementList = xClass->GetIDList();
+        for (int i = 0; i < xElementList.size(); ++i)
+        {
+            const std::string& configID = xElementList[i];
+            const std::string& strElementValue = GetPropertyString(configID, propertyName);
+            if (nValue == strElementValue)
+            {
+                xList.push_back(configID);
+            }
+        }
+    }
 
-	return xList;
+    return xList;
 }
 
 NF_SHARE_PTR<NFIProperty> NFElementModule::GetProperty(const std::string& configName, const std::string& propertyName)
@@ -547,12 +547,12 @@ NF_SHARE_PTR<NFIRecordManager> NFElementModule::GetRecordManager(const std::stri
 
 bool NFElementModule::LoadSceneInfo(const std::string& fileName, const std::string& className)
 {
-	std::string content;
-	pPluginManager->GetFileContent(fileName, content);
+    std::string content;
+    pPluginManager->GetFileContent(fileName, content);
 
-	rapidxml::xml_document<> xDoc;
-	xDoc.parse<0>((char*)content.c_str());
-	
+    rapidxml::xml_document<> xDoc;
+    xDoc.parse<0>((char*)content.c_str());
+
     NF_SHARE_PTR<NFIClass> pLogicClass = m_pClassModule->GetElement(className.c_str());
     if (pLogicClass)
     {
@@ -624,51 +624,51 @@ bool NFElementModule::LegalNumber(const char* str)
     return true;
 }
 
-bool NFElementModule::LegalFloat(const char * str)
+bool NFElementModule::LegalFloat(const char* str)
 {
 
-	int len = int(strlen(str));
-	if (len <= 0)
-	{
-		return false;
-	}
+    int len = int(strlen(str));
+    if (len <= 0)
+    {
+        return false;
+    }
 
-	int nStart = 0;
-	int nEnd = len;
-	if ('-' == str[0])
-	{
-		nStart = 1;
-	}
-	if ('f' == std::tolower(str[nEnd -1]))
-	{
-		nEnd--;
-	}
+    int nStart = 0;
+    int nEnd = len;
+    if ('-' == str[0])
+    {
+        nStart = 1;
+    }
+    if ('f' == std::tolower(str[nEnd - 1]))
+    {
+        nEnd--;
+    }
 
-	if (nEnd <= nStart)
-	{
-		return false;
-	}
+    if (nEnd <= nStart)
+    {
+        return false;
+    }
 
-	int pointNum = 0;
-	for (int i = nStart; i < nEnd; ++i)
-	{
-		if ('.' == str[i])
-		{
-			pointNum++;
-		}
+    int pointNum = 0;
+    for (int i = nStart; i < nEnd; ++i)
+    {
+        if ('.' == str[i])
+        {
+            pointNum++;
+        }
 
-		if (!isdigit(str[i]) && '.' != str[i])
-		{
-			return false;
-		}
-	}
+        if (!isdigit(str[i]) && '.' != str[i])
+        {
+            return false;
+        }
+    }
 
-	if (pointNum > 1)
-	{
-		return false;
-	}
+    if (pointNum > 1)
+    {
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 bool NFElementModule::BeforeShut()

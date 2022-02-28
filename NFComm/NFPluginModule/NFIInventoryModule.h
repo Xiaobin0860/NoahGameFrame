@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,10 +35,10 @@ class NFIInventoryModule : public NFIModule
 public:
     virtual NFGUID CreateEquip(const NFGUID& self, const std::string& configName, const int count = 1) = 0;
     virtual bool CreateItem(const NFGUID& self, const std::string& configName, const int count) = 0;
-	virtual int ItemCount(const NFGUID& self, const std::string& strItemConfigID) = 0;
+    virtual int ItemCount(const NFGUID& self, const std::string& strItemConfigID) = 0;
 
     virtual bool DeleteEquip(const NFGUID& self, const NFGUID& id) = 0;
-	virtual bool DeleteItem(const NFGUID& self, const std::string& strItemConfigID, const int count) = 0;
+    virtual bool DeleteItem(const NFGUID& self, const std::string& strItemConfigID, const int count) = 0;
     virtual bool EnoughItem(const NFGUID& self, const std::string& strItemConfigID, const int count) = 0;
 };
 

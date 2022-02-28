@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -78,7 +78,7 @@ public:
     int sceneID;
     int groupID;
 
-    std::string originalData; 
+    std::string originalData;
 
     NFTileConfig tileConfig;
     //<x, z> ==> data
@@ -100,9 +100,9 @@ public:
             auto data = map["data"];
 
             if (saveOriginalData)
-			{
-				groupData->originalData = sceneMapData;
-			}
+            {
+                groupData->originalData = sceneMapData;
+            }
 
             std::string tileConfigValue = tileConfig.dump();
             ajson::load_from_buff(groupData->tileConfig, tileConfigValue.c_str(), tileConfigValue.length());
@@ -127,8 +127,8 @@ public:
         return groupData;
     }
 
-	virtual const NF_SHARE_PTR<GroupNavigationData> GetMapData(const int scene) = 0;
-	virtual const NF_SHARE_PTR<GroupNavigationData> GetMapData(const int scene, const int group) = 0;
+    virtual const NF_SHARE_PTR<GroupNavigationData> GetMapData(const int scene) = 0;
+    virtual const NF_SHARE_PTR<GroupNavigationData> GetMapData(const int scene, const int group) = 0;
     virtual const NF_SHARE_PTR<NFVoxel> GetMapData(const int scene, const int group, const int x, int z) = 0;
 
     //modify map data in run time

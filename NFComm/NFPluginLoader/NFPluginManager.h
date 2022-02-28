@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -84,16 +84,16 @@ public:
 
     virtual NFIModule* FindTestModule(const std::string& moduleName) override;
 
-	virtual std::list<NFIModule*> Modules() override;
-	virtual std::list<NFIModule*> TestModules() override;
+    virtual std::list<NFIModule*> Modules() override;
+    virtual std::list<NFIModule*> TestModules() override;
 
     virtual bool Execute() override;
 
     virtual int GetAppID() const override;
     virtual void SetAppID(const int appID) override;
 
-	virtual int GetAppType() const override;
-	virtual void SetAppType(const int type) override;
+    virtual int GetAppType() const override;
+    virtual void SetAppType(const int type) override;
 
     virtual bool IsRunningDocker() const override;
     virtual void SetRunningDocker(bool bDocker) override;
@@ -104,7 +104,7 @@ public:
     virtual NFINT64 GetNowTime() const override;
 
     virtual const std::string& GetConfigPath() const override;
-    virtual void SetConfigPath(const std::string & strPath) override;
+    virtual void SetConfigPath(const std::string& strPath) override;
 
     virtual void SetConfigName(const std::string& fileName) override;
     virtual const std::string& GetConfigName() const override;
@@ -123,18 +123,18 @@ public:
     virtual void SetCurrentPlugin(NFIPlugin* pPlugin) override;
     virtual void SetCurrentModule(NFIModule* pModule) override;
 
-	virtual int GetAppCPUCount() const override;
-	virtual void SetAppCPUCount(const int count) override;
+    virtual int GetAppCPUCount() const override;
+    virtual void SetAppCPUCount(const int count) override;
 
-	virtual bool UsingBackThread() const override;
-	virtual void SetUsingBackThread(const bool b) override;
+    virtual bool UsingBackThread() const override;
+    virtual void SetUsingBackThread(const bool b) override;
 
     virtual void SetGetFileContentFunctor(GET_FILECONTENT_FUNCTOR fun) override;
 
-    virtual bool GetFileContent(const std::string &fileName, std::string &content) override;
+    virtual bool GetFileContent(const std::string& fileName, std::string& content) override;
 
-	virtual void AddFileReplaceContent(const std::string& fileName, const std::string& content, const std::string& newValue) override;
-	virtual std::vector<NFReplaceContent> GetFileReplaceContents(const std::string& fileName) override;
+    virtual void AddFileReplaceContent(const std::string& fileName, const std::string& content, const std::string& newValue) override;
+    virtual std::vector<NFReplaceContent> GetFileReplaceContents(const std::string& fileName) override;
 
 protected:
 
@@ -147,14 +147,14 @@ protected:
 
 private:
     int appID = 0;
-	int appType = 0;
+    int appType = 0;
     bool mbIsDocker = false;
-	bool mbStaticPlugin = false;
-	bool usingBackThread = false;
+    bool mbStaticPlugin = false;
+    bool usingBackThread = false;
 
     NFINT64 mnInitTime = 0;
-	NFINT64 mnNowTime = 0;
-	NFINT64 mnCPUCount = 8;
+    NFINT64 mnNowTime = 0;
+    NFINT64 mnCPUCount = 8;
 
     std::string configPath;
     std::string configName;
@@ -175,7 +175,7 @@ private:
     typedef void(* DLL_STOP_PLUGIN_FUNC)(NFIPluginManager* pm);
 
     std::vector<std::string> mStaticPlugin;
-	std::map<std::string, std::vector<NFReplaceContent>> mReplaceContent;
+    std::map<std::string, std::vector<NFReplaceContent>> mReplaceContent;
 
     PluginNameMap mPluginNameMap;
     PluginLibMap mPluginLibMap;

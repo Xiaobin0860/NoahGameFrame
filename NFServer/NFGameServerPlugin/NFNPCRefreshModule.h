@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -48,7 +48,7 @@ class NFNPCRefreshModule
     : public NFINPCRefreshModule
 {
 public:
-    NFNPCRefreshModule( NFIPluginManager* p )
+    NFNPCRefreshModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -60,24 +60,24 @@ public:
     virtual bool AfterInit();
 
 protected:
-    int OnObjectClassEvent( const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var );
+    int OnObjectClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
 
-    int OnObjectHPEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
+    int OnObjectHPEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
 
-	int OnNPCDeadDestroyHeart(const NFGUID& self, const std::string& heartBeat, const float time, const int count);
-	int OnBuildingDeadDestroyHeart( const NFGUID& self, const std::string& heartBeat, const float time, const int count);
+    int OnNPCDeadDestroyHeart(const NFGUID& self, const std::string& heartBeat, const float time, const int count);
+    int OnBuildingDeadDestroyHeart(const NFGUID& self, const std::string& heartBeat, const float time, const int count);
 
 protected:
-	int OnObjectBeKilled( const NFGUID& self, const NFGUID& killer );
+    int OnObjectBeKilled(const NFGUID& self, const NFGUID& killer);
 
 private:
-	NFIEventModule* m_pEventModule;
-	NFIScheduleModule* m_pScheduleModule;
+    NFIEventModule* m_pEventModule;
+    NFIScheduleModule* m_pScheduleModule;
     NFIElementModule* m_pElementModule;
     NFIKernelModule* m_pKernelModule;
     NFISceneProcessModule* m_pSceneProcessModule;
-	NFILogModule* m_pLogModule;
-	NFIPropertyModule* m_pPropertyModule;
+    NFILogModule* m_pLogModule;
+    NFIPropertyModule* m_pPropertyModule;
     NFISceneModule* m_pSceneModule;
 };
 

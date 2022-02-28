@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -58,7 +58,7 @@ NF_SHARE_PTR<NFIProperty> NFPropertyManager::AddProperty(const NFGUID& self, NF_
         pNewProperty->SetSave(pProperty->GetSave());
         pNewProperty->SetCache(pProperty->GetCache());
         pNewProperty->SetRef(pProperty->GetRef());
-		pNewProperty->SetUpload(pProperty->GetUpload());
+        pNewProperty->SetUpload(pProperty->GetUpload());
 
         this->AddElement(propertyName, pNewProperty);
     }
@@ -99,16 +99,16 @@ const NFGUID& NFPropertyManager::Self()
 
 std::string NFPropertyManager::ToString()
 {
-	std::string s;
-	std::stringstream stream;
-	NF_SHARE_PTR<NFIProperty> pProperty = First(s);
-	while (pProperty)
-	{
-		stream << s << ":" << pProperty->ToString() << "|";
-		pProperty = Next(s);
-	}
+    std::string s;
+    std::stringstream stream;
+    NF_SHARE_PTR<NFIProperty> pProperty = First(s);
+    while (pProperty)
+    {
+        stream << s << ":" << pProperty->ToString() << "|";
+        pProperty = Next(s);
+    }
 
-	return stream.str();
+    return stream.str();
 }
 
 bool NFPropertyManager::SetPropertyInt(const std::string& propertyName, const NFINT64 nValue)
@@ -157,42 +157,42 @@ bool NFPropertyManager::SetPropertyObject(const std::string& propertyName, const
 
 bool NFPropertyManager::SetPropertyVector2(const std::string& propertyName, const NFVector2& value)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->SetVector2(value);
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->SetVector2(value);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFPropertyManager::SetPropertyVector3(const std::string& propertyName, const NFVector3& value)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->SetVector3(value);
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->SetVector3(value);
+    }
 
-	return false;
+    return false;
 }
 
 NFINT64 NFPropertyManager::GetPropertyInt(const std::string& propertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
-	return pProperty ? pProperty->GetInt() : 0;
+    return pProperty ? pProperty->GetInt() : 0;
 }
 
 int NFPropertyManager::GetPropertyInt32(const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
-	return pProperty ? pProperty->GetInt32() : 0;
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
+    return pProperty ? pProperty->GetInt32() : 0;
 }
 
 double NFPropertyManager::GetPropertyFloat(const std::string& propertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
-	return pProperty ? pProperty->GetFloat() : 0.0;
+    return pProperty ? pProperty->GetFloat() : 0.0;
 }
 
 const std::string& NFPropertyManager::GetPropertyString(const std::string& propertyName)
@@ -219,22 +219,22 @@ const NFGUID& NFPropertyManager::GetPropertyObject(const std::string& propertyNa
 
 const NFVector2& NFPropertyManager::GetPropertyVector2(const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetVector2();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetVector2();
+    }
 
-	return NULL_VECTOR2;
+    return NULL_VECTOR2;
 }
 
 const NFVector3& NFPropertyManager::GetPropertyVector3(const std::string& propertyName)
 {
-	NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
-	if (pProperty)
-	{
-		return pProperty->GetVector3();
-	}
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(propertyName);
+    if (pProperty)
+    {
+        return pProperty->GetVector3();
+    }
 
-	return NULL_VECTOR3;
+    return NULL_VECTOR3;
 }

@@ -1,7 +1,7 @@
 ﻿/*
-			This file is part of:
-				NoahFrame
-			https://github.com/ketoo/NoahGameFrame
+            This file is part of:
+                NoahFrame
+            https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
@@ -14,7 +14,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-	   http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -145,7 +145,9 @@ bool LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_wid
     int image_height = 0;
     unsigned char* image_data = stbi_load(filename, &image_width, &image_height, NULL, 4);
     if (image_data == NULL)
+    {
         return false;
+    }
 
     // Create a OpenGL texture identifier
     GLuint image_texture;
@@ -181,46 +183,46 @@ void* ShowImage(const char* filename, int width, int height)
 
 void NFNodePin::Execute()
 {
-	if (this->iconTextureId == nullptr && !this->image.empty())
-	{
-		int my_image_width = 0;
-		int my_image_height = 0;
-		GLuint my_image_texture = 0;
-		bool ret = LoadTextureFromFile(this->image.c_str(), &my_image_texture, &my_image_width, &my_image_height);
+    if (this->iconTextureId == nullptr && !this->image.empty())
+    {
+        int my_image_width = 0;
+        int my_image_height = 0;
+        GLuint my_image_texture = 0;
+        bool ret = LoadTextureFromFile(this->image.c_str(), &my_image_texture, &my_image_width, &my_image_height);
 
-		this->iconTextureId = (void*)(intptr_t)my_image_texture;
-	}
-	else
-	{
-		if (!this->newImage.empty() && this->newImage != this->image)
-		{
-			this->image = this->newImage;
-			this->newImage = "";
+        this->iconTextureId = (void*)(intptr_t)my_image_texture;
+    }
+    else
+    {
+        if (!this->newImage.empty() && this->newImage != this->image)
+        {
+            this->image = this->newImage;
+            this->newImage = "";
 
-			int my_image_width = 0;
-			int my_image_height = 0;
-			GLuint my_image_texture = 0;
-			bool ret = LoadTextureFromFile(this->image.c_str(), &my_image_texture, &my_image_width, &my_image_height);
+            int my_image_width = 0;
+            int my_image_height = 0;
+            GLuint my_image_texture = 0;
+            bool ret = LoadTextureFromFile(this->image.c_str(), &my_image_texture, &my_image_width, &my_image_height);
 
-			this->iconTextureId = (void*)(intptr_t)my_image_texture;
-		}
-	}
+            this->iconTextureId = (void*)(intptr_t)my_image_texture;
+        }
+    }
 
 
-   if (this->inputPin)
-   {
+    if (this->inputPin)
+    {
         PUSH_COLOR(imnodes::ColorStyle::ColorStyle_Pin, color);
-		if (shape != NFPinShape::PinShape_NONE)
-		{
-			BEGIN_INPUT_PIN(id, shape);
-		}
+        if (shape != NFPinShape::PinShape_NONE)
+        {
+            BEGIN_INPUT_PIN(id, shape);
+        }
 
         POP_COLOR();
 
-	   //ImGui::Text(this->name.c_str());
+        //ImGui::Text(this->name.c_str());
 
         //ShowImage(this->image.c_str(), 20, 20);
-		ImGui::Image(this->iconTextureId, ImVec2(this->imageSize.X(), this->imageSize.Y()));
+        ImGui::Image(this->iconTextureId, ImVec2(this->imageSize.X(), this->imageSize.Y()));
 
         ImGui::SameLine();
         ImGui::PushItemWidth(60);
@@ -229,13 +231,13 @@ void NFNodePin::Execute()
 
 
         this->nodeView->RenderForPin(this);
-	   if (shape != NFPinShape::PinShape_NONE)
-	   {
-		   END_INPUT_PIN();
-	   }
-   }
-   else
-   {
+        if (shape != NFPinShape::PinShape_NONE)
+        {
+            END_INPUT_PIN();
+        }
+    }
+    else
+    {
         PUSH_COLOR(imnodes::ColorStyle::ColorStyle_Pin, color);
 
         BEGIN_OUT_PIN(id, shape);
@@ -255,7 +257,7 @@ void NFNodePin::Execute()
         ImGui::Indent(70);
 
 
-	   ImGui::Image(this->iconTextureId, ImVec2(this->imageSize.X(), this->imageSize.Y()));
+        ImGui::Image(this->iconTextureId, ImVec2(this->imageSize.X(), this->imageSize.Y()));
         //this->iconTextureId = ShowImage(this->image.c_str(), 20, 20);
 
         ImGui::SameLine();
@@ -263,7 +265,7 @@ void NFNodePin::Execute()
         this->nodeView->RenderForPin(this);
 
         END_OUT_PIN();
-   }
+    }
 }
 
 void NFNodePin::UpdateShape()
@@ -306,17 +308,17 @@ void NFNodePin::UpdateShape()
 
 void NFNode::Execute()
 {
-   //ImGui::PushItemWidth(200);
-	if (this->iconTextureId == nullptr
-		&& !this->iconPath.empty())
-	{
-		int my_image_width = 0;
-		int my_image_height = 0;
-		GLuint my_image_texture = 0;
-		bool ret = LoadTextureFromFile(this->iconPath.c_str(), &my_image_texture, &my_image_width, &my_image_height);
+    //ImGui::PushItemWidth(200);
+    if (this->iconTextureId == nullptr
+        && !this->iconPath.empty())
+    {
+        int my_image_width = 0;
+        int my_image_height = 0;
+        GLuint my_image_texture = 0;
+        bool ret = LoadTextureFromFile(this->iconPath.c_str(), &my_image_texture, &my_image_width, &my_image_height);
 
-		this->iconTextureId = (void*)(intptr_t)my_image_texture;
-	}
+        this->iconTextureId = (void*)(intptr_t)my_image_texture;
+    }
 
     if (title)
     {
@@ -336,8 +338,8 @@ void NFNode::Execute()
     POP_COLOR();
     POP_COLOR();
 
-   if (first)
-   {
+    if (first)
+    {
         first = false;
         if (pos.IsZero())
         {
@@ -347,39 +349,39 @@ void NFNode::Execute()
         {
             SET_NODE_POSITION(id, ImVec2(pos.X(), pos.Y()));
         }
-        
-   }
 
-   this->nodeView->NodeRenderBeforePinIn(this);
+    }
 
-   for (auto it : mAttris)
-   {
-       if (it->inputPin)
-       {
-           it->Execute();
-       }
-   }
+    this->nodeView->NodeRenderBeforePinIn(this);
 
-   this->nodeView->NodeRenderAfterPinIn(this);
+    for (auto it : mAttris)
+    {
+        if (it->inputPin)
+        {
+            it->Execute();
+        }
+    }
 
-   if (mAttris.size() > 0)
-   {
-       ImGui::Button("", ImVec2(180, 1));
-   }
+    this->nodeView->NodeRenderAfterPinIn(this);
 
-   this->nodeView->NodeRenderBeforePinOut(this);
+    if (mAttris.size() > 0)
+    {
+        ImGui::Button("", ImVec2(180, 1));
+    }
 
-   for (auto it : mAttris)
-   {
-       if (!it->inputPin)
-       {
-           it->Execute();
-       }
-   }
+    this->nodeView->NodeRenderBeforePinOut(this);
 
-   this->nodeView->NodeRenderAfterPinOut(this);
+    for (auto it : mAttris)
+    {
+        if (!it->inputPin)
+        {
+            it->Execute();
+        }
+    }
 
-   END_NODE();
+    this->nodeView->NodeRenderAfterPinOut(this);
+
+    END_NODE();
 }
 
 /////////////////
@@ -393,14 +395,14 @@ NFNodeView::NFNodeView()
 
 NFNodeView::~NFNodeView()
 {
-   imnodes::EditorContextFree((imnodes::EditorContext*)m_pEditorContext);
+    imnodes::EditorContextFree((imnodes::EditorContext*)m_pEditorContext);
 
-   m_pEditorContext = nullptr;
+    m_pEditorContext = nullptr;
 }
 
 bool NFNodeView::Execute()
 {
-	//1. the project root folder is NFDataCfg
+    //1. the project root folder is NFDataCfg
     SET_CURRENT_CONTEXT(m_pEditorContext);
 
     BEGIN_EDITOR("My Editor");
@@ -419,13 +421,13 @@ bool NFNodeView::Execute()
     CheckDeleteLinkStatus();
     CheckHoverNodeStatus();
 
-	return false;
+    return false;
 }
 
 void NFNodeView::CleanNodes()
 {
-   mNodes.clear();
-   mLinks.clear();
+    mNodes.clear();
+    mLinks.clear();
 }
 
 void NFNodeView::SetUpNewLinkCallBack(std::function<bool(const NFGUID&, const NFGUID&, const NFGUID&, const NFGUID&)> functor)
@@ -515,63 +517,63 @@ void NFNodeView::NodeRenderAfterPinOut(NFNode* node)
 
 void NFNodeView::RenderNodes()
 {
-   for (auto it : mNodes)
-   {
+    for (auto it : mNodes)
+    {
         it.second->Execute();
-   }
+    }
 }
 
 void NFNodeView::RenderLinks()
 {
-   for (auto it : mLinks)
-   {
-      int start = GetAttriID(it->startAttr);
-      int end = GetAttriID(it->endAttr);
+    for (auto it : mLinks)
+    {
+        int start = GetAttriID(it->startAttr);
+        int end = GetAttriID(it->endAttr);
 
-      PUSH_COLOR(imnodes::ColorStyle::ColorStyle_Link, it->color);
+        PUSH_COLOR(imnodes::ColorStyle::ColorStyle_Link, it->color);
 
-      NODE_LINK(it->index, start, end);
+        NODE_LINK(it->index, start, end);
 
-      POP_COLOR();
-   }
+        POP_COLOR();
+    }
 }
 
 NF_SHARE_PTR<NFNode> NFNodeView::AddNode(const NFGUID guid, const std::string& name, NFColor color, const NFVector2 vec)
 {
-   if (mNodes.find(guid) == mNodes.end())
-   {
-       auto node = NF_SHARE_PTR<NFNode>(NF_NEW NFNode(NFIView::GenerateNodeId(), name, guid, vec, color));
-       node->nodeView = this;
-       mNodes.insert(std::make_pair(guid, node));
+    if (mNodes.find(guid) == mNodes.end())
+    {
+        auto node = NF_SHARE_PTR<NFNode>(NF_NEW NFNode(NFIView::GenerateNodeId(), name, guid, vec, color));
+        node->nodeView = this;
+        mNodes.insert(std::make_pair(guid, node));
 
-       return node;
-   }
+        return node;
+    }
 
-   return nullptr;
+    return nullptr;
 }
 
 void NFNodeView::AddPinIn(const NFGUID guid, const NFGUID attrId, const std::string& name, const std::string& image, NFColor color, NFPinShape shape)
 {
-   for (auto it : mNodes)
-   {
-      if (it.second->guid == guid)
-      {
-         it.second->AddPin(NFIView::GeneratePinId(), name, image, true, attrId, color, shape);
-         return;
-      }
-   }
+    for (auto it : mNodes)
+    {
+        if (it.second->guid == guid)
+        {
+            it.second->AddPin(NFIView::GeneratePinId(), name, image, true, attrId, color, shape);
+            return;
+        }
+    }
 }
 
 void NFNodeView::AddPinOut(const NFGUID guid, const NFGUID attrId, const std::string& name, const std::string& image, NFColor color, NFPinShape shape)
 {
-   for (auto it : mNodes)
-   {
-      if (it.second->guid == guid)
-      {
-         it.second->AddPin(NFIView::GeneratePinId(), name, image, false, attrId, color, shape);
-         return;
-      }
-   }
+    for (auto it : mNodes)
+    {
+        if (it.second->guid == guid)
+        {
+            it.second->AddPin(NFIView::GeneratePinId(), name, image, false, attrId, color, shape);
+            return;
+        }
+    }
 }
 
 void NFNodeView::ModifyPinColor(const NFGUID attrId, NFColor color)
@@ -590,11 +592,11 @@ void NFNodeView::ModifyPinColor(const NFGUID attrId, NFColor color)
 
 void NFNodeView::DeleteNode(const NFGUID guid)
 {
-   auto it = mNodes.find(guid);
-   if (it != mNodes.end())
-   {
-      mNodes.erase(it);
-   }
+    auto it = mNodes.find(guid);
+    if (it != mNodes.end())
+    {
+        mNodes.erase(it);
+    }
 }
 
 void NFNodeView::AddLink(const NFGUID& selfID, const NFGUID& startNode, const NFGUID& endNode, const NFGUID& startPin, const NFGUID& endPin, const int color)
@@ -717,19 +719,19 @@ void NFNodeView::DeleteLink(const NFGUID& id)
 
 NFGUID NFNodeView::GetNodeByAttriId(const NFGUID attriId)
 {
-   for (auto it : mNodes)
-   {
-      NF_SHARE_PTR<NFNode> node = it.second;
-      for (auto attri : node->mAttris)
-      {
-         if (attri->guid == attriId)
-         {
-            return node->guid;
-         }
-      }
-   }
+    for (auto it : mNodes)
+    {
+        NF_SHARE_PTR<NFNode> node = it.second;
+        for (auto attri : node->mAttris)
+        {
+            if (attri->guid == attriId)
+            {
+                return node->guid;
+            }
+        }
+    }
 
-   return NFGUID();
+    return NFGUID();
 }
 
 void NFNodeView::SetNodeDraggable(const NFGUID guid, const bool dragable)
@@ -740,7 +742,7 @@ void NFNodeView::SetNodeDraggable(const NFGUID guid, const bool dragable)
         if (id >= 0)
         {
             SET_CURRENT_CONTEXT(m_pEditorContext);
-			SET_NODE_DRAGGABLE(id, dragable);
+            SET_NODE_DRAGGABLE(id, dragable);
         }
     }
 }
@@ -761,7 +763,7 @@ void NFNodeView::SetNodePosition(const NFGUID guid, const NFVector2 vec)
 void NFNodeView::ResetOffset(const NFVector2& pos)
 {
     SET_CURRENT_CONTEXT(m_pEditorContext);
-   imnodes::EditorContextResetPanning(ImVec2(pos.X(), pos.Y()));
+    imnodes::EditorContextResetPanning(ImVec2(pos.X(), pos.Y()));
 }
 
 void NFNodeView::MoveToNode(const NFGUID guid)
@@ -784,24 +786,24 @@ void NFNodeView::CheckNewLinkStatus()
 {
     SET_CURRENT_CONTEXT(m_pEditorContext);
 
-   int start_attr, end_attr;
-   if (IS_LINK_CREATED(&start_attr, &end_attr))
-   {
-      NFGUID startID = GetAttriGUID(start_attr);
-      NFGUID endID = GetAttriGUID(end_attr);
-      NFGUID startNodeID = GetNodeByAttriId(startID);
-      NFGUID endEndID = GetNodeByAttriId(endID);
-      if (startNodeID == endEndID || startNodeID.IsNull() || endEndID.IsNull())
-      {
-          //debug error
-          return;
-      }
+    int start_attr, end_attr;
+    if (IS_LINK_CREATED(&start_attr, &end_attr))
+    {
+        NFGUID startID = GetAttriGUID(start_attr);
+        NFGUID endID = GetAttriGUID(end_attr);
+        NFGUID startNodeID = GetNodeByAttriId(startID);
+        NFGUID endEndID = GetNodeByAttriId(endID);
+        if (startNodeID == endEndID || startNodeID.IsNull() || endEndID.IsNull())
+        {
+            //debug error
+            return;
+        }
 
-      if (mTryNewLinkFunctor)
-      {
-          mTryNewLinkFunctor(startNodeID, endEndID, startID, endID);
-      }
-   }
+        if (mTryNewLinkFunctor)
+        {
+            mTryNewLinkFunctor(startNodeID, endEndID, startID, endID);
+        }
+    }
 }
 
 void NFNodeView::CheckDeleteLinkStatus()
@@ -856,62 +858,62 @@ void NFNodeView::CheckHoverNodeStatus()
 
 const NFGUID NFNodeView::GetNodeGUID(const int nodeId)
 {
-   for (auto it : mNodes)
-   {
-      if (it.second->id == nodeId)
-      {
-         return it.second->guid;
-      }
-   }
+    for (auto it : mNodes)
+    {
+        if (it.second->id == nodeId)
+        {
+            return it.second->guid;
+        }
+    }
 
-   return NFGUID();
+    return NFGUID();
 }
 
 const int NFNodeView::GetNodeID(const NFGUID guid)
 {
-   for (auto it : mNodes)
-   {
-      if (it.second->guid == guid)
-      {
-         return it.second->id;
-      }
-   }
+    for (auto it : mNodes)
+    {
+        if (it.second->guid == guid)
+        {
+            return it.second->id;
+        }
+    }
 
-   return -1;
+    return -1;
 }
 
 const NFGUID NFNodeView::GetAttriGUID(const int attriId)
 {
-   for (auto it : mNodes)
-   {
-      NF_SHARE_PTR<NFNode> node = it.second;
-      for (auto attri : node->mAttris)
-      {
-         if (attri->id == attriId)
-         {
-            return attri->guid;
-         }
-      }
-   }
+    for (auto it : mNodes)
+    {
+        NF_SHARE_PTR<NFNode> node = it.second;
+        for (auto attri : node->mAttris)
+        {
+            if (attri->id == attriId)
+            {
+                return attri->guid;
+            }
+        }
+    }
 
-   return NFGUID();
+    return NFGUID();
 }
 
 const int NFNodeView::GetAttriID(const NFGUID guid)
 {
-   for (auto it : mNodes)
-   {
-      NF_SHARE_PTR<NFNode> node = it.second;
-      for (auto attri : node->mAttris)
-      {
-         if (attri->guid == guid)
-         {
-            return attri->id;
-         }
-      }
-   }
+    for (auto it : mNodes)
+    {
+        NF_SHARE_PTR<NFNode> node = it.second;
+        for (auto attri : node->mAttris)
+        {
+            if (attri->guid == guid)
+            {
+                return attri->id;
+            }
+        }
+    }
 
-   return -1;
+    return -1;
 }
 
 NF_SHARE_PTR<NFNode> NFNodeView::FindNode(const NFGUID guid)

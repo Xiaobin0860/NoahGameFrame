@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -28,8 +28,8 @@
 
 NFActor::NFActor(const NFGUID id, NFIActorModule* pModule)
 {
-	this->id = id;
-	m_pActorModule = pModule;
+    this->id = id;
+    m_pActorModule = pModule;
 }
 
 NFActor::~NFActor()
@@ -38,93 +38,93 @@ NFActor::~NFActor()
 
 const NFGUID NFActor::ID()
 {
-	return this->id;
+    return this->id;
 }
 
 bool NFActor::Execute()
 {
-	//bulk
-	NFActorMessage messageObject;
-	while (mMessageQueue.TryPop(messageObject))
-	{
-		//must make sure that only one thread running this function at the same time
-		//mxProcessFunctor is not thread-safe
-		ACTOR_PROCESS_FUNCTOR_PTR xBeginFunctor = mxProcessFunctor.GetElement(messageObject.msgID);
+    //bulk
+    NFActorMessage messageObject;
+    while (mMessageQueue.TryPop(messageObject))
+    {
+        //must make sure that only one thread running this function at the same time
+        //mxProcessFunctor is not thread-safe
+        ACTOR_PROCESS_FUNCTOR_PTR xBeginFunctor = mxProcessFunctor.GetElement(messageObject.msgID);
 
-		if (xBeginFunctor != nullptr)
-		{
-			//std::cout << ID().ToString() << " received message " << messageObject.msgID << " and msg index is " << messageObject.index << " totaly msg count: " << mMessageQueue.size_approx() << std::endl;
+        if (xBeginFunctor != nullptr)
+        {
+            //std::cout << ID().ToString() << " received message " << messageObject.msgID << " and msg index is " << messageObject.index << " totaly msg count: " << mMessageQueue.size_approx() << std::endl;
 
-			xBeginFunctor->operator()(messageObject);
+            xBeginFunctor->operator()(messageObject);
 
-			//return the result to the main thread
-			m_pActorModule->AddResult(messageObject);
-		}
-	}
+            //return the result to the main thread
+            m_pActorModule->AddResult(messageObject);
+        }
+    }
 
-	return true;
+    return true;
 }
 
 bool NFActor::AddComponent(NF_SHARE_PTR<NFIComponent> component)
 {
-	//if you want to add more components for the actor, please don't clear the component
-	//mComponent.ClearAll();
-	if (!mComponent.ExistElement(component->GetComponentName()))
-	{
-		mComponent.AddElement(component->GetComponentName(), component);
-		component->SetActor(NF_SHARE_PTR<NFIActor>(this));
+    //if you want to add more components for the actor, please don't clear the component
+    //mComponent.ClearAll();
+    if (!mComponent.ExistElement(component->GetComponentName()))
+    {
+        mComponent.AddElement(component->GetComponentName(), component);
+        component->SetActor(NF_SHARE_PTR<NFIActor>(this));
 
-		component->Awake();
-		component->Init();
-		component->AfterInit();
-		component->ReadyExecute();
+        component->Awake();
+        component->Init();
+        component->AfterInit();
+        component->ReadyExecute();
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 bool NFActor::RemoveComponent(const std::string& componentName)
 {
-	return false;
+    return false;
 }
 
-NF_SHARE_PTR<NFIComponent> NFActor::FindComponent(const std::string & componentName)
+NF_SHARE_PTR<NFIComponent> NFActor::FindComponent(const std::string& componentName)
 {
-	return mComponent.GetElement(componentName);
+    return mComponent.GetElement(componentName);
 }
 
 bool NFActor::AddMessageHandler(const int nSubMsgID, ACTOR_PROCESS_FUNCTOR_PTR xBeginFunctor)
 {
-	return mxProcessFunctor.AddElement(nSubMsgID, xBeginFunctor);
+    return mxProcessFunctor.AddElement(nSubMsgID, xBeginFunctor);
 }
 
 bool NFActor::SendMsg(const NFActorMessage& message)
 {
-	return mMessageQueue.Push(message);
+    return mMessageQueue.Push(message);
 }
 
 bool NFActor::SendMsg(const int eventID, const std::string& data, const std::string& arg)
 {
-	static NFActorMessage xMessage;
+    static NFActorMessage xMessage;
 
-	xMessage.id = this->id;
-	xMessage.msgID = eventID;
-	xMessage.data = data;
-	xMessage.arg = arg;
+    xMessage.id = this->id;
+    xMessage.msgID = eventID;
+    xMessage.data = data;
+    xMessage.arg = arg;
 
-	return SendMsg(xMessage);
+    return SendMsg(xMessage);
 }
 
 bool NFActor::BackMsgToMainThread(const NFActorMessage& message)
 {
-	return m_pActorModule->AddResult(message);
+    return m_pActorModule->AddResult(message);
 }
 
 void NFActor::ToMemoryCounterString(std::string& info)
 {
-	info.append(id.ToString());
-	info.append(":NFActor:");
-	info.append(std::to_string(mMessageQueue.size_approx()));
+    info.append(id.ToString());
+    info.append(":NFActor:");
+    info.append(std::to_string(mMessageQueue.size_approx()));
 }

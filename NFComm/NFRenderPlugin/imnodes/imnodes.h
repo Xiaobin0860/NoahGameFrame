@@ -89,7 +89,7 @@ struct IO
         // Controls whether this feature is enabled or not.
         bool enabled;
         const bool* modifier; // The keyboard modifier to use with the mouse left click. Set to
-                              // &ImGuiIO::KeyAlt by default.
+        // &ImGuiIO::KeyAlt by default.
     } emulate_three_button_mouse;
 
     struct LinkDetachWithModifierClick

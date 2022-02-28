@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -58,13 +58,13 @@ public:
     virtual bool FullHPMP(const NFGUID& self);
     virtual bool AddHP(const NFGUID& self, const int nValue);
     virtual bool ConsumeHP(const NFGUID& self, const int nValue);
-	virtual bool EnoughHP(const NFGUID& self, const int nValue);
-	virtual bool DamageHP(const NFGUID& self, const int nValue);
+    virtual bool EnoughHP(const NFGUID& self, const int nValue);
+    virtual bool DamageHP(const NFGUID& self, const int nValue);
 
     virtual bool AddMP(const NFGUID& self, const int nValue);
     virtual bool ConsumeMP(const NFGUID& self, const int nValue);
-	virtual bool EnoughMP(const NFGUID& self, const int nValue);
-	virtual bool DamageMP(const NFGUID& self, const int nValue);
+    virtual bool EnoughMP(const NFGUID& self, const int nValue);
+    virtual bool DamageMP(const NFGUID& self, const int nValue);
 
     virtual bool FullSP(const NFGUID& self);
     virtual bool AddSP(const NFGUID& self, const int nValue);
@@ -79,7 +79,7 @@ public:
     virtual bool ConsumeDiamond(const NFGUID& self, const int nValue);
     virtual bool EnoughDiamond(const NFGUID& self, const int nValue);
 
-	virtual void ActiveExtraController();
+    virtual void ActiveExtraController();
 
 protected:
     void RefreshBaseProperty(const NFGUID& self);
@@ -88,14 +88,14 @@ protected:
 
     int OnObjectClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
 
-	int OnObjectMAXHPEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
+    int OnObjectMAXHPEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
     int OnObjectLevelEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
     int OnObjectConfigIDEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
 
     int OnRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar);
 
 private:
-	bool activeExtraController = false;
+    bool activeExtraController = false;
 
     NFIKernelModule* m_pKernelModule;
     NFIPropertyConfigModule* m_pPropertyConfigModule;

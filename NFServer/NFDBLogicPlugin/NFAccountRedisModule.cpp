@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -27,70 +27,70 @@
 
 bool NFAccountRedisModule::Init()
 {
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pLogicClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pNoSqlModule = pPluginManager->FindModule<NFINoSqlModule>();
-	m_pCommonRedisModule = pPluginManager->FindModule<NFICommonRedisModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pLogicClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pNoSqlModule = pPluginManager->FindModule<NFINoSqlModule>();
+    m_pCommonRedisModule = pPluginManager->FindModule<NFICommonRedisModule>();
 
-	return true;
+    return true;
 }
 
 bool NFAccountRedisModule::Shut()
 {
-	return true;
+    return true;
 }
 
 bool NFAccountRedisModule::Execute()
 {
-	return true;
+    return true;
 }
 
 bool NFAccountRedisModule::AfterInit()
 {
 
-	return true;
+    return true;
 }
 
 bool NFAccountRedisModule::VerifyAccount(const std::string& account, const std::string& strPwd)
 {
-	if (account.empty() || strPwd.empty())
-	{
-		return false;
-	}
+    if (account.empty() || strPwd.empty())
+    {
+        return false;
+    }
 
-	std::string strAccountKey = m_pCommonRedisModule->GetAccountCacheKey(account);
-	NF_SHARE_PTR<NFIRedisClient> xNoSqlDriver = m_pNoSqlModule->GetDriverBySuit(account);
-	if (xNoSqlDriver)
-	{
-		std::string strPassword;
-		if (xNoSqlDriver->HGET(strAccountKey, "Password", strPassword) && strPassword == strPwd)
-		{
-			return true;
-		}
-	}
+    std::string strAccountKey = m_pCommonRedisModule->GetAccountCacheKey(account);
+    NF_SHARE_PTR<NFIRedisClient> xNoSqlDriver = m_pNoSqlModule->GetDriverBySuit(account);
+    if (xNoSqlDriver)
+    {
+        std::string strPassword;
+        if (xNoSqlDriver->HGET(strAccountKey, "Password", strPassword) && strPassword == strPwd)
+        {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
-bool NFAccountRedisModule::AddAccount(const std::string & account, const std::string & strPwd)
+bool NFAccountRedisModule::AddAccount(const std::string& account, const std::string& strPwd)
 {
-	std::string strAccountKey = m_pCommonRedisModule->GetAccountCacheKey(account);
-	NF_SHARE_PTR<NFIRedisClient> xNoSqlDriver = m_pNoSqlModule->GetDriverBySuit(account);
-	if (xNoSqlDriver)
-	{
-		return xNoSqlDriver->HSET(strAccountKey, "Password", strPwd);
-	}
-	return false;
+    std::string strAccountKey = m_pCommonRedisModule->GetAccountCacheKey(account);
+    NF_SHARE_PTR<NFIRedisClient> xNoSqlDriver = m_pNoSqlModule->GetDriverBySuit(account);
+    if (xNoSqlDriver)
+    {
+        return xNoSqlDriver->HSET(strAccountKey, "Password", strPwd);
+    }
+    return false;
 }
 
-bool NFAccountRedisModule::ExistAccount(const std::string & account)
+bool NFAccountRedisModule::ExistAccount(const std::string& account)
 {
-	std::string strAccountKey = m_pCommonRedisModule->GetAccountCacheKey(account);
-	NF_SHARE_PTR<NFIRedisClient> xNoSqlDriver = m_pNoSqlModule->GetDriverBySuit(account);
-	if (xNoSqlDriver)
-	{
-		return xNoSqlDriver->EXISTS(strAccountKey);
-	}
+    std::string strAccountKey = m_pCommonRedisModule->GetAccountCacheKey(account);
+    NF_SHARE_PTR<NFIRedisClient> xNoSqlDriver = m_pNoSqlModule->GetDriverBySuit(account);
+    if (xNoSqlDriver)
+    {
+        return xNoSqlDriver->EXISTS(strAccountKey);
+    }
 
-	return false;
+    return false;
 }

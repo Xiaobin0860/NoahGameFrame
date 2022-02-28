@@ -33,30 +33,30 @@ limitations under the License.
 class NFPerformance
 {
 private:
-	int64_t time = 0;
-	int64_t checkTime = 0;
+    int64_t time = 0;
+    int64_t checkTime = 0;
 
 public:
-	NFPerformance()
-	{
-		time = NFGetTimeMS();
-	}
+    NFPerformance()
+    {
+        time = NFGetTimeMS();
+    }
 
-	bool CheckTimePoint(const int milliSecond = 1)
-	{
-		checkTime = NFGetTimeMS();
-		if (checkTime > milliSecond + time)
-		{
-			return true;
-		}
+    bool CheckTimePoint(const int milliSecond = 1)
+    {
+        checkTime = NFGetTimeMS();
+        if (checkTime > milliSecond + time)
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	int64_t TimeScope()
-	{
-		return NFGetTimeMS() - time;
-	}
+    int64_t TimeScope()
+    {
+        return NFGetTimeMS() - time;
+    }
 };
 
 #endif

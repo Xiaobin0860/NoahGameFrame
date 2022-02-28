@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,7 +29,7 @@
 NFThreadPoolModule::NFThreadPoolModule(NFIPluginManager* p)
 {
     m_bIsExecute = true;
-	pPluginManager = p;
+    pPluginManager = p;
 }
 
 NFThreadPoolModule::~NFThreadPoolModule()
@@ -38,10 +38,10 @@ NFThreadPoolModule::~NFThreadPoolModule()
 
 bool NFThreadPoolModule::Init()
 {
-	for (int i = 0; i < pPluginManager->GetAppCPUCount(); ++i)
-	{
-		mThreadPool.push_back(NF_SHARE_PTR<NFThreadCell>(NF_NEW NFThreadCell(this)));
-	}
+    for (int i = 0; i < pPluginManager->GetAppCPUCount(); ++i)
+    {
+        mThreadPool.push_back(NF_SHARE_PTR<NFThreadCell>(NF_NEW NFThreadCell(this)));
+    }
 
     return true;
 }
@@ -59,54 +59,54 @@ bool NFThreadPoolModule::BeforeShut()
 
 bool NFThreadPoolModule::Shut()
 {
- 
+
     return true;
 }
 
 bool NFThreadPoolModule::Execute()
 {
-	ExecuteTaskResult();
+    ExecuteTaskResult();
 
     return true;
 }
 
-void NFThreadPoolModule::DoAsyncTask(const NFGUID taskID, const std::string & data, TASK_PROCESS_FUNCTOR asyncFunctor, TASK_PROCESS_FUNCTOR functor_end)
+void NFThreadPoolModule::DoAsyncTask(const NFGUID taskID, const std::string& data, TASK_PROCESS_FUNCTOR asyncFunctor, TASK_PROCESS_FUNCTOR functor_end)
 {
-	NFThreadTask task;
-	task.nTaskID = taskID;
-	task.data = data;
-	task.xThreadFunc = asyncFunctor;
-	task.xEndFunc = functor_end;
-	
-	size_t index = 0;
-	if (!taskID.IsNull())
-	{
-		index = taskID.nData64 % mThreadPool.size();
-	}
-	
-	NF_SHARE_PTR<NFThreadCell> threadobject = mThreadPool[index];
-	threadobject->AddTask(task);
+    NFThreadTask task;
+    task.nTaskID = taskID;
+    task.data = data;
+    task.xThreadFunc = asyncFunctor;
+    task.xEndFunc = functor_end;
+
+    size_t index = 0;
+    if (!taskID.IsNull())
+    {
+        index = taskID.nData64 % mThreadPool.size();
+    }
+
+    NF_SHARE_PTR<NFThreadCell> threadobject = mThreadPool[index];
+    threadobject->AddTask(task);
 }
 
 void NFThreadPoolModule::ExecuteTaskResult()
 {
-	NFThreadTask xMsg;
-	while (mTaskResult.TryPop(xMsg))
-	{
-		if (xMsg.xEndFunc)
-		{
-			xMsg.xEndFunc.operator()(xMsg);
-		}
-	}
+    NFThreadTask xMsg;
+    while (mTaskResult.TryPop(xMsg))
+    {
+        if (xMsg.xEndFunc)
+        {
+            xMsg.xEndFunc.operator()(xMsg);
+        }
+    }
 }
 
 void NFThreadPoolModule::TaskResult(const NFThreadTask& task)
 {
-	mTaskResult.Push(task);
+    mTaskResult.Push(task);
 }
 
 int NFThreadPoolModule::GetThreadCount()
 {
-	return (int)mThreadPool.size();
+    return (int)mThreadPool.size();
 }
 

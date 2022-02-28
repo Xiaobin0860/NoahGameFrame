@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -41,10 +41,10 @@ public:
     NFMasterNet_ServerModule(NFIPluginManager* p)
     {
         m_bIsExecute = true;
-		pPluginManager = p;
+        pPluginManager = p;
         mnLastLogTime = pPluginManager->GetNowTime();
     }
-	virtual ~NFMasterNet_ServerModule();
+    virtual ~NFMasterNet_ServerModule();
 
     virtual bool Init();
     virtual bool Shut();
@@ -55,7 +55,7 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-	virtual std::string GetServersStatus();
+    virtual std::string GetServersStatus();
 
 protected:
 
@@ -76,33 +76,33 @@ protected:
     void OnSelectWorldProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
     void OnSelectServerResultProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	void OnServerReport(const NFSOCK nFd, const int msgId, const char* buffer, const uint32_t len);
+    void OnServerReport(const NFSOCK nFd, const int msgId, const char* buffer, const uint32_t len);
 
     //////////////////////////////////////////////////////////////////////////
 
     void SynWorldToLoginAndWorld();
     void LogGameServer();
 
-	void OnHeartBeat(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void InvalidMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnHeartBeat(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void InvalidMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
 private:
 
     NFINT64 mnLastLogTime;
 
     //serverid,data
-	NFMapEx<int, ServerData> mMasterMap;
-	NFMapEx<int, ServerData> mLoginMap;
+    NFMapEx<int, ServerData> mMasterMap;
+    NFMapEx<int, ServerData> mLoginMap;
     NFMapEx<int, ServerData> mWorldMap;
-	NFMapEx<int, ServerData> mProxyMap;
-	NFMapEx<int, ServerData> mGameMap;
+    NFMapEx<int, ServerData> mProxyMap;
+    NFMapEx<int, ServerData> mGameMap;
 
 
     NFIElementModule* m_pElementModule;
     NFIClassModule* m_pClassModule;
     NFIKernelModule* m_pKernelModule;
     NFILogModule* m_pLogModule;
-	NFINetModule* m_pNetModule;
+    NFINetModule* m_pNetModule;
 };
 
 #endif

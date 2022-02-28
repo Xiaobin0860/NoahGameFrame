@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -31,8 +31,8 @@ NFIPluginManager* xPluginManager;
 NFNoSqlModule::NFNoSqlModule(NFIPluginManager* p)
 {
     m_bIsExecute = true;
-	xPluginManager = p;
-	pPluginManager = p;
+    xPluginManager = p;
+    pPluginManager = p;
 }
 
 NFNoSqlModule::~NFNoSqlModule()
@@ -43,120 +43,120 @@ NFNoSqlModule::~NFNoSqlModule()
 
 bool NFNoSqlModule::Init()
 {
-	mLastCheckTime = 0;
-	return true;
+    mLastCheckTime = 0;
+    return true;
 }
 
 bool NFNoSqlModule::Shut()
 {
 
-	return true;
+    return true;
 }
 
 bool NFNoSqlModule::AfterInit()
 {
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
 
-	NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::NoSqlServer::ThisName());
-	if (xLogicClass)
-	{
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
+    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::NoSqlServer::ThisName());
+    if (xLogicClass)
+    {
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
 
-			const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::NoSqlServer::ServerID());
-			const int nPort = m_pElementModule->GetPropertyInt32(strId, NFrame::NoSqlServer::Port());
-			const std::string& ip = m_pElementModule->GetPropertyString(strId, NFrame::NoSqlServer::IP());
-			const std::string& strAuth = m_pElementModule->GetPropertyString(strId, NFrame::NoSqlServer::Auth());
+            const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::NoSqlServer::ServerID());
+            const int nPort = m_pElementModule->GetPropertyInt32(strId, NFrame::NoSqlServer::Port());
+            const std::string& ip = m_pElementModule->GetPropertyString(strId, NFrame::NoSqlServer::IP());
+            const std::string& strAuth = m_pElementModule->GetPropertyString(strId, NFrame::NoSqlServer::Auth());
 
-			if (this->AddConnectSql(strId, ip, nPort, strAuth))
-			{
-				std::ostringstream strLog;
-				strLog << "Connected NoSqlServer[" << ip << "], Port = [" << nPort << "], Passsword = [" << strAuth << "]";
-				m_pLogModule->LogInfo(strLog, __FUNCTION__, __LINE__);
+            if (this->AddConnectSql(strId, ip, nPort, strAuth))
+            {
+                std::ostringstream strLog;
+                strLog << "Connected NoSqlServer[" << ip << "], Port = [" << nPort << "], Passsword = [" << strAuth << "]";
+                m_pLogModule->LogInfo(strLog, __FUNCTION__, __LINE__);
 
-			}
-			else
-			{
-				std::ostringstream strLog;
-				strLog << "Cannot connect NoSqlServer[" << ip << "], Port = " << nPort << "], Passsword = [" << strAuth << "]";
-				m_pLogModule->LogInfo(strLog, __FUNCTION__, __LINE__);
-			}
-		}
-	}
+            }
+            else
+            {
+                std::ostringstream strLog;
+                strLog << "Cannot connect NoSqlServer[" << ip << "], Port = " << nPort << "], Passsword = [" << strAuth << "]";
+                m_pLogModule->LogInfo(strLog, __FUNCTION__, __LINE__);
+            }
+        }
+    }
 
-	return true;
+    return true;
 }
 
 bool NFNoSqlModule::Enable()
 {
-	return false;
+    return false;
 }
 
 bool NFNoSqlModule::Busy()
 {
-	return false;
+    return false;
 }
 
 bool NFNoSqlModule::KeepLive()
 {
-	return false;
+    return false;
 }
 
 bool NFNoSqlModule::Execute()
 {
-	NF_SHARE_PTR<NFIRedisClient> xNosqlDriver = this->mxNoSqlDriver.First();
-	while (xNosqlDriver)
-	{
-		xNosqlDriver->Execute();
+    NF_SHARE_PTR<NFIRedisClient> xNosqlDriver = this->mxNoSqlDriver.First();
+    while (xNosqlDriver)
+    {
+        xNosqlDriver->Execute();
 
-		xNosqlDriver = this->mxNoSqlDriver.Next();
-	}
+        xNosqlDriver = this->mxNoSqlDriver.Next();
+    }
 
-	CheckConnect();
-	
-	return true;
+    CheckConnect();
+
+    return true;
 }
 
 NF_SHARE_PTR<NFIRedisClient> NFNoSqlModule::GetDriverBySuitRandom()
 {
-	NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElementBySuitRandom();
-	if (xDriver && xDriver->Enable())
-	{
-		return xDriver;
-	}
+    NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElementBySuitRandom();
+    if (xDriver && xDriver->Enable())
+    {
+        return xDriver;
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 NF_SHARE_PTR<NFIRedisClient> NFNoSqlModule::GetDriverBySuitConsistent()
 {
-	NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElementBySuitConsistent();
-	if (xDriver && xDriver->Enable())
-	{
-		return xDriver;
-	}
+    NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElementBySuitConsistent();
+    if (xDriver && xDriver->Enable())
+    {
+        return xDriver;
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 NF_SHARE_PTR<NFIRedisClient> NFNoSqlModule::GetDriverBySuit(const std::string& strHash)
 {
-	NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElementBySuit(strHash);
-	if (xDriver && xDriver->Enable())
-	{
-		return xDriver;
-	}
+    NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElementBySuit(strHash);
+    if (xDriver && xDriver->Enable())
+    {
+        return xDriver;
+    }
 
-	std::ostringstream os;
-	os << "GetDriverBySuit ===> NULL";
-	os << strHash;
+    std::ostringstream os;
+    os << "GetDriverBySuit ===> NULL";
+    os << strHash;
 
-	m_pLogModule->LogError(os);
-	return nullptr;
+    m_pLogModule->LogError(os);
+    return nullptr;
 }
 
 /*
@@ -167,92 +167,92 @@ return mxNoSqlDriver.GetElementBySuit(nHash);
 */
 bool NFNoSqlModule::AddConnectSql(const std::string& strID, const std::string& ip)
 {
-	if (!mxNoSqlDriver.ExistElement(strID))
-	{
-		NF_SHARE_PTR<NFRedisClient> pNoSqlDriver(new NFRedisClient());
-		pNoSqlDriver->Connect(ip, 6379, "");
-		return mxNoSqlDriver.AddElement(strID, pNoSqlDriver);
-	}
+    if (!mxNoSqlDriver.ExistElement(strID))
+    {
+        NF_SHARE_PTR<NFRedisClient> pNoSqlDriver(new NFRedisClient());
+        pNoSqlDriver->Connect(ip, 6379, "");
+        return mxNoSqlDriver.AddElement(strID, pNoSqlDriver);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFNoSqlModule::AddConnectSql(const std::string& strID, const std::string& ip, const int nPort)
 {
-	if (!mxNoSqlDriver.ExistElement(strID))
-	{
-		NF_SHARE_PTR<NFIRedisClient> pNoSqlDriver(new NFRedisClient());
-		pNoSqlDriver->Connect(ip, nPort, "");
-		return mxNoSqlDriver.AddElement(strID, pNoSqlDriver);
-	}
+    if (!mxNoSqlDriver.ExistElement(strID))
+    {
+        NF_SHARE_PTR<NFIRedisClient> pNoSqlDriver(new NFRedisClient());
+        pNoSqlDriver->Connect(ip, nPort, "");
+        return mxNoSqlDriver.AddElement(strID, pNoSqlDriver);
+    }
 
-	return false;
+    return false;
 }
 
 bool NFNoSqlModule::AddConnectSql(const std::string& strID, const std::string& ip, const int nPort, const std::string& strPass)
 {
-	if (!mxNoSqlDriver.ExistElement(strID))
-	{
-		NF_SHARE_PTR<NFIRedisClient> pNoSqlDriver(NF_NEW NFRedisClient());
-		pNoSqlDriver->Connect(ip, nPort, strPass);
-		return mxNoSqlDriver.AddElement(strID, pNoSqlDriver);
-	}
+    if (!mxNoSqlDriver.ExistElement(strID))
+    {
+        NF_SHARE_PTR<NFIRedisClient> pNoSqlDriver(NF_NEW NFRedisClient());
+        pNoSqlDriver->Connect(ip, nPort, strPass);
+        return mxNoSqlDriver.AddElement(strID, pNoSqlDriver);
+    }
 
-	return false;
+    return false;
 }
 
 NFList<std::string> NFNoSqlModule::GetDriverIdList()
 {
-	NFList<std::string> lDriverIdList;
-	std::string strDriverId;
-	NF_SHARE_PTR<NFIRedisClient> pDriver = mxNoSqlDriver.First(strDriverId);
-	while (pDriver)
-	{
-		lDriverIdList.Add(strDriverId);
-		pDriver = mxNoSqlDriver.Next(strDriverId);
-	}
-	return lDriverIdList;
+    NFList<std::string> lDriverIdList;
+    std::string strDriverId;
+    NF_SHARE_PTR<NFIRedisClient> pDriver = mxNoSqlDriver.First(strDriverId);
+    while (pDriver)
+    {
+        lDriverIdList.Add(strDriverId);
+        pDriver = mxNoSqlDriver.Next(strDriverId);
+    }
+    return lDriverIdList;
 }
 
 NF_SHARE_PTR<NFIRedisClient> NFNoSqlModule::GetDriver(const std::string& strID)
 {
-	NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElement(strID);
-	if (xDriver && xDriver->Enable())
-	{
-		return xDriver;
-	}
+    NF_SHARE_PTR<NFIRedisClient> xDriver = mxNoSqlDriver.GetElement(strID);
+    if (xDriver && xDriver->Enable())
+    {
+        return xDriver;
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 bool NFNoSqlModule::RemoveConnectSql(const std::string& strID)
 {
-	return mxNoSqlDriver.RemoveElement(strID);
+    return mxNoSqlDriver.RemoveElement(strID);
 }
 
 void NFNoSqlModule::CheckConnect()
 {
-	static const int CHECK_TIME = 15;
-	if (mLastCheckTime + CHECK_TIME > pPluginManager->GetNowTime())
-	{
-		return;
-	}
+    static const int CHECK_TIME = 15;
+    if (mLastCheckTime + CHECK_TIME > pPluginManager->GetNowTime())
+    {
+        return;
+    }
 
-	mLastCheckTime = pPluginManager->GetNowTime();
+    mLastCheckTime = pPluginManager->GetNowTime();
 
-	NF_SHARE_PTR<NFIRedisClient> xNosqlDriver = this->mxNoSqlDriver.First();
-	while (xNosqlDriver)
-	{
-		if (xNosqlDriver->Enable() && !xNosqlDriver->Authed())
-		{
-			xNosqlDriver->AUTH(xNosqlDriver->GetAuthKey());
-		}
-		else if (!xNosqlDriver->Enable())
-		{
-			//reconnect
-			xNosqlDriver->ReConnect();
-		}
+    NF_SHARE_PTR<NFIRedisClient> xNosqlDriver = this->mxNoSqlDriver.First();
+    while (xNosqlDriver)
+    {
+        if (xNosqlDriver->Enable() && !xNosqlDriver->Authed())
+        {
+            xNosqlDriver->AUTH(xNosqlDriver->GetAuthKey());
+        }
+        else if (!xNosqlDriver->Enable())
+        {
+            //reconnect
+            xNosqlDriver->ReConnect();
+        }
 
-		xNosqlDriver = this->mxNoSqlDriver.Next();
-	}
+        xNosqlDriver = this->mxNoSqlDriver.Next();
+    }
 }

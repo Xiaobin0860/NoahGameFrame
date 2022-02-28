@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -63,24 +63,24 @@ public:
     virtual bool Shut();
     virtual bool Execute();
     virtual bool AfterInit();
-	virtual bool ReadyExecute();
+    virtual bool ReadyExecute();
 
-	virtual bool RequestEnterScene(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFVector3& pos, const NFDataList& argList);
+    virtual bool RequestEnterScene(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFVector3& pos, const NFDataList& argList);
 
 protected:
-	bool LoadSceneResource(const std::string& strSceneIDName);
-	bool CreateSceneBaseGroup(const std::string& strSceneIDName);
+    bool LoadSceneResource(const std::string& strSceneIDName);
+    bool CreateSceneBaseGroup(const std::string& strSceneIDName);
 
 protected:
 
     int OnObjectClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
-	
-	int EnterSceneConditionEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
-	
-	int BeforeEnterSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
-	int AfterEnterSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
-	int BeforeLeaveSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
-	int AfterLeaveSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+
+    int EnterSceneConditionEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+
+    int BeforeEnterSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+    int AfterEnterSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+    int BeforeLeaveSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
+    int AfterLeaveSceneGroupEvent(const NFGUID& self, const int sceneID, const int groupID, const int type, const NFDataList& argList);
 
 private:
 
@@ -88,9 +88,9 @@ private:
     NFIClassModule* m_pClassModule;
     NFIKernelModule* m_pKernelModule;
     NFILogModule* m_pLogModule;
-	NFIEventModule* m_pEventModule;
-	NFISceneModule* m_pSceneModule;
-	NFICellModule* m_pCellModule;
+    NFIEventModule* m_pEventModule;
+    NFISceneModule* m_pSceneModule;
+    NFICellModule* m_pCellModule;
     NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
 

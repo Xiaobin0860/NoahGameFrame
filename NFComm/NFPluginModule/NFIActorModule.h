@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,56 +34,56 @@
 class NFIActorModule : public NFIModule
 {
 public:
-	template<typename TypeComponent>
-	bool AddComponent(const NFGUID nActorIndex)
-	{
-		if (!TIsDerived<TypeComponent, NFIComponent>::Result)
-		{
-			//BaseTypeComponent must inherit from NFIComponent;
-			return false;
-		}
+    template<typename TypeComponent>
+    bool AddComponent(const NFGUID nActorIndex)
+    {
+        if (!TIsDerived<TypeComponent, NFIComponent>::Result)
+        {
+            //BaseTypeComponent must inherit from NFIComponent;
+            return false;
+        }
 
-		NF_SHARE_PTR<NFIActor> pActor = GetActor(nActorIndex);
-		if (pActor)
-		{
-			auto component = pActor->AddComponent<TypeComponent>();
-			if (component)
-			{
-				return true;
-			}
-		}
+        NF_SHARE_PTR<NFIActor> pActor = GetActor(nActorIndex);
+        if (pActor)
+        {
+            auto component = pActor->AddComponent<TypeComponent>();
+            if (component)
+            {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	template<typename BaseType>
-	int AddEndFunc(const int subMessageID, BaseType* pBase, void (BaseType::*handler_end)(NFActorMessage&))
-	{
-		ACTOR_PROCESS_FUNCTOR functor_end = std::bind(handler_end, pBase, std::placeholders::_1);
-		ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end(new ACTOR_PROCESS_FUNCTOR(functor_end));
+    template<typename BaseType>
+    int AddEndFunc(const int subMessageID, BaseType* pBase, void (BaseType::*handler_end)(NFActorMessage&))
+    {
+        ACTOR_PROCESS_FUNCTOR functor_end = std::bind(handler_end, pBase, std::placeholders::_1);
+        ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end(new ACTOR_PROCESS_FUNCTOR(functor_end));
 
-		return AddEndFunc(subMessageID, functorPtr_end);
-	}
+        return AddEndFunc(subMessageID, functorPtr_end);
+    }
 
     int AddEndFunc(const int subMessageID, ACTOR_PROCESS_FUNCTOR functor_end)
-	{
-		ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end(new ACTOR_PROCESS_FUNCTOR(functor_end));
+    {
+        ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end(new ACTOR_PROCESS_FUNCTOR(functor_end));
 
-		return AddEndFunc(subMessageID, functorPtr_end);
-	}
+        return AddEndFunc(subMessageID, functorPtr_end);
+    }
 
-	virtual NF_SHARE_PTR<NFIActor> RequireActor() = 0;
-	virtual NF_SHARE_PTR<NFIActor> GetActor(const NFGUID nActorIndex) = 0;
-	virtual bool ReleaseActor(const NFGUID nActorIndex) = 0;
+    virtual NF_SHARE_PTR<NFIActor> RequireActor() = 0;
+    virtual NF_SHARE_PTR<NFIActor> GetActor(const NFGUID nActorIndex) = 0;
+    virtual bool ReleaseActor(const NFGUID nActorIndex) = 0;
 
-	virtual bool SendMsgToActor(const NFGUID actorIndex, const NFGUID who, const int eventID, const std::string& data, const std::string& arg = "") = 0;
+    virtual bool SendMsgToActor(const NFGUID actorIndex, const NFGUID who, const int eventID, const std::string& data, const std::string& arg = "") = 0;
 
-	//only be called by actor's processor
+    //only be called by actor's processor
     virtual bool AddResult(const NFActorMessage& message) = 0;
 
 protected:
 
-	virtual bool AddEndFunc(const int subMessageID, ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end) = 0;
+    virtual bool AddEndFunc(const int subMessageID, ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end) = 0;
 };
 
 #endif

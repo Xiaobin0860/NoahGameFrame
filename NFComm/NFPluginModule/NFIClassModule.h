@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -51,7 +51,7 @@ public:
     virtual const bool AddId(std::string& configName) = 0;
     virtual const std::vector<std::string>& GetIDList() = 0;
     virtual const std::string& GetInstancePath() = 0;
-	virtual void SetInstancePath(const std::string& strPath) = 0;
+    virtual void SetInstancePath(const std::string& strPath) = 0;
 
     virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual bool DoEvent(const NFGUID& objectID, const CLASS_OBJECT_EVENT classEvent, const NFDataList& valueList) = 0;
@@ -59,7 +59,7 @@ public:
 
 class NFIClassModule
     : public NFIModule,
-  public NFMapEx<std::string, NFIClass>
+      public NFMapEx<std::string, NFIClass>
 {
 public:
     virtual ~NFIClassModule() {}
@@ -86,7 +86,7 @@ public:
 
     virtual NF_SHARE_PTR<NFIRecordManager> GetClassRecordManager(const std::string& className) = 0;
 
-	virtual bool AddClass(const std::string& className, const std::string& strParentName) = 0;
+    virtual bool AddClass(const std::string& className, const std::string& strParentName) = 0;
 
 };
 

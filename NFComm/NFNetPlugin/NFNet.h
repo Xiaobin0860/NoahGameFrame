@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -57,7 +57,7 @@ public:
         mnSendMsgTotal = 0;
         mnReceiveMsgTotal = 0;
 
-		mnBufferSize = 0;
+        mnBufferSize = 0;
         mbTCPStream = false;
     }
 
@@ -74,14 +74,14 @@ public:
         mnCpuCount = 0;
         mbServer = false;
         mbWorking = false;
-        
+
         mnSendMsgTotal = 0;
         mnReceiveMsgTotal = 0;
 
-		mnBufferSize = 0;
+        mnBufferSize = 0;
         mbTCPStream = tcpStream;
     }
-    
+
     virtual ~NFNet() {};
 
 public:
@@ -89,7 +89,7 @@ public:
 
     virtual void Initialization(const char* ip, const unsigned short nPort) override ;
     virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4) override ;
-	virtual unsigned int ExpandBufferSize(const unsigned int size) override;
+    virtual unsigned int ExpandBufferSize(const unsigned int size) override;
 
     virtual bool Final() override ;
 
@@ -97,7 +97,7 @@ public:
 
     virtual bool SendMsgWithOutHead(const int16_t msgID, const char* msg, const size_t len, const NFSOCK sockIndex) override ;
 
-	bool SendMsgToAllClient(const char* msg, const size_t len) override;
+    bool SendMsgToAllClient(const char* msg, const size_t len) override;
 
     virtual bool SendMsgToAllClientWithOutHead(const int16_t msgID, const char* msg, const size_t len) override ;
 
@@ -110,7 +110,7 @@ public:
     virtual bool Log(int severity, const char* msg) override ;
 
 private:
-	bool SendMsgWithOutHead(const int16_t msgID, const char* msg, const size_t len, const std::list<NFSOCK>& fdList);
+    bool SendMsgWithOutHead(const int16_t msgID, const char* msg, const size_t len, const std::list<NFSOCK>& fdList);
 
     bool SendMsg(const char* msg, const size_t len, const std::list<NFSOCK>& fdList);
 
@@ -140,9 +140,9 @@ protected:
 private:
     //<fd,object>
 
-	//std::multiset<NetObject*> mLiveBeatMap;
+    //std::multiset<NetObject*> mLiveBeatMap;
 
-	//Use share pointer replace C-style pointer
+    //Use share pointer replace C-style pointer
     std::map<NFSOCK, NetObject*> mmObject;
     std::vector<NFSOCK> mvRemoveObject;
 
@@ -150,7 +150,7 @@ private:
     std::string mstrIP;
     int mnPort;
     int mnCpuCount;
-	bool mbServer;
+    bool mbServer;
 
     unsigned int mnBufferSize;
 
@@ -170,16 +170,16 @@ private:
     //1: async thread to process net event & msg and main thread to process logic business(decode binary data to message object)
     //2: pass a functor when startup net module to decode binary data to message object with async thread
     struct NetEvent
-	{
-		NF_NET_EVENT event;
-		int fd = 0;
-		//std::string* data;
-		char* data = nullptr;
-		int len = 0;
+    {
+        NF_NET_EVENT event;
+        int fd = 0;
+        //std::string* data;
+        char* data = nullptr;
+        int len = 0;
 
-		void* dataObject = nullptr;
-	};
-	moodycamel::ConcurrentQueue<NetEvent> msgQueue;
+        void* dataObject = nullptr;
+    };
+    moodycamel::ConcurrentQueue<NetEvent> msgQueue;
     //////////////////////////////////////////////////////////////////////////
 };
 

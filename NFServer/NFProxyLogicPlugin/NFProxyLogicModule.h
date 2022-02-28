@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -50,13 +50,13 @@ public:
 
 protected:
 
-	void OnLagTestProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnLagTestProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
 protected:
     NFIClassModule* m_pClassModule;
     NFIKernelModule* m_pKernelModule;
-	NFINetModule* m_pNetModule;
-	NFINetClientModule* m_pNetClientModule;
+    NFINetModule* m_pNetModule;
+    NFINetClientModule* m_pNetClientModule;
 private:
 };
 

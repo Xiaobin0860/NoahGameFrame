@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -51,8 +51,8 @@ public:
     virtual bool SetFloat(const double value, const NFINT64 reason = 0);
     virtual bool SetString(const std::string& value, const NFINT64 reason = 0);
     virtual bool SetObject(const NFGUID& value, const NFINT64 reason = 0);
-	virtual bool SetVector2(const NFVector2& value, const NFINT64 reason = 0);
-	virtual bool SetVector3(const NFVector3& value, const NFINT64 reason = 0);
+    virtual bool SetVector2(const NFVector2& value, const NFINT64 reason = 0);
+    virtual bool SetVector3(const NFVector3& value, const NFINT64 reason = 0);
 
     virtual const NFDATA_TYPE GetType() const;
     virtual const bool GeUsed() const;
@@ -61,25 +61,25 @@ public:
     virtual const bool GetPublic() const;
     virtual const bool GetPrivate() const;
     virtual const bool GetCache() const;
-	virtual const bool GetRef() const;
-	virtual const bool GetForce() const;
-	virtual const bool GetUpload() const;
+    virtual const bool GetRef() const;
+    virtual const bool GetForce() const;
+    virtual const bool GetUpload() const;
 
     virtual void SetSave(bool bSave);
     virtual void SetPublic(bool bPublic);
     virtual void SetPrivate(bool bPrivate);
     virtual void SetCache(bool bCache);
-	virtual void SetRef(bool bRef);
-	virtual void SetForce(bool bRef);
-	virtual void SetUpload(bool bUpload);
+    virtual void SetRef(bool bRef);
+    virtual void SetForce(bool bRef);
+    virtual void SetUpload(bool bUpload);
 
     virtual NFINT64 GetInt() const;
-	virtual int GetInt32() const;
+    virtual int GetInt32() const;
     virtual double GetFloat() const;
     virtual const std::string& GetString() const;
     virtual const NFGUID& GetObject() const;
-	virtual const NFVector2& GetVector2() const;
-	virtual const NFVector3& GetVector3() const;
+    virtual const NFVector2& GetVector2() const;
+    virtual const NFVector3& GetVector3() const;
 
     virtual const NFData& GetValue() const;
     virtual const NF_SHARE_PTR<NFList<std::string>> GetEmbeddedList() const;
@@ -113,9 +113,9 @@ private:
     bool mbPrivate;
     bool mbSave;
     bool mbCache;
-	bool mbRef;
-	bool mbForce;
-	bool mbUpload;
+    bool mbRef;
+    bool mbForce;
+    bool mbUpload;
 };
 
 #endif

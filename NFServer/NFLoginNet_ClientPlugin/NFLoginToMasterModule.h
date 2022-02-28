@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -45,7 +45,7 @@ public:
     {
         m_bIsExecute = true;
         pPluginManager = p;
-		mLastReportTime = 0;
+        mLastReportTime = 0;
     }
 
 
@@ -59,7 +59,7 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-	virtual NFINetClientModule* GetClusterModule();
+    virtual NFINetClientModule* GetClusterModule();
     virtual NFMapEx<int, NFMsg::ServerInfoReport>& GetWorldMap();
 
 protected:
@@ -68,15 +68,15 @@ protected:
 protected:
 
     //////////////////////////////////////////////////////////////////////////
-	void OnSelectServerResultProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnWorldInfoProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnSelectServerResultProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnWorldInfoProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
     //////////////////////////////////////////////////////////////////////////
     void Register(NFINet* pNet);
-	void ServerReport();
+    void ServerReport();
 
 private:
-	NFINT64 mLastReportTime;
+    NFINT64 mLastReportTime;
     NFMapEx<int, NFMsg::ServerInfoReport> mWorldMap;
 
     NFILoginNet_ServerModule* m_pLoginNet_ServerModule;
@@ -84,7 +84,7 @@ private:
     NFIKernelModule* m_pKernelModule;
     NFIClassModule* m_pClassModule;
     NFILogModule* m_pLogModule;
-	NFINetClientModule* m_pNetClientModule;
+    NFINetClientModule* m_pNetClientModule;
 };
 
 #endif

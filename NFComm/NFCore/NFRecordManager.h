@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -50,36 +50,36 @@ public:
 
     virtual const NFGUID& Self();
 
-	virtual std::string ToString();
+    virtual std::string ToString();
     //////////////////////////////////////////////////////////////////////////
 
     virtual bool SetRecordInt(const std::string& recordName, const int row, const int col, const NFINT64 nValue);
     virtual bool SetRecordFloat(const std::string& recordName, const int row, const int col, const double dwValue);
     virtual bool SetRecordString(const std::string& recordName, const int row, const int col, const std::string& value);
     virtual bool SetRecordObject(const std::string& recordName, const int row, const int col, const NFGUID& obj);
-	virtual bool SetRecordVector2(const std::string& recordName, const int row, const int col, const NFVector2& obj);
-	virtual bool SetRecordVector3(const std::string& recordName, const int row, const int col, const NFVector3& obj);
+    virtual bool SetRecordVector2(const std::string& recordName, const int row, const int col, const NFVector2& obj);
+    virtual bool SetRecordVector3(const std::string& recordName, const int row, const int col, const NFVector3& obj);
 
     virtual bool SetRecordInt(const std::string& recordName, const int row, const std::string& colTag, const NFINT64 value);
     virtual bool SetRecordFloat(const std::string& recordName, const int row, const std::string& colTag, const double value);
     virtual bool SetRecordString(const std::string& recordName, const int row, const std::string& colTag, const std::string& value);
     virtual bool SetRecordObject(const std::string& recordName, const int row, const std::string& colTag, const NFGUID& value);
-	virtual bool SetRecordVector2(const std::string& recordName, const int row, const std::string& colTag, const NFVector2& value);
-	virtual bool SetRecordVector3(const std::string& recordName, const int row, const std::string& colTag, const NFVector3& value);
+    virtual bool SetRecordVector2(const std::string& recordName, const int row, const std::string& colTag, const NFVector2& value);
+    virtual bool SetRecordVector3(const std::string& recordName, const int row, const std::string& colTag, const NFVector3& value);
 
     virtual NFINT64 GetRecordInt(const std::string& recordName, const int row, const int col);
     virtual double GetRecordFloat(const std::string& recordName, const int row, const int col);
     virtual const std::string& GetRecordString(const std::string& recordName, const int row, const int col);
     virtual const NFGUID& GetRecordObject(const std::string& recordName, const int row, const int col);
-	virtual const NFVector2& GetRecordVector2(const std::string& recordName, const int row, const int col);
-	virtual const NFVector3& GetRecordVector3(const std::string& recordName, const int row, const int col);
+    virtual const NFVector2& GetRecordVector2(const std::string& recordName, const int row, const int col);
+    virtual const NFVector3& GetRecordVector3(const std::string& recordName, const int row, const int col);
 
     virtual NFINT64 GetRecordInt(const std::string& recordName, const int row, const std::string& colTag);
     virtual double GetRecordFloat(const std::string& recordName, const int row, const std::string& colTag);
     virtual const std::string& GetRecordString(const std::string& recordName, const int row, const std::string& colTag);
     virtual const NFGUID& GetRecordObject(const std::string& recordName, const int row, const std::string& colTag);
-	virtual const NFVector2& GetRecordVector2(const std::string& recordName, const int row, const std::string& colTag);
-	virtual const NFVector3& GetRecordVector3(const std::string& recordName, const int row, const std::string& colTag);
+    virtual const NFVector2& GetRecordVector2(const std::string& recordName, const int row, const std::string& colTag);
+    virtual const NFVector3& GetRecordVector3(const std::string& recordName, const int row, const std::string& colTag);
     //////////////////////////////////////////////////////////////////////////
 private:
     NFGUID mSelf;

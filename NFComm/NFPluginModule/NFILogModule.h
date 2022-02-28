@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,7 +37,7 @@ public:
     enum NF_LOG_LEVEL
     {
         NLL_DEBUG_NORMAL,
-		NLL_INFO_NORMAL,
+        NLL_INFO_NORMAL,
         NLL_WARING_NORMAL,
         NLL_ERROR_NORMAL,
         NLL_FATAL_NORMAL,

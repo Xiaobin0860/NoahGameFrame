@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -43,29 +43,29 @@ class NFAccountRedisModule : public NFIAccountRedisModule
 {
 public:
 
-	NFAccountRedisModule(NFIPluginManager* p)
-	{
-		pPluginManager = p;
-	}
+    NFAccountRedisModule(NFIPluginManager* p)
+    {
+        pPluginManager = p;
+    }
 
-	virtual bool Init();
-	virtual bool Shut();
-	virtual bool Execute();
+    virtual bool Init();
+    virtual bool Shut();
+    virtual bool Execute();
 
-	virtual bool AfterInit();
+    virtual bool AfterInit();
 
-	virtual bool VerifyAccount(const std::string& account, const std::string& strPwd);
-	virtual bool AddAccount(const std::string& account, const std::string& strPwd);
-	virtual bool ExistAccount(const std::string& account);
+    virtual bool VerifyAccount(const std::string& account, const std::string& strPwd);
+    virtual bool AddAccount(const std::string& account, const std::string& strPwd);
+    virtual bool ExistAccount(const std::string& account);
 
 
 protected:
 
 private:
-	NFIClassModule* m_pLogicClassModule;
-	NFINoSqlModule* m_pNoSqlModule;
-	NFICommonRedisModule* m_pCommonRedisModule;
-	NFIKernelModule* m_pKernelModule;
+    NFIClassModule* m_pLogicClassModule;
+    NFINoSqlModule* m_pNoSqlModule;
+    NFICommonRedisModule* m_pCommonRedisModule;
+    NFIKernelModule* m_pKernelModule;
 };
 
 

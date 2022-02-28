@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -31,23 +31,23 @@
 #include "NFIModule.h"
 
 class NFISkillConsumeProcessModule
-		: public NFIModule
+    : public NFIModule
 {
 public:
 
-	virtual int ConsumeLegal(const NFGUID& self, const std::string& skillID, const NFDataList& other) = 0;
-	virtual int ConsumeProcess(const NFGUID& self, const std::string& strSkillName, const int64_t index, const NFDataList& other, NFDataList& damageListValue, NFDataList& damageResultList) = 0;
+    virtual int ConsumeLegal(const NFGUID& self, const std::string& skillID, const NFDataList& other) = 0;
+    virtual int ConsumeProcess(const NFGUID& self, const std::string& strSkillName, const int64_t index, const NFDataList& other, NFDataList& damageListValue, NFDataList& damageResultList) = 0;
 };
 
 class NFISkillConsumeManagerModule
     : public NFIModule
 {
 public:
-	virtual bool SetConsumeModule(const int skillType, NFISkillConsumeProcessModule* pModule) = 0;
-	virtual bool SetConsumeModule(const int skillType, const int skillSubType, NFISkillConsumeProcessModule* pModule) = 0;
+    virtual bool SetConsumeModule(const int skillType, NFISkillConsumeProcessModule* pModule) = 0;
+    virtual bool SetConsumeModule(const int skillType, const int skillSubType, NFISkillConsumeProcessModule* pModule) = 0;
 
-	virtual NFISkillConsumeProcessModule* GetConsumeModule(const int skillType) = 0;
-	virtual NFISkillConsumeProcessModule* GetConsumeModule(const int skillType, const int skillSubType) = 0;
+    virtual NFISkillConsumeProcessModule* GetConsumeModule(const int skillType) = 0;
+    virtual NFISkillConsumeProcessModule* GetConsumeModule(const int skillType, const int skillSubType) = 0;
 
 };
 

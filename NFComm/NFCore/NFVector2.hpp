@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -38,311 +38,311 @@ class NFPlane;
 class NFVector2
 {
 private:
-	float x, y;
-	void InitData()
-	{
-		x = 0.0f;
-		y = 0.0f;
-	}
+    float x, y;
+    void InitData()
+    {
+        x = 0.0f;
+        y = 0.0f;
+    }
 
 public:
-	// construction
-	NFVector2()
-	{
-		InitData();
-	}
+    // construction
+    NFVector2()
+    {
+        InitData();
+    }
 
-	NFVector2(float x, float y)
-	{
-		this->x = x;
-		this->y = y;
-	}
+    NFVector2(float x, float y)
+    {
+        this->x = x;
+        this->y = y;
+    }
 
-	NFVector2(float coordinate[2])
-	{
-		this->x = coordinate[0];
-		this->y = coordinate[1];
-	}
+    NFVector2(float coordinate[2])
+    {
+        this->x = coordinate[0];
+        this->y = coordinate[1];
+    }
 
-	NFVector2(double coordinate[2])
-	{
-		this->x = (float) coordinate[0];
-		this->y = (float) coordinate[1];
-	}
+    NFVector2(double coordinate[2])
+    {
+        this->x = (float) coordinate[0];
+        this->y = (float) coordinate[1];
+    }
 
-	NFVector2(const NFVector2& v)
-	{
-		this->x = v.x;
-		this->y = v.y;
-	}
-	
-	NFVector2(const std::string& v)
-	{
-		FromString(v);
-	}
+    NFVector2(const NFVector2& v)
+    {
+        this->x = v.x;
+        this->y = v.y;
+    }
 
-	bool operator<(const NFVector2& v) const
-	{
-		return this->Length() < v.Length();
-	}
+    NFVector2(const std::string& v)
+    {
+        FromString(v);
+    }
 
-	bool operator>(const NFVector2& v) const
-	{
-		return this->Length() > v.Length();
-	}
+    bool operator<(const NFVector2& v) const
+    {
+        return this->Length() < v.Length();
+    }
 
-	NFVector2& operator= (const NFVector2& v)
-	{
-		this->x = v.x;
-		this->y = v.y;
+    bool operator>(const NFVector2& v) const
+    {
+        return this->Length() > v.Length();
+    }
 
-		return *this;
-	}
+    NFVector2& operator= (const NFVector2& v)
+    {
+        this->x = v.x;
+        this->y = v.y;
 
-	bool operator== (const NFVector2& v) const
-	{
-		return std::abs(this->x - v.x) < 0.001f && std::abs(this->y - v.y) < 0.001f;
-	}
+        return *this;
+    }
 
-	bool operator!= (const NFVector2& v) const
-	{
-		return std::abs(this->x - v.x) >= 0.001f || std::abs(this->y - v.y) >= 0.001f;
-	}
-	//----------------------------------------------------------------------------
-	// Arithmetic Operations
-	NFVector2 operator+ (const NFVector2& v) const
-	{
-		NFVector2 xV;
+    bool operator== (const NFVector2& v) const
+    {
+        return std::abs(this->x - v.x) < 0.001f && std::abs(this->y - v.y) < 0.001f;
+    }
 
-		xV.x = this->x + v.x;
-		xV.y = this->y + v.y;
-		return xV;
-	}
+    bool operator!= (const NFVector2& v) const
+    {
+        return std::abs(this->x - v.x) >= 0.001f || std::abs(this->y - v.y) >= 0.001f;
+    }
+    //----------------------------------------------------------------------------
+    // Arithmetic Operations
+    NFVector2 operator+ (const NFVector2& v) const
+    {
+        NFVector2 xV;
 
-	NFVector2 operator- (const NFVector2& v) const
-	{
-		NFVector2 xV;
+        xV.x = this->x + v.x;
+        xV.y = this->y + v.y;
+        return xV;
+    }
 
-		xV.x = this->x - v.x;
-		xV.y = this->y - v.y;
-		return xV;
-	}
+    NFVector2 operator- (const NFVector2& v) const
+    {
+        NFVector2 xV;
 
-	NFVector2 operator- () const
-	{
-		return NFVector2(-x, -y);
-	}
+        xV.x = this->x - v.x;
+        xV.y = this->y - v.y;
+        return xV;
+    }
 
-	NFVector2 operator* (float s) const
-	{
-		return NFVector2(x * s, y * s);
-	}
+    NFVector2 operator- () const
+    {
+        return NFVector2(-x, -y);
+    }
 
-	NFVector2 operator/ (float s) const
-	{
-		if (std::abs(s) > 0.001f)
-		{
-			return NFVector2(x / s, y / s);
-		}
+    NFVector2 operator* (float s) const
+    {
+        return NFVector2(x * s, y * s);
+    }
 
-		return Zero();
-	}
+    NFVector2 operator/ (float s) const
+    {
+        if (std::abs(s) > 0.001f)
+        {
+            return NFVector2(x / s, y / s);
+        }
 
-	//----------------------------------------------------------------------------
-	// Arithmetic Updates
-	NFVector2& operator+= (const NFVector2& v)
-	{
-		x += v.x;
-		y += v.y;
-		return *this;
-	}
+        return Zero();
+    }
 
-	NFVector2& operator-= (const NFVector2 v)
-	{
-		x -= v.x;
-		y -= v.y;
-		return *this;
-	}
+    //----------------------------------------------------------------------------
+    // Arithmetic Updates
+    NFVector2& operator+= (const NFVector2& v)
+    {
+        x += v.x;
+        y += v.y;
+        return *this;
+    }
 
-	NFVector2& operator*= (float s)
-	{
-		x *= s;
-		y *= s;
-		return *this;
-	}
+    NFVector2& operator-= (const NFVector2 v)
+    {
+        x -= v.x;
+        y -= v.y;
+        return *this;
+    }
 
-	NFVector2 operator/= (float s)
-	{
-		//if (std::abs(s) > 0.001f)
-		{
-			return NFVector2(x / s, y / s);
-		}
+    NFVector2& operator*= (float s)
+    {
+        x *= s;
+        y *= s;
+        return *this;
+    }
 
-		//return Zero();
-	}
+    NFVector2 operator/= (float s)
+    {
+        //if (std::abs(s) > 0.001f)
+        {
+            return NFVector2(x / s, y / s);
+        }
 
-	float X() const
-	{
-		return this->x;
-	}
-	
-	float Y() const
-	{
-		return this->y;
-	}
+        //return Zero();
+    }
 
-	void SetX(float x)
-	{
-		this->x = x;
-	}
+    float X() const
+    {
+        return this->x;
+    }
 
-	void SetY(float y)
-	{
-		this->y = y;
-	}
+    float Y() const
+    {
+        return this->y;
+    }
 
-	bool IsZero() const
-	{
-		return x < 0.001f && y < 0.001f;
-	}
+    void SetX(float x)
+    {
+        this->x = x;
+    }
 
-	//----------------------------------------------------------------------------
-	inline float SquaredMagnitude() const
-	{
-		return x*x + y*y;
-	}
+    void SetY(float y)
+    {
+        this->y = y;
+    }
 
-	//----------------------------------------------------------------------------
-	inline float SquaredLength() const
-	{
-		return SquaredMagnitude();
-	}
+    bool IsZero() const
+    {
+        return x < 0.001f && y < 0.001f;
+    }
 
-	//----------------------------------------------------------------------------
-	inline float Magnitude() const
-	{
-		return sqrtf(x*x + y*y);
-	}
+    //----------------------------------------------------------------------------
+    inline float SquaredMagnitude() const
+    {
+        return x * x + y * y;
+    }
 
-	//----------------------------------------------------------------------------
-	inline float Length() const
-	{
-		return Magnitude();
-	}
+    //----------------------------------------------------------------------------
+    inline float SquaredLength() const
+    {
+        return SquaredMagnitude();
+    }
 
-	//----------------------------------------------------------------------------
-	inline NFVector2 Direction() const
-	{
-		if (this->IsZero())
-		{
-			return Zero();
-		}
+    //----------------------------------------------------------------------------
+    inline float Magnitude() const
+    {
+        return sqrtf(x * x + y * y);
+    }
 
-		float lenSquared = SquaredMagnitude();
-		float invSqrt = 1.0f / sqrtf(lenSquared);
-		return NFVector2(x * invSqrt, y * invSqrt);
-	}
+    //----------------------------------------------------------------------------
+    inline float Length() const
+    {
+        return Magnitude();
+    }
 
-	//----------------------------------------------------------------------------
-	inline NFVector2 Normalized() const
-	{
-		return Direction();
-	}
+    //----------------------------------------------------------------------------
+    inline NFVector2 Direction() const
+    {
+        if (this->IsZero())
+        {
+            return Zero();
+        }
 
-	//----------------------------------------------------------------------------
-	float Distance(const NFVector2& v) const
-	{
-		NFVector2 vX = *this - v;
-		return vX.Length();
-	}
+        float lenSquared = SquaredMagnitude();
+        float invSqrt = 1.0f / sqrtf(lenSquared);
+        return NFVector2(x * invSqrt, y * invSqrt);
+    }
+
+    //----------------------------------------------------------------------------
+    inline NFVector2 Normalized() const
+    {
+        return Direction();
+    }
+
+    //----------------------------------------------------------------------------
+    float Distance(const NFVector2& v) const
+    {
+        NFVector2 vX = *this - v;
+        return vX.Length();
+    }
 
 
-	bool FromString(const std::string& value)
-	{
-		std::vector<std::string> values;
-		Split(value, values, ",");
-		if (values.size() != 2)
-		{
-			return false;
-		}
+    bool FromString(const std::string& value)
+    {
+        std::vector<std::string> values;
+        Split(value, values, ",");
+        if (values.size() != 2)
+        {
+            return false;
+        }
 
-		try
-		{
-			x = lexical_cast<float>(values.at(0));
-			y = lexical_cast<float>(values.at(1));
+        try
+        {
+            x = lexical_cast<float>(values.at(0));
+            y = lexical_cast<float>(values.at(1));
 
-			return true;
-		}
-		catch (const std::exception&)
-		{
+            return true;
+        }
+        catch (const std::exception&)
+        {
 
-		}
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	std::string ToString() const
-	{
-		return lexical_cast<std::string>(x) + "," + lexical_cast<std::string>(this->y);
-	}
+    std::string ToString() const
+    {
+        return lexical_cast<std::string>(x) + "," + lexical_cast<std::string>(this->y);
+    }
 
-	// Special values.
-	inline static const NFVector2& Zero()
-	{
-		static NFVector2 v(0, 0);
-		return v;
-	}
+    // Special values.
+    inline static const NFVector2& Zero()
+    {
+        static NFVector2 v(0, 0);
+        return v;
+    }
 
-	inline static const NFVector2& One()
-	{
-		static NFVector2 v(1, 1);
-		return v;
-	}
+    inline static const NFVector2& One()
+    {
+        static NFVector2 v(1, 1);
+        return v;
+    }
 
-	inline static const NFVector2& UnitX()
-	{
-		static NFVector2 v(1, 0);
-		return v;
-	}
+    inline static const NFVector2& UnitX()
+    {
+        static NFVector2 v(1, 0);
+        return v;
+    }
 
-	inline static const NFVector2& UnitY()
-	{
-		static NFVector2 v(0, 1);
-		return v;
-	}
+    inline static const NFVector2& UnitY()
+    {
+        static NFVector2 v(0, 1);
+        return v;
+    }
 
-	bool Split(const std::string& str, std::vector<std::string>& result, std::string delim)
-	{
-		if (str.empty())
-		{
-			return false;
-		}
+    bool Split(const std::string& str, std::vector<std::string>& result, std::string delim)
+    {
+        if (str.empty())
+        {
+            return false;
+        }
 
-		std::string tmp;
-		size_t pos_begin = str.find_first_not_of(delim);
-		size_t pos = 0;
-		while (pos_begin != std::string::npos)
-		{
-			pos = str.find(delim, pos_begin);
-			if (pos != std::string::npos)
-			{
-				tmp = str.substr(pos_begin, pos - pos_begin);
-				pos_begin = pos + delim.length();
-			}
-			else
-			{
-				tmp = str.substr(pos_begin);
-				pos_begin = pos;
-			}
+        std::string tmp;
+        size_t pos_begin = str.find_first_not_of(delim);
+        size_t pos = 0;
+        while (pos_begin != std::string::npos)
+        {
+            pos = str.find(delim, pos_begin);
+            if (pos != std::string::npos)
+            {
+                tmp = str.substr(pos_begin, pos - pos_begin);
+                pos_begin = pos + delim.length();
+            }
+            else
+            {
+                tmp = str.substr(pos_begin);
+                pos_begin = pos;
+            }
 
-			if (!tmp.empty())
-			{
-				result.push_back(tmp);
-				tmp.clear();
-			}
-		}
-		return true;
-	}
+            if (!tmp.empty())
+            {
+                result.push_back(tmp);
+                tmp.clear();
+            }
+        }
+        return true;
+    }
 };
 
 #endif

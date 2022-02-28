@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -40,17 +40,17 @@
 class NFMasterNet_HttpServerPlugin : public NFIPlugin
 {
 public:
-	NFMasterNet_HttpServerPlugin(NFIPluginManager* p)
-	{
-		pPluginManager = p;
-	}
-	virtual const int GetPluginVersion();
+    NFMasterNet_HttpServerPlugin(NFIPluginManager* p)
+    {
+        pPluginManager = p;
+    }
+    virtual const int GetPluginVersion();
 
-	virtual const std::string GetPluginName();
+    virtual const std::string GetPluginName();
 
-	virtual void Install();
+    virtual void Install();
 
-	virtual void Uninstall();
+    virtual void Uninstall();
 };
 
 #endif

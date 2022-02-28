@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -64,23 +64,23 @@ public:
     virtual void RemoveReceiveCallBack(const NF_SERVER_TYPES eType, const uint16_t msgID);
 
     ////////////////////////////////////////////////////////////////////////////////
-	virtual void SendByServerIDWithOutHead(const int serverID, const uint16_t msgID, const std::string& strData);
+    virtual void SendByServerIDWithOutHead(const int serverID, const uint16_t msgID, const std::string& strData);
 
-	virtual void SendByServerID(const int serverID, const uint16_t msgID, const std::string& strData);
-	virtual void SendByServerID(const int serverID, const uint16_t msgID, const std::string& strData, const NFGUID id);
+    virtual void SendByServerID(const int serverID, const uint16_t msgID, const std::string& strData);
+    virtual void SendByServerID(const int serverID, const uint16_t msgID, const std::string& strData, const NFGUID id);
 
-	virtual void SendToAllServerWithOutHead(const uint16_t msgID, const std::string& strData);
+    virtual void SendToAllServerWithOutHead(const uint16_t msgID, const std::string& strData);
 
-	virtual void SendToAllServer(const uint16_t msgID, const std::string& strData);
-	virtual void SendToAllServer(const uint16_t msgID, const std::string& strData, const NFGUID id);
+    virtual void SendToAllServer(const uint16_t msgID, const std::string& strData);
+    virtual void SendToAllServer(const uint16_t msgID, const std::string& strData, const NFGUID id);
 
-	virtual void SendToAllServerWithOutHead(const NF_SERVER_TYPES eType, const uint16_t msgID, const std::string& strData);
+    virtual void SendToAllServerWithOutHead(const NF_SERVER_TYPES eType, const uint16_t msgID, const std::string& strData);
 
-	virtual void SendToAllServer(const NF_SERVER_TYPES eType, const uint16_t msgID, const std::string& strData);
-	virtual void SendToAllServer(const NF_SERVER_TYPES eType, const uint16_t msgID, const std::string& strData, const NFGUID id);
+    virtual void SendToAllServer(const NF_SERVER_TYPES eType, const uint16_t msgID, const std::string& strData);
+    virtual void SendToAllServer(const NF_SERVER_TYPES eType, const uint16_t msgID, const std::string& strData, const NFGUID id);
 
-	virtual void SendToServerByPB(const int serverID, const uint16_t msgID, const google::protobuf::Message& xData);
-	virtual void SendToServerByPB(const int serverID, const uint16_t msgID, const google::protobuf::Message& xData, const NFGUID id);
+    virtual void SendToServerByPB(const int serverID, const uint16_t msgID, const google::protobuf::Message& xData);
+    virtual void SendToServerByPB(const int serverID, const uint16_t msgID, const google::protobuf::Message& xData, const NFGUID id);
 
     virtual void SendToAllServerByPB(const uint16_t msgID, const google::protobuf::Message& xData, const NFGUID id);
 
@@ -88,21 +88,21 @@ public:
 
     ////////////////////////////////////////////////////////////////////////////////
 
-	virtual void SendBySuitWithOutHead(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const std::string& strData);
+    virtual void SendBySuitWithOutHead(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const std::string& strData);
 
-	virtual void SendBySuit(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const std::string& strData);
-	virtual void SendBySuit(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const std::string& strData, const NFGUID id);
+    virtual void SendBySuit(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const std::string& strData);
+    virtual void SendBySuit(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const std::string& strData, const NFGUID id);
 
-	virtual void SendBySuitWithOutHead(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const std::string& strData);
+    virtual void SendBySuitWithOutHead(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const std::string& strData);
 
-	virtual void SendBySuit(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const std::string& strData);
-	virtual void SendBySuit(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const std::string& strData, const NFGUID id);
+    virtual void SendBySuit(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const std::string& strData);
+    virtual void SendBySuit(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const std::string& strData, const NFGUID id);
 
-	virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const google::protobuf::Message& xData);
-	virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const google::protobuf::Message& xData, const NFGUID id);
+    virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const google::protobuf::Message& xData);
+    virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const std::string& strHashKey, const uint16_t msgID, const google::protobuf::Message& xData, const NFGUID id);
 
-	virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const google::protobuf::Message& xData);
-	virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const google::protobuf::Message& xData, const NFGUID id);
+    virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const google::protobuf::Message& xData);
+    virtual void SendSuitByPB(const NF_SERVER_TYPES eType, const int nHashKey32, const uint16_t msgID, const google::protobuf::Message& xData, const NFGUID id);
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -134,8 +134,8 @@ private:
     void ProcessAddNetConnect();
 
 private:
-	int64_t mnLastActionTime;
-	unsigned int mnBufferSize;
+    int64_t mnLastActionTime;
+    unsigned int mnBufferSize;
     //server_id, server_data
     NFConsistentHashMapEx<int, ConnectData> mxServerMap;
     //server_type, server_id, server_data
@@ -146,15 +146,15 @@ private:
     struct CallBack
     {
         //call back
-		//std::map<int, NET_RECEIVE_FUNCTOR_PTR> mxReceiveCallBack;
-		std::map<int, std::list<NET_RECEIVE_FUNCTOR_PTR>> mxReceiveCallBack;
+        //std::map<int, NET_RECEIVE_FUNCTOR_PTR> mxReceiveCallBack;
+        std::map<int, std::list<NET_RECEIVE_FUNCTOR_PTR>> mxReceiveCallBack;
         std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBack;
         std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;
     };
 
     NFMapEx<int, CallBack> mxCallBack;
 
-	NFILogModule* m_pLogModule;
+    NFILogModule* m_pLogModule;
 };
 
 #endif

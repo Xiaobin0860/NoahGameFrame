@@ -27,7 +27,7 @@
 
 NF_SHARE_PTR<NFIOData> NFPropertyModifier::FindOutputNodeIOData()
 {
-	return NF_SHARE_PTR<NFIOData>();
+    return NF_SHARE_PTR<NFIOData>();
 }
 
 void NFRecordModifier::UpdateOutputData(const NFGUID& runTimeOwner)
@@ -36,7 +36,7 @@ void NFRecordModifier::UpdateOutputData(const NFGUID& runTimeOwner)
 
 NF_SHARE_PTR<NFIOData> NFRecordModifier::FindOutputNodeIOData()
 {
-	return NF_SHARE_PTR<NFIOData>();
+    return NF_SHARE_PTR<NFIOData>();
 }
 
 void NFRecordAdder::UpdateOutputData(const NFGUID& runTimeOwner)
@@ -49,5 +49,5 @@ void NFRecordRemover::UpdateOutputData(const NFGUID& runTimeOwner)
 
 NF_SHARE_PTR<NFIOData> NFRecordRemover::FindOutputNodeIOData()
 {
-	return NF_SHARE_PTR<NFIOData>();
+    return NF_SHARE_PTR<NFIOData>();
 }

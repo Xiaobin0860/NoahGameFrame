@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,14 +29,14 @@
 
 bool NFProxyServerNet_WSModule::Init()
 {
-	m_pWSModule = pPluginManager->FindModule<NFIWSModule>();
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	m_pProxyToWorldModule = pPluginManager->FindModule<NFIProxyServerToWorldModule>();
-	m_pSecurityModule = pPluginManager->FindModule<NFISecurityModule>();
+    m_pWSModule = pPluginManager->FindModule<NFIWSModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pProxyToWorldModule = pPluginManager->FindModule<NFIProxyServerToWorldModule>();
+    m_pSecurityModule = pPluginManager->FindModule<NFISecurityModule>();
 
     return true;
 }
@@ -46,10 +46,10 @@ bool NFProxyServerNet_WSModule::AfterInit()
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Server::ThisName());
     if (xLogicClass)
     {
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
 
             const int serverType = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Type());
             const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::ServerID());
@@ -75,11 +75,11 @@ bool NFProxyServerNet_WSModule::AfterInit()
                         exit(0);
                     }
 
-	                m_pWSModule->AddEventCallBack(this, &NFProxyServerNet_WSModule::OnSocketClientEvent);
-	                m_pWSModule->AddReceiveCallBack(this, &NFProxyServerNet_WSModule::OnWebSocketTestProcess);
+                    m_pWSModule->AddEventCallBack(this, &NFProxyServerNet_WSModule::OnSocketClientEvent);
+                    m_pWSModule->AddReceiveCallBack(this, &NFProxyServerNet_WSModule::OnWebSocketTestProcess);
                     break;
                 }
-                
+
             }
         }
     }
@@ -94,12 +94,12 @@ bool NFProxyServerNet_WSModule::Shut()
 
 bool NFProxyServerNet_WSModule::Execute()
 {
-	return true;
+    return true;
 }
 
 void NFProxyServerNet_WSModule::OnWebSocketTestProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
-	m_pWSModule->SendMsgToAllClient(std::string(msg, len));
+    m_pWSModule->SendMsgToAllClient(std::string(msg, len));
 }
 
 void NFProxyServerNet_WSModule::OnSocketClientEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet)
@@ -139,11 +139,11 @@ void NFProxyServerNet_WSModule::OnClientDisconnect(const NFSOCK nAddress)
             {
                 /*
                 NFMsg::ReqLeaveGameServer xData;
-				xData.set_arg(nGameID);
+                xData.set_arg(nGameID);
 
                 NFMsg::MsgBase xMsg;
 
-				//real user id
+                //real user id
                 *xMsg.mutable_player_id() = NFINetModule::NFToPB(pNetObject->GetUserID());
 
                 if (!xData.SerializeToString(xMsg.mutable_msg_data()))
@@ -157,9 +157,9 @@ void NFProxyServerNet_WSModule::OnClientDisconnect(const NFSOCK nAddress)
                     return;
                 }
 
-				m_pNetClientModule->SendByServerIDWithOutHead(nGameID, NFMsg::EGameMsgID::REQ_LEAVE_GAME, msg);
+                m_pNetClientModule->SendByServerIDWithOutHead(nGameID, NFMsg::EGameMsgID::REQ_LEAVE_GAME, msg);
                  */
-  
+
             }
         }
 
@@ -169,17 +169,17 @@ void NFProxyServerNet_WSModule::OnClientDisconnect(const NFSOCK nAddress)
 
 void NFProxyServerNet_WSModule::OnClientConnected(const NFSOCK nAddress)
 {
-	//bind client'id with socket id
+    //bind client'id with socket id
     NetObject* pNetObject = m_pWSModule->GetNet()->GetNetObject(nAddress);
     if (pNetObject && pNetObject->GetClientID().IsNull())
     {
-		NFGUID xClientIdent = m_pKernelModule->CreateGUID();
+        NFGUID xClientIdent = m_pKernelModule->CreateGUID();
         pNetObject->SetClientID(xClientIdent);
-		mxClientIdent.AddElement(xClientIdent, NF_SHARE_PTR<NFSOCK>(new NFSOCK(nAddress)));
+        mxClientIdent.AddElement(xClientIdent, NF_SHARE_PTR<NFSOCK>(new NFSOCK(nAddress)));
 
 
-		// 1. create a tcp client to connect to the TCP service provided by proxy server.
-		// 2. transfer the ws data come from websocket to the TCP service provided by proxy server.
-		// 3.transfer the tcp data come from proxy server to the websocket service to send to clients.
+        // 1. create a tcp client to connect to the TCP service provided by proxy server.
+        // 2. transfer the ws data come from websocket to the TCP service provided by proxy server.
+        // 3.transfer the tcp data come from proxy server to the websocket service to send to clients.
     }
 }

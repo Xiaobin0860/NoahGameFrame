@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -29,74 +29,74 @@
 
 bool NFSecurityModule::Init()
 {
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	
-	return true;
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+
+    return true;
 }
 
 bool NFSecurityModule::AfterInit()
 {
-	NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Security::ThisName());
-	if (xLogicClass)
-	{
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
-			const std::string& strSecurityData = m_pElementModule->GetPropertyString(strId, NFrame::Security::SecurityData());
+    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Security::ThisName());
+    if (xLogicClass)
+    {
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
+            const std::string& strSecurityData = m_pElementModule->GetPropertyString(strId, NFrame::Security::SecurityData());
 
-		}
-	}
+        }
+    }
 
-	return true;
+    return true;
 }
 
-const std::string NFSecurityModule::GetSecurityKey(const std::string & account)
+const std::string NFSecurityModule::GetSecurityKey(const std::string& account)
 {
-	return account;
+    return account;
 }
 
-bool NFSecurityModule::VerifySecurityKey(const std::string & account, const std::string & strSecurityKey)
+bool NFSecurityModule::VerifySecurityKey(const std::string& account, const std::string& strSecurityKey)
 {
-	//you would implement this function by yourself
-	//if (account == strSecurityKey)
-	{
-		return true;
-	}
+    //you would implement this function by yourself
+    //if (account == strSecurityKey)
+    {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
-std::string NFSecurityModule::EncodeMsg(const std::string & account, const std::string & strSecurityKey, const int nMessageID, const char * strMessageData, const int len)
+std::string NFSecurityModule::EncodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const char* strMessageData, const int len)
 {
-	return std::string(strMessageData, len);
+    return std::string(strMessageData, len);
 }
 
-std::string NFSecurityModule::EncodeMsg(const std::string & account, const std::string & strSecurityKey, const int nMessageID, const std::string & strMessageData)
+std::string NFSecurityModule::EncodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const std::string& strMessageData)
 {
-	return strMessageData;
+    return strMessageData;
 }
 
-std::string NFSecurityModule::DecodeMsg(const std::string & account, const std::string & strSecurityKey, const int nMessageID, const char * strMessageData, const int len)
+std::string NFSecurityModule::DecodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const char* strMessageData, const int len)
 {
-	return std::string(strMessageData, len);
+    return std::string(strMessageData, len);
 }
 
-std::string NFSecurityModule::DecodeMsg(const std::string & account, const std::string & strSecurityKey, const int nMessageID, const std::string & strMessageData)
+std::string NFSecurityModule::DecodeMsg(const std::string& account, const std::string& strSecurityKey, const int nMessageID, const std::string& strMessageData)
 {
-	return strMessageData;
+    return strMessageData;
 }
 
 bool NFSecurityModule::Shut()
 {
 
-	return true;
+    return true;
 }
 
 bool NFSecurityModule::Execute()
 {
-	return true;
+    return true;
 }

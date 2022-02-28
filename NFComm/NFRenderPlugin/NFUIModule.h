@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -53,7 +53,7 @@ class NFUIModule
     : public NFIUIModule
 {
 public:
-    NFUIModule( NFIPluginManager* p )
+    NFUIModule(NFIPluginManager* p)
     {
         m_bIsExecute = true;
         pPluginManager = p;
@@ -72,29 +72,29 @@ public:
     virtual bool Finalize();
     virtual bool OnReloadPlugin();
 
-	virtual NF_SHARE_PTR<NFIView> GetView(NFViewType viewType);
+    virtual NF_SHARE_PTR<NFIView> GetView(NFViewType viewType);
 
-	virtual const std::vector<NF_SHARE_PTR<NFIView>>& GetViews();
+    virtual const std::vector<NF_SHARE_PTR<NFIView>>& GetViews();
 
 
- 
+
 
 protected:
-	int SetupGUI();
-	void SetupColour(ImGuiIO& io);
-	void CloseGUI();
+    int SetupGUI();
+    void SetupColour(ImGuiIO& io);
+    void CloseGUI();
 
-	void ExecuteBegin(NF_SHARE_PTR<NFIView> view);
-	void ExecuteEnd(NF_SHARE_PTR<NFIView> view);
+    void ExecuteBegin(NF_SHARE_PTR<NFIView> view);
+    void ExecuteEnd(NF_SHARE_PTR<NFIView> view);
 private:
 
-	// Our state
-	//bool show_demo_window = true;
-	//bool show_another_window = false;
-	SDL_Window* window;
-	bool done = false;
-	bool running = false;
-	SDL_GLContext gl_context;
+    // Our state
+    //bool show_demo_window = true;
+    //bool show_another_window = false;
+    SDL_Window* window;
+    bool done = false;
+    bool running = false;
+    SDL_GLContext gl_context;
 
 private:
     std::vector<NF_SHARE_PTR<NFIView>> mViewList;

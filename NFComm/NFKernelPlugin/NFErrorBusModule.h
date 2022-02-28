@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -33,7 +33,7 @@ class NFErrorBusModule
     : public NFIErrorBusModule
 {
 public:
-	NFErrorBusModule(NFIPluginManager* p)
+    NFErrorBusModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -42,17 +42,17 @@ public:
     {
     }
 
-	virtual ErrorData GetLastError();
-	
-	virtual void AddError(const NFGUID object, const ErrID err, const std::string& stData);
+    virtual ErrorData GetLastError();
 
-	virtual void ClearAllError();
+    virtual void AddError(const NFGUID object, const ErrID err, const std::string& stData);
 
-private:
-
+    virtual void ClearAllError();
 
 private:
-	std::list<ErrorData> mErrList;
+
+
+private:
+    std::list<ErrorData> mErrList;
 };
 
 #endif

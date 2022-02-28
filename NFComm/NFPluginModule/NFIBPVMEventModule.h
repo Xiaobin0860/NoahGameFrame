@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -49,9 +49,9 @@ public:
     }
 
     virtual bool RegisterGameEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) = 0;
-    
+
     ////////////////////////////////
-    
+
     template<typename BaseType>
     bool RegisterNetEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, BaseType* pBase, int (BaseType::* handler)(const NFGUID&, const NFGUID&, const int, const NFMapEx<std::string, NFData>&))
     {
@@ -60,9 +60,9 @@ public:
     }
 
     virtual bool RegisterNetEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) = 0;
-    
+
     ////////////////////////////////
-   
+
     template<typename BaseType>
     bool RegisterNetMsgEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, BaseType* pBase, int (BaseType::* handler)(const NFGUID&, const NFGUID&, const int, const NFMapEx<std::string, NFData>&))
     {
@@ -71,7 +71,7 @@ public:
     }
 
     virtual bool RegisterNetMsgEventCallBack(const NFGUID blockID, const int eventID, const NFGUID monitorID, const BLUEPRINT_EVENT_FUNCTOR& functor) = 0;
-   
+
     ////////////////////////////////
 
     template<typename BaseType>
@@ -118,7 +118,7 @@ public:
 
     ////////////////////////////////
 
-	virtual bool UnRegisterAllCallBack(const NFGUID blockID) = 0;
+    virtual bool UnRegisterAllCallBack(const NFGUID blockID) = 0;
 
 };
 

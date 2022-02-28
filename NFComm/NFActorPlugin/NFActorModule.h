@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -41,7 +41,7 @@ class NFActorModule
     : public NFIActorModule
 {
 public:
-	NFActorModule(NFIPluginManager* p);
+    NFActorModule(NFIPluginManager* p);
     virtual ~NFActorModule();
 
     virtual bool Init();
@@ -54,21 +54,21 @@ public:
 
     virtual bool Execute();
 
-	virtual NF_SHARE_PTR<NFIActor> RequireActor();
-	virtual NF_SHARE_PTR<NFIActor> GetActor(const NFGUID nActorIndex);
-	virtual bool ReleaseActor(const NFGUID nActorIndex);
+    virtual NF_SHARE_PTR<NFIActor> RequireActor();
+    virtual NF_SHARE_PTR<NFIActor> GetActor(const NFGUID nActorIndex);
+    virtual bool ReleaseActor(const NFGUID nActorIndex);
 
     virtual bool SendMsgToActor(const NFGUID actorIndex, const NFGUID who, const int eventID, const std::string& data, const std::string& arg = "");
 
-	virtual bool AddResult(const NFActorMessage& message);
+    virtual bool AddResult(const NFActorMessage& message);
 
 protected:
     virtual bool SendMsgToActor(const NFGUID actorIndex, const NFActorMessage& message);
 
-	virtual bool AddEndFunc(const int subMessageID, ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end);
+    virtual bool AddEndFunc(const int subMessageID, ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end);
 
-	virtual bool ExecuteEvent();
-	virtual bool ExecuteResultEvent();
+    virtual bool ExecuteEvent();
+    virtual bool ExecuteResultEvent();
 
 private:
     bool test = false;
@@ -76,10 +76,10 @@ private:
     NFIKernelModule* m_pKernelModule;
     NFIThreadPoolModule* m_pThreadPoolModule;
 
-	std::map<NFGUID, NF_SHARE_PTR<NFIActor>> mxActorMap;
+    std::map<NFGUID, NF_SHARE_PTR<NFIActor>> mxActorMap;
 
-	NFQueue<NFActorMessage> mxResultQueue;
-	NFMapEx<int, ACTOR_PROCESS_FUNCTOR> mxEndFunctor;
+    NFQueue<NFActorMessage> mxResultQueue;
+    NFMapEx<int, ACTOR_PROCESS_FUNCTOR> mxEndFunctor;
 };
 
 #endif

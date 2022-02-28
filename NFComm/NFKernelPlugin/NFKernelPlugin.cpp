@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -57,41 +57,41 @@ const int NFKernelPlugin::GetPluginVersion()
 
 const std::string NFKernelPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFKernelPlugin);
+    return GET_CLASS_NAME(NFKernelPlugin);
 }
 
 void NFKernelPlugin::Install()
 {
     REGISTER_MODULE(pPluginManager, NFISceneModule, NFSceneModule)
-	REGISTER_MODULE(pPluginManager, NFIKernelModule, NFKernelModule)
-	REGISTER_MODULE(pPluginManager, NFIEventModule, NFEventModule)
-	REGISTER_MODULE(pPluginManager, NFIScheduleModule, NFScheduleModule)
-	REGISTER_MODULE(pPluginManager, NFIDataTailModule, NFDataTailModule)
-	REGISTER_MODULE(pPluginManager, NFICellModule, NFCellModule)
-	REGISTER_MODULE(pPluginManager, NFIThreadPoolModule, NFThreadPoolModule)
-	REGISTER_MODULE(pPluginManager, NFIELOModule, NFELOModule)
+    REGISTER_MODULE(pPluginManager, NFIKernelModule, NFKernelModule)
+    REGISTER_MODULE(pPluginManager, NFIEventModule, NFEventModule)
+    REGISTER_MODULE(pPluginManager, NFIScheduleModule, NFScheduleModule)
+    REGISTER_MODULE(pPluginManager, NFIDataTailModule, NFDataTailModule)
+    REGISTER_MODULE(pPluginManager, NFICellModule, NFCellModule)
+    REGISTER_MODULE(pPluginManager, NFIThreadPoolModule, NFThreadPoolModule)
+    REGISTER_MODULE(pPluginManager, NFIELOModule, NFELOModule)
 
-	/*
-	REGISTER_TEST_MODULE(pPluginManager, NFIKernelModule, NFKernelTestModule)
-	REGISTER_TEST_MODULE(pPluginManager, NFIEventModule, NFEventTestModule)
-	REGISTER_TEST_MODULE(pPluginManager, NFIScheduleModule, NFScheduleTestModule)
-	*/
+    /*
+    REGISTER_TEST_MODULE(pPluginManager, NFIKernelModule, NFKernelTestModule)
+    REGISTER_TEST_MODULE(pPluginManager, NFIEventModule, NFEventTestModule)
+    REGISTER_TEST_MODULE(pPluginManager, NFIScheduleModule, NFScheduleTestModule)
+    */
 }
 
 void NFKernelPlugin::Uninstall()
 {
-	/*
-	UNREGISTER_TEST_MODULE(pPluginManager, NFIEventModule, NFEventTestModule)
-	UNREGISTER_TEST_MODULE(pPluginManager, NFIKernelModule, NFKernelTestModule)
-	UNREGISTER_TEST_MODULE(pPluginManager, NFIScheduleModule, NFScheduleTestModule)
-*/
-	UNREGISTER_MODULE(pPluginManager, NFIELOModule, NFELOModule)
-	UNREGISTER_MODULE(pPluginManager, NFIThreadPoolModule, NFThreadPoolModule)
-	UNREGISTER_MODULE(pPluginManager, NFICellModule, NFCellModule)
-	UNREGISTER_MODULE(pPluginManager, NFIDataTailModule, NFDataTailModule)
-	UNREGISTER_MODULE(pPluginManager, NFIEventModule, NFEventModule)
-	UNREGISTER_MODULE(pPluginManager, NFIKernelModule, NFKernelModule)
-	UNREGISTER_MODULE(pPluginManager, NFISceneModule, NFSceneModule)
-	UNREGISTER_MODULE(pPluginManager, NFIScheduleModule, NFScheduleModule)
+    /*
+    UNREGISTER_TEST_MODULE(pPluginManager, NFIEventModule, NFEventTestModule)
+    UNREGISTER_TEST_MODULE(pPluginManager, NFIKernelModule, NFKernelTestModule)
+    UNREGISTER_TEST_MODULE(pPluginManager, NFIScheduleModule, NFScheduleTestModule)
+    */
+    UNREGISTER_MODULE(pPluginManager, NFIELOModule, NFELOModule)
+    UNREGISTER_MODULE(pPluginManager, NFIThreadPoolModule, NFThreadPoolModule)
+    UNREGISTER_MODULE(pPluginManager, NFICellModule, NFCellModule)
+    UNREGISTER_MODULE(pPluginManager, NFIDataTailModule, NFDataTailModule)
+    UNREGISTER_MODULE(pPluginManager, NFIEventModule, NFEventModule)
+    UNREGISTER_MODULE(pPluginManager, NFIKernelModule, NFKernelModule)
+    UNREGISTER_MODULE(pPluginManager, NFISceneModule, NFSceneModule)
+    UNREGISTER_MODULE(pPluginManager, NFIScheduleModule, NFScheduleModule)
 
 }

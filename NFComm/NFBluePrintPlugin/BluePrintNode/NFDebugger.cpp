@@ -71,8 +71,8 @@ void NFDebugger::UpdateOutputData(const NFGUID& runTimeOwner)
             case NFILogModule::NF_LOG_LEVEL::NLL_ERROR_NORMAL:
                 m_pLogModule->LogError(runTimeOwner, os);
                 break;
-        default:
-            break;
+            default:
+                break;
         }
     }
 }

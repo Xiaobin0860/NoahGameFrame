@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,8 +37,8 @@ public:
 
     virtual ~NFWSModule();
 
-	virtual bool Init();
-	virtual bool AfterInit();
+    virtual bool Init();
+    virtual bool AfterInit();
 
     //as client
     virtual void Initialization(const char* ip, const unsigned short nPort);
@@ -77,11 +77,11 @@ protected:
 
     std::error_code HandShake(const NFSOCK sockIndex, const char* msg, const uint32_t len);
 
-    std::error_code DecodeFrame(const NFSOCK sockIndex,NetObject* pNetObject);
+    std::error_code DecodeFrame(const NFSOCK sockIndex, NetObject* pNetObject);
     int DeCode(const char* strData, const uint32_t unAllLen, NFMsgHead& xHead);
 
     std::string EncodeFrame(const char* data, size_t size, bool text);
-    
+
 
     std::string HashKey(const char* key, size_t len);
 private:
@@ -89,11 +89,11 @@ private:
     unsigned int mnBufferSize;
     NFINet* m_pNet;
     NFINT64 mLastTime;
-	std::map<int, std::list<NET_RECEIVE_FUNCTOR_PTR>> mxReceiveCallBack;
+    std::map<int, std::list<NET_RECEIVE_FUNCTOR_PTR>> mxReceiveCallBack;
     std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
     std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;
 
-	NFILogModule* m_pLogModule;
+    NFILogModule* m_pLogModule;
 };
 
 #endif

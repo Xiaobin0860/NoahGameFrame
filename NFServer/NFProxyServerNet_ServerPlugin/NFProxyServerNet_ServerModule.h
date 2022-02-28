@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -56,7 +56,7 @@ public:
 
     virtual int Transport(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-    
+
     virtual int EnterGameSuccessEvent(const NFGUID xClientID, const NFGUID xPlayerID);
 
 protected:
@@ -77,7 +77,7 @@ protected:
 
     //////////////////////////////////////////////////////////////////////////
 
-	void OnOtherMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnOtherMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 protected:
 
     NFMapEx<NFGUID, NFSOCK> mxClientIdent;
@@ -87,10 +87,10 @@ protected:
     NFILogModule* m_pLogModule;
     NFIElementModule* m_pElementModule;
     NFIClassModule* m_pClassModule;
-	NFINetModule* m_pNetModule;
+    NFINetModule* m_pNetModule;
     NFIWSModule* m_pWsModule;
-	NFISecurityModule* m_pSecurityModule;
-	NFIProxyServerToWorldModule* m_pProxyToWorldModule;
+    NFISecurityModule* m_pSecurityModule;
+    NFIProxyServerToWorldModule* m_pProxyToWorldModule;
     NFIThreadPoolModule* m_pThreadPoolModule;
 };
 

@@ -45,9 +45,9 @@ limitations under the License.
 
 enum E_CHECK_TYPE
 {
-    ECT_SAVE        = 0, 
-    ECT_PRIVATE     = 1, 
-    ECT_PUBLIC      = 2, 
+    ECT_SAVE        = 0,
+    ECT_PRIVATE     = 1,
+    ECT_PUBLIC      = 2,
 };
 #pragma pack(pop)
 #endif

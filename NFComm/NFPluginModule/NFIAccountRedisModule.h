@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -33,9 +33,9 @@ class NFIAccountRedisModule
 {
 
 public:
-	virtual bool VerifyAccount(const std::string& account, const std::string& strPwd) = 0;
-	virtual bool AddAccount(const std::string& account, const std::string& strPwd) = 0;
-	virtual bool ExistAccount(const std::string& account) = 0;
+    virtual bool VerifyAccount(const std::string& account, const std::string& strPwd) = 0;
+    virtual bool AddAccount(const std::string& account, const std::string& strPwd) = 0;
+    virtual bool ExistAccount(const std::string& account) = 0;
 };
 
 #endif

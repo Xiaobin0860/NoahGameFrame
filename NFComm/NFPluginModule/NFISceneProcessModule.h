@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,7 +35,7 @@ class NFISceneProcessModule
 {
 public:
 
-	virtual bool RequestEnterScene(const NFGUID& self, const int sceneID, const int nGrupID, const int type, const NFVector3& pos, const NFDataList& argList) = 0;
+    virtual bool RequestEnterScene(const NFGUID& self, const int sceneID, const int nGrupID, const int type, const NFVector3& pos, const NFDataList& argList) = 0;
 };
 
 #endif

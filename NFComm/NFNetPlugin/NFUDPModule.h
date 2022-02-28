@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -37,7 +37,7 @@
 #include "NFNetModule.h"
 
 class NFIUDPModule
-		: public NFINetModule
+    : public NFINetModule
 {
 public:
 };
@@ -45,62 +45,62 @@ public:
 class NFUDPModule: public NFIUDPModule
 {
 public:
-	NFUDPModule(NFIPluginManager* p);
+    NFUDPModule(NFIPluginManager* p);
 
     virtual ~NFUDPModule();
 
-	virtual bool Init() override ;
-	virtual bool AfterInit();
+    virtual bool Init() override ;
+    virtual bool AfterInit();
 
-	//as client
-	virtual void Initialization(const char* ip, const unsigned short nPort) {};
+    //as client
+    virtual void Initialization(const char* ip, const unsigned short nPort) {};
 
-	//as server
-	virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4);
+    //as server
+    virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4);
 
-	virtual unsigned int ExpandBufferSize(const unsigned int size = 1024 * 1024 * 20) override;
+    virtual unsigned int ExpandBufferSize(const unsigned int size = 1024 * 1024 * 20) override;
 
-	virtual void RemoveReceiveCallBack(const int msgID);
+    virtual void RemoveReceiveCallBack(const int msgID);
 
-	virtual bool AddReceiveCallBack(const int msgID, const NET_RECEIVE_FUNCTOR_PTR& cb);
+    virtual bool AddReceiveCallBack(const int msgID, const NET_RECEIVE_FUNCTOR_PTR& cb);
 
-	virtual bool AddReceiveCallBack(const NET_RECEIVE_FUNCTOR_PTR& cb);
+    virtual bool AddReceiveCallBack(const NET_RECEIVE_FUNCTOR_PTR& cb);
 
-	virtual bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb);
+    virtual bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb);
 
-	virtual bool Execute();
+    virtual bool Execute();
 
 
-	virtual bool SendMsgWithOutHead(const int msgID, const std::string& msg, const NFSOCK sockIndex);
-	virtual bool SendMsgToAllClientWithOutHead(const int msgID, const std::string& msg);
+    virtual bool SendMsgWithOutHead(const int msgID, const std::string& msg, const NFSOCK sockIndex);
+    virtual bool SendMsgToAllClientWithOutHead(const int msgID, const std::string& msg);
 
-	virtual bool SendMsgPB(const uint16_t msgID, const google::protobuf::Message& xData, const NFSOCK sockIndex);
-	virtual bool SendMsgPB(const uint16_t msgID, const google::protobuf::Message& xData, const NFSOCK sockIndex, const NFGUID id);
-	virtual bool SendMsg(const uint16_t msgID, const std::string& xData, const NFSOCK sockIndex);
-	virtual bool SendMsg(const uint16_t msgID, const std::string& xData, const NFSOCK sockIndex, const NFGUID id);
+    virtual bool SendMsgPB(const uint16_t msgID, const google::protobuf::Message& xData, const NFSOCK sockIndex);
+    virtual bool SendMsgPB(const uint16_t msgID, const google::protobuf::Message& xData, const NFSOCK sockIndex, const NFGUID id);
+    virtual bool SendMsg(const uint16_t msgID, const std::string& xData, const NFSOCK sockIndex);
+    virtual bool SendMsg(const uint16_t msgID, const std::string& xData, const NFSOCK sockIndex, const NFGUID id);
 
-	virtual bool SendMsgPBToAllClient(const uint16_t msgID, const google::protobuf::Message& xData);
+    virtual bool SendMsgPBToAllClient(const uint16_t msgID, const google::protobuf::Message& xData);
 
-	virtual bool SendMsgPB(const uint16_t msgID, const google::protobuf::Message& xData, const NFSOCK sockIndex, const std::vector<NFGUID>* pClientIDList);
-	virtual bool SendMsgPB(const uint16_t msgID, const std::string& strData, const NFSOCK sockIndex,  const std::vector<NFGUID>* pClientIDList);
+    virtual bool SendMsgPB(const uint16_t msgID, const google::protobuf::Message& xData, const NFSOCK sockIndex, const std::vector<NFGUID>* pClientIDList);
+    virtual bool SendMsgPB(const uint16_t msgID, const std::string& strData, const NFSOCK sockIndex,  const std::vector<NFGUID>* pClientIDList);
 
-	virtual NFINet* GetNet();
+    virtual NFINet* GetNet();
 
 protected:
-	void OnReceiveNetPack(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnReceiveNetPack(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	void OnSocketNetEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
+    void OnSocketNetEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
 
 
 private:
-	struct event_base* mxBase = nullptr;
-	struct event udp_event;
-	unsigned int mnBufferSize;
-	std::map<int, std::list<NET_RECEIVE_FUNCTOR_PTR>> mxReceiveCallBack;
-	std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
-	std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;
+    struct event_base* mxBase = nullptr;
+    struct event udp_event;
+    unsigned int mnBufferSize;
+    std::map<int, std::list<NET_RECEIVE_FUNCTOR_PTR>> mxReceiveCallBack;
+    std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
+    std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;
 
-	NFILogModule* m_pLogModule;
+    NFILogModule* m_pLogModule;
 };
 
 #endif

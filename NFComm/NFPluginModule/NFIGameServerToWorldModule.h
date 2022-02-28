@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -31,12 +31,12 @@
 #include "NFINetClientModule.h"
 
 class NFIGameServerToWorldModule
-	: public NFIModule
+    : public NFIModule
 {
 public:
-	virtual void TransmitToWorld(const int nHashKey, const int msgID, const google::protobuf::Message& xData) = 0;
-	virtual void SendOnline(const NFGUID& self) = 0;
-	virtual void SendOffline(const NFGUID& self) = 0;
+    virtual void TransmitToWorld(const int nHashKey, const int msgID, const google::protobuf::Message& xData) = 0;
+    virtual void SendOnline(const NFGUID& self) = 0;
+    virtual void SendOffline(const NFGUID& self) = 0;
 };
 
 #endif

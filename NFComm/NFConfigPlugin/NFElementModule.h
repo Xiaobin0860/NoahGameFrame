@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -88,8 +88,8 @@ private:
 public:
     NFElementModule(NFIPluginManager* p);
     virtual ~NFElementModule();
-	
-	virtual bool Awake() override ;
+
+    virtual bool Awake() override ;
     virtual bool Init() override ;
     virtual bool Shut() override ;
 
@@ -112,37 +112,37 @@ public:
     virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager(const std::string& configName) override ;
 
     virtual NFINT64 GetPropertyInt(const std::string& configName, const std::string& propertyName) override ;
-	virtual int GetPropertyInt32(const std::string& configName, const std::string& propertyName) override ;
+    virtual int GetPropertyInt32(const std::string& configName, const std::string& propertyName) override ;
     virtual double GetPropertyFloat(const std::string& configName, const std::string& propertyName) override ;
-	virtual const std::string& GetPropertyString(const std::string& configName, const std::string& propertyName) override ;
-	virtual const NFVector2 GetPropertyVector2(const std::string& configName, const std::string& propertyName) override ;
-	virtual const NFVector3 GetPropertyVector3(const std::string& configName, const std::string& propertyName) override ;
+    virtual const std::string& GetPropertyString(const std::string& configName, const std::string& propertyName) override ;
+    virtual const NFVector2 GetPropertyVector2(const std::string& configName, const std::string& propertyName) override ;
+    virtual const NFVector3 GetPropertyVector3(const std::string& configName, const std::string& propertyName) override ;
 
-	virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const NFINT64 nValue) override ;
-	virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const std::string& nValue) override ;
+    virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const NFINT64 nValue) override ;
+    virtual const std::vector<std::string> GetListByProperty(const std::string& className, const std::string& propertyName, const std::string& nValue) override ;
 
 protected:
     virtual NF_SHARE_PTR<NFIProperty> GetProperty(const std::string& configName, const std::string& propertyName);
 
     virtual bool Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass> pLogicClass);
     virtual bool CheckRef();
-	virtual bool LegalNumber(const char* str);
-	virtual bool LegalFloat(const char* str);
+    virtual bool LegalNumber(const char* str);
+    virtual bool LegalFloat(const char* str);
 
 protected:
-	struct ThreadElementModule
-	{
-		bool used;
-		std::thread::id threadID;
-		NFElementModule* elementModule;
-	};
+    struct ThreadElementModule
+    {
+        bool used;
+        std::thread::id threadID;
+        NFElementModule* elementModule;
+    };
 
-	std::vector<ThreadElementModule> mThreadElements;
-	NFElementModule* originalElementModule;
+    std::vector<ThreadElementModule> mThreadElements;
+    NFElementModule* originalElementModule;
 
 protected:
     NFIClassModule* m_pClassModule;
-	NFILogModule* m_pLogModule;
+    NFILogModule* m_pLogModule;
 
     bool mbLoaded;
     bool mbBackup = false;

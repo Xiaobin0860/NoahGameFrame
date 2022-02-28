@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -60,12 +60,12 @@ public:
     virtual bool AfterInit();
 
     virtual void SendMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const NFGUID& self);
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID);
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID, const NFGUID exceptID);
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID);
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, google::protobuf::Message& xMsg, const int sceneID, const int groupID, const NFGUID exceptID);
 
-	virtual void SendMsgToGate(const uint16_t msgID, const std::string& msg, const NFGUID& self);
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID);
-	virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID, const NFGUID exceptID);
+    virtual void SendMsgToGate(const uint16_t msgID, const std::string& msg, const NFGUID& self);
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID);
+    virtual void SendGroupMsgPBToGate(const uint16_t msgID, const std::string& msg, const int sceneID, const int groupID, const NFGUID exceptID);
 
     virtual bool AddPlayerGateInfo(const NFGUID& roleID, const NFGUID& clientID, const int gateID);
     virtual bool RemovePlayerGateInfo(const NFGUID& roleID);
@@ -86,35 +86,35 @@ protected:
     void OnRefreshProxyServerInfoProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
 protected:
-    void OnClientLeaveGameProcess(const NFSOCK sockIndex, const int msgID, const char *msg, const uint32_t len);
-	void OnClientSwapSceneProcess(const NFSOCK sockIndex, const int msgID, const char *msg, const uint32_t len);
-	void OnClientReqMoveProcess(const NFSOCK sockIndex, const int msgID, const char *msg, const uint32_t len);
-	void OnClientEnterGameFinishProcess(const NFSOCK sockIndex, const int msgID, const char *msg, const uint32_t len);
+    void OnClientLeaveGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientSwapSceneProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientReqMoveProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnClientEnterGameFinishProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
-	void OnLagTestProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnLagTestProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
     ///////////WORLD_START///////////////////////////////////////////////////////////////
     void OnTransWorld(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
 private:
-    
+
     NFMapEx<NFGUID, GateBaseInfo> mRoleBaseData;
 
     //gateid,data
     NFMapEx<int, GateServerInfo> mProxyMap;
 
     //////////////////////////////////////////////////////////////////////////
-	NFISyncPosModule* m_pSyncPosModule;
-	NFIKernelModule* m_pKernelModule;
+    NFISyncPosModule* m_pSyncPosModule;
+    NFIKernelModule* m_pKernelModule;
     NFIClassModule* m_pClassModule;
     NFILogModule* m_pLogModule;
     NFISceneProcessModule* m_pSceneProcessModule;
     NFIElementModule* m_pElementModule;
-	NFINetModule* m_pNetModule;
-	NFIEventModule* m_pEventModule;
-	NFISceneModule* m_pSceneModule;
-	NFINetClientModule* m_pNetClientModule;
-	NFIScheduleModule* m_pScheduleModule;
+    NFINetModule* m_pNetModule;
+    NFIEventModule* m_pEventModule;
+    NFISceneModule* m_pSceneModule;
+    NFINetClientModule* m_pNetClientModule;
+    NFIScheduleModule* m_pScheduleModule;
     NFIThreadPoolModule* m_pThreadPoolModule;
 };
 #endif

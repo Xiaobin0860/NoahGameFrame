@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -34,7 +34,7 @@
 #include "NFComm/NFPluginModule/NFILogModule.h"
 
 class NFHttpServerModule
-        : public NFIHttpServerModule
+    : public NFIHttpServerModule
 {
 
 public:
@@ -51,18 +51,18 @@ public:
     virtual bool ResponseMsg(NF_SHARE_PTR<NFHttpRequest> req, const std::string& msg, NFWebStatus code = NFWebStatus::WEB_OK, const std::string& reason = "OK");
 
 private:
-	virtual bool OnReceiveNetPack(NF_SHARE_PTR<NFHttpRequest> req);
-	virtual NFWebStatus OnFilterPack(NF_SHARE_PTR<NFHttpRequest> req);
+    virtual bool OnReceiveNetPack(NF_SHARE_PTR<NFHttpRequest> req);
+    virtual NFWebStatus OnFilterPack(NF_SHARE_PTR<NFHttpRequest> req);
 
-	virtual bool AddMsgCB(const std::string& strCommand, const NFHttpType eRequestType, const HTTP_RECEIVE_FUNCTOR_PTR& cb);
-	virtual bool AddFilterCB(const std::string& strCommand, const HTTP_FILTER_FUNCTOR_PTR& cb);
+    virtual bool AddMsgCB(const std::string& strCommand, const NFHttpType eRequestType, const HTTP_RECEIVE_FUNCTOR_PTR& cb);
+    virtual bool AddFilterCB(const std::string& strCommand, const HTTP_FILTER_FUNCTOR_PTR& cb);
 
 private:
-	NFIHttpServer* m_pHttpServer;
-	NFILogModule* m_pLogModule;
+    NFIHttpServer* m_pHttpServer;
+    NFILogModule* m_pLogModule;
 
-	NFMapEx<NFHttpType, std::map<std::string, HTTP_RECEIVE_FUNCTOR_PTR>> mMsgCBMap;
-	std::map<std::string, HTTP_FILTER_FUNCTOR_PTR> mMsgFliterMap;
+    NFMapEx<NFHttpType, std::map<std::string, HTTP_RECEIVE_FUNCTOR_PTR>> mMsgCBMap;
+    std::map<std::string, HTTP_FILTER_FUNCTOR_PTR> mMsgFliterMap;
 
     HTTP_RECEIVE_FUNCTOR_PTR mComMsgCBList;
 };

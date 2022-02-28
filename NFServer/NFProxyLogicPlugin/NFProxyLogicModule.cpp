@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -50,25 +50,25 @@ bool NFProxyLogicModule::AfterInit()
 {
     m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pNetModule = pPluginManager->FindModule<NFINetModule>();
-	m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
+    m_pNetModule = pPluginManager->FindModule<NFINetModule>();
+    m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
 
 
-	m_pNetModule->AddReceiveCallBack(NFMsg::REQ_LAG_TEST, this, &NFProxyLogicModule::OnLagTestProcess);
+    m_pNetModule->AddReceiveCallBack(NFMsg::REQ_LAG_TEST, this, &NFProxyLogicModule::OnLagTestProcess);
 
     return true;
 }
 
-void NFProxyLogicModule::OnLagTestProcess(const NFSOCK sockIndex, const int msgID, const char * msg, const uint32_t len)
+void NFProxyLogicModule::OnLagTestProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
-	std::string msgDatag(msg, len);
-	m_pNetModule->SendMsgWithOutHead(NFMsg::EGameMsgID::ACK_GATE_LAG_TEST, msgDatag, sockIndex);
+    std::string msgDatag(msg, len);
+    m_pNetModule->SendMsgWithOutHead(NFMsg::EGameMsgID::ACK_GATE_LAG_TEST, msgDatag, sockIndex);
 
-	//TODO improve performance
-	NetObject* pNetObject = m_pNetModule->GetNet()->GetNetObject(sockIndex);
-	if (pNetObject)
-	{
-		const int gameID = pNetObject->GetGameID();
-		m_pNetClientModule->SendByServerIDWithOutHead(gameID, msgID, msgDatag);
-	}
+    //TODO improve performance
+    NetObject* pNetObject = m_pNetModule->GetNet()->GetNetObject(sockIndex);
+    if (pNetObject)
+    {
+        const int gameID = pNetObject->GetGameID();
+        m_pNetClientModule->SendByServerIDWithOutHead(gameID, msgID, msgDatag);
+    }
 }

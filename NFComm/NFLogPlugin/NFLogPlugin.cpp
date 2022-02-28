@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -49,7 +49,7 @@ const int NFLogPlugin::GetPluginVersion()
 
 const std::string NFLogPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFLogPlugin);
+    return GET_CLASS_NAME(NFLogPlugin);
 }
 
 void NFLogPlugin::Install()

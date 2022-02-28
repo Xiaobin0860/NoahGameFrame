@@ -56,6 +56,9 @@ bool NFHelloWorld2::AfterInit()
 
 	//add a property name is "Hello" for this object
     pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", TDATA_STRING);
+    std::string info1;
+    pObject->ToMemoryCounterString(info1);
+    std::cout << "info1:" << info1 << std::endl;
 	//add a property name is "World" for this object
     pObject->GetPropertyManager()->AddProperty(pObject->Self(), "World", TDATA_INT);
 
@@ -81,6 +84,10 @@ bool NFHelloWorld2::AfterInit()
 
     const int nProperty2 = pObject->GetPropertyInt32("World");
     std::cout << "Property World:" << nProperty2 << std::endl;
+
+    std::string info2;
+    pObject->ToMemoryCounterString(info2);
+    std::cout << "info2:" << info2 << std::endl;
 
     return true;
 }

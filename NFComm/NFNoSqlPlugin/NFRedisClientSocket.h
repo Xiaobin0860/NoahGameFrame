@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -78,44 +78,44 @@
 class NFRedisClientSocket
 {
 public:
-	enum NF_NET_EVENT
-	{
-		NF_NET_EVENT_NONE = 0,
-		NF_NET_EVENT_EOF = 0x10,
-		NF_NET_EVENT_ERROR = 0x20,
-		NF_NET_EVENT_TIMEOUT = 0x40,
-		NF_NET_EVENT_CONNECTED = 0x80,
-	};
+    enum NF_NET_EVENT
+    {
+        NF_NET_EVENT_NONE = 0,
+        NF_NET_EVENT_EOF = 0x10,
+        NF_NET_EVENT_ERROR = 0x20,
+        NF_NET_EVENT_TIMEOUT = 0x40,
+        NF_NET_EVENT_CONNECTED = 0x80,
+    };
 
-	NFRedisClientSocket();
-	virtual ~NFRedisClientSocket();
+    NFRedisClientSocket();
+    virtual ~NFRedisClientSocket();
 
-	int64_t Connect(const std::string& ip, const int port);
-	bool ReConnect(const std::string& ip, const int port);
+    int64_t Connect(const std::string& ip, const int port);
+    bool ReConnect(const std::string& ip, const int port);
     int Close();
-    int Write(const char *buf, size_t count);
+    int Write(const char* buf, size_t count);
 
     int Execute();
 
-	bool IsConnect();
-	redisReader* GetRedisReader();
+    bool IsConnect();
+    redisReader* GetRedisReader();
 protected:
-	static void listener_cb(struct evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sa, int socklen, void* user_data);
-	static void conn_readcb(struct bufferevent* bev, void* user_data);
-	static void conn_writecb(struct bufferevent* bev, void* user_data);
-	static void conn_eventcb(struct bufferevent* bev, short events, void* user_data);
-	static void log_cb(int severity, const char* msg);
+    static void listener_cb(struct evconnlistener* listener, evutil_socket_t fd, struct sockaddr* sa, int socklen, void* user_data);
+    static void conn_readcb(struct bufferevent* bev, void* user_data);
+    static void conn_writecb(struct bufferevent* bev, void* user_data);
+    static void conn_eventcb(struct bufferevent* bev, short events, void* user_data);
+    static void log_cb(int severity, const char* msg);
 
-	string GetIP(const std::string& url);
+    string GetIP(const std::string& url);
 
 private:
-	struct event_base* base;
-	struct bufferevent* bev;
-	struct evconnlistener* listener;
+    struct event_base* base;
+    struct bufferevent* bev;
+    struct evconnlistener* listener;
 
-	NF_NET_EVENT mNetStatus;
-	redisReader* m_pRedisReader;
-	NFINT64 fd_;
+    NF_NET_EVENT mNetStatus;
+    redisReader* m_pRedisReader;
+    NFINT64 fd_;
 };
 
 

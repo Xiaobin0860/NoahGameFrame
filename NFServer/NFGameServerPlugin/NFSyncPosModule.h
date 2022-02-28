@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -42,13 +42,13 @@ class NFSyncPosModule
     : public NFISyncPosModule
 {
 public:
-	NFSyncPosModule(NFIPluginManager* p)
-	{
-		pPluginManager = p;
-		m_bIsExecute = true;
-	}
+    NFSyncPosModule(NFIPluginManager* p)
+    {
+        pPluginManager = p;
+        m_bIsExecute = true;
+    }
 
-	virtual ~NFSyncPosModule() {};
+    virtual ~NFSyncPosModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -59,23 +59,23 @@ public:
 
 protected:
 
-	int OnNPCClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
-	int OnNPCGMPositionEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar);
+    int OnNPCClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
+    int OnNPCGMPositionEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar);
 
-	int OnPlayerClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
-	int OnPlayerGMPositionEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
-
-private:
+    int OnPlayerClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
+    int OnPlayerGMPositionEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
 
 private:
-	NFIScheduleModule* m_pScheduleModule;
-	NFINetModule* m_pNetModule;
-	NFIClassModule* m_pClassModule;
-	NFILogModule* m_pLogModule;
-	NFIKernelModule* m_pKernelModule;
-	NFIElementModule* m_pElementModule;
-	NFISceneModule* m_pSceneModule;
-	NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
+
+private:
+    NFIScheduleModule* m_pScheduleModule;
+    NFINetModule* m_pNetModule;
+    NFIClassModule* m_pClassModule;
+    NFILogModule* m_pLogModule;
+    NFIKernelModule* m_pKernelModule;
+    NFIElementModule* m_pElementModule;
+    NFISceneModule* m_pSceneModule;
+    NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
 
 

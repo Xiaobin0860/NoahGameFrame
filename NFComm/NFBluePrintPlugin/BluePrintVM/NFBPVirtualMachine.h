@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -41,7 +41,7 @@ public:
     NFBPVirtualMachine(NFIPluginManager* p, NF_SHARE_PTR<NFLogicBlock> logicBlock)
     {
         pPluginManager = p;
-        
+
         m_pBluePrintModule = p->FindModule<NFIBluePrintModule>();
         m_pElementModule = p->FindModule<NFIElementModule>();
         m_pClassModule = p->FindModule<NFIClassModule>();
@@ -53,26 +53,26 @@ public:
         mLogicBlock->running = true;
     }
 
-    virtual ~NFBPVirtualMachine() 
+    virtual ~NFBPVirtualMachine()
     {
     };
 
     virtual bool Awake()
     {
-		mLogicBlock->running = true;
+        mLogicBlock->running = true;
         return true;
     }
 
     virtual bool Init()
     {
-		StartToProcessMonitor();
+        StartToProcessMonitor();
 
         return true;
     }
 
     virtual bool AfterInit()
     {
-		//PrepareInputData();
+        //PrepareInputData();
         return true;
     }
 
@@ -93,13 +93,13 @@ public:
 
     virtual bool BeforeShut()
     {
-		m_pBPVMEventModule->UnRegisterAllCallBack(mLogicBlock->id);
+        m_pBPVMEventModule->UnRegisterAllCallBack(mLogicBlock->id);
         return true;
     }
 
     virtual bool Shut()
     {
-		mLogicBlock->running = false;
+        mLogicBlock->running = false;
         return true;
     }
 
@@ -108,18 +108,18 @@ public:
         return true;
     }
 
-	virtual bool OnReloadPlugin()
-	{
-		return true;
-	}
+    virtual bool OnReloadPlugin()
+    {
+        return true;
+    }
 
 private:
-	void StartToProcessMonitor();
+    void StartToProcessMonitor();
 
-	int GameEventIDCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);
-	int NetEventIDCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);
+    int GameEventIDCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);
+    int NetEventIDCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);
     int NetMsgCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);
-    
+
     int GameObjectCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);
     int ObjectPropCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);
     int ObjectRecordCallBack(const NFGUID& objectID, const  NFGUID& monitorID, const int eventID, const NFMapEx<std::string, NFData>& data);

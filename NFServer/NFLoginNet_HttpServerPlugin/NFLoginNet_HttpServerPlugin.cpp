@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -31,13 +31,13 @@
 NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
 {
 
-	CREATE_PLUGIN(pm, NFLoginNet_HttpServerPlugin)
+    CREATE_PLUGIN(pm, NFLoginNet_HttpServerPlugin)
 
 };
 
 NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
 {
-	DESTROY_PLUGIN(pm, NFLoginNet_HttpServerPlugin)
+    DESTROY_PLUGIN(pm, NFLoginNet_HttpServerPlugin)
 };
 
 #endif
@@ -46,20 +46,20 @@ NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
 
 const int NFLoginNet_HttpServerPlugin::GetPluginVersion()
 {
-	return 0;
+    return 0;
 }
 
 const std::string NFLoginNet_HttpServerPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFLoginNet_HttpServerPlugin);
+    return GET_CLASS_NAME(NFLoginNet_HttpServerPlugin);
 }
 
 void NFLoginNet_HttpServerPlugin::Install()
 {
-	REGISTER_MODULE(pPluginManager, NFILoginNet_HttpServerModule, NFLoginNet_HttpServerModule)
+    REGISTER_MODULE(pPluginManager, NFILoginNet_HttpServerModule, NFLoginNet_HttpServerModule)
 }
 
 void NFLoginNet_HttpServerPlugin::Uninstall()
 {
-	UNREGISTER_MODULE(pPluginManager, NFILoginNet_HttpServerModule, NFLoginNet_HttpServerModule)
+    UNREGISTER_MODULE(pPluginManager, NFILoginNet_HttpServerModule, NFLoginNet_HttpServerModule)
 }

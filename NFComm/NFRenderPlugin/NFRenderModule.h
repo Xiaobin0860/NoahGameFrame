@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -41,7 +41,7 @@ class NFRenderModule
     : public NFIRenderModule
 {
 public:
-    NFRenderModule( NFIPluginManager* p )
+    NFRenderModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -58,7 +58,7 @@ public:
     virtual bool Shut();
     virtual bool Finalize();
     virtual bool OnReloadPlugin();
- 
+
 protected:
     int SetupRenderer();
 

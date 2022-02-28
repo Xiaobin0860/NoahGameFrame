@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: Stonexin
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -73,13 +73,13 @@
 class HttpObject
 {
 public:
-    HttpObject(NFIHttpClient* pNet, struct bufferevent* pBev, HTTP_RESP_FUNCTOR_PTR pCB, NFGUID id, const std::string aMemo ="")
+    HttpObject(NFIHttpClient* pNet, struct bufferevent* pBev, HTTP_RESP_FUNCTOR_PTR pCB, NFGUID id, const std::string aMemo = "")
     {
         m_pBev = pBev;
         m_pHttpClient = pNet;
         m_pCB = pCB;
 
-		mID = id;
+        mID = id;
         strMemo = aMemo;
     }
 
@@ -87,7 +87,7 @@ public:
     {
     }
 
-	NFGUID mID;
+    NFGUID mID;
     bufferevent* m_pBev;
     NFIHttpClient* m_pHttpClient;
     HTTP_RESP_FUNCTOR_PTR m_pCB;
@@ -99,7 +99,7 @@ class NFHttpClient : public NFIHttpClient
 {
 public:
     NFHttpClient(int nRetry = 2, int nTimeoutSec = 30)
-            : m_nRetry(nRetry), m_nTimeOut(nTimeoutSec)
+        : m_nRetry(nRetry), m_nTimeOut(nTimeoutSec)
     {
     }
 
@@ -114,21 +114,21 @@ public:
     virtual bool Final();
 
     virtual bool DoGet(const std::string& strUri, HTTP_RESP_FUNCTOR_PTR pCB,
-                            const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID());
+                       const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID());
 
     virtual bool DoPost(const std::string& strUri, const std::string& strPostData, const std::string& strMemoData, HTTP_RESP_FUNCTOR_PTR pCB,
-                             const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID());
+                        const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID());
 
 private:
     static void OnHttpReqDone(struct evhttp_request* req, void* ctx);
 
     bool MakeRequest(const std::string& strUri,
-					HTTP_RESP_FUNCTOR_PTR pCB,
-                    const std::string& strPostData,
-                    const std::map<std::string, std::string>& xHeaders,
-					const NFHttpType eHttpType,
-                    const std::string& strMemoData,
-                    const NFGUID id = NFGUID());
+                     HTTP_RESP_FUNCTOR_PTR pCB,
+                     const std::string& strPostData,
+                     const std::map<std::string, std::string>& xHeaders,
+                     const NFHttpType eHttpType,
+                     const std::string& strMemoData,
+                     const NFGUID id = NFGUID());
 
 private:
     std::string m_strUserAgent;
@@ -140,7 +140,7 @@ private:
     std::list<HttpObject*> mlHttpObject;
 
 #if NF_ENABLE_SSL
-    SSL_CTX *			m_pSslCtx = nullptr;
+    SSL_CTX*            m_pSslCtx = nullptr;
 #endif
 };
 

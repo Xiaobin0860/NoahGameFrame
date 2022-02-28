@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -35,7 +35,7 @@ class NFBluePrintModule
     : public NFIBluePrintModule
 {
 public:
-    NFBluePrintModule( NFIPluginManager* p )
+    NFBluePrintModule(NFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -56,11 +56,11 @@ public:
     virtual void SetNodeModifyEventFunctor(std::function<void(const NFGUID&, const bool)> functor);
     virtual void SetLinkModifyEventFunctor(std::function<void(const NFGUID&, const bool)> functor);
 
-	virtual NF_SHARE_PTR<NFLogicBlock> CreateLogicBlock(const NFGUID& logicBlockId, const std::string& name);
-	virtual const std::list<NF_SHARE_PTR<NFLogicBlock>>& GetLogicBlocks();
-	virtual NF_SHARE_PTR<NFLogicBlock> GetLogicBlock(const NFGUID& logicBlockId);
+    virtual NF_SHARE_PTR<NFLogicBlock> CreateLogicBlock(const NFGUID& logicBlockId, const std::string& name);
+    virtual const std::list<NF_SHARE_PTR<NFLogicBlock>>& GetLogicBlocks();
+    virtual NF_SHARE_PTR<NFLogicBlock> GetLogicBlock(const NFGUID& logicBlockId);
 
-	virtual NF_SHARE_PTR<NFBluePrintNodeBase> FindNode(const NFGUID& id);
+    virtual NF_SHARE_PTR<NFBluePrintNodeBase> FindNode(const NFGUID& id);
 
     virtual NF_SHARE_PTR<NFIMonitor> AddMonitor(const NFGUID& logicBlockId, const NFMonitorType type, const NFGUID& id, const std::string& name);
     virtual NF_SHARE_PTR<NFIVariable> AddVariable(const NFGUID& logicBlockId, const NFVariableType type, const NFGUID& id, const std::string& name);
@@ -77,12 +77,12 @@ public:
     virtual bool DeleteLink(const NFGUID& logicBlockId, const NFGUID& startNode, const NFGUID& endNode, const NFGUID& startPin, const NFGUID& endPin);
     virtual bool DeleteLink(const NFGUID& logicBlockId, const NFGUID& id);
     virtual bool DeleteLink(const NFGUID& id);
-	virtual bool CheckLink(const NFGUID& id);
+    virtual bool CheckLink(const NFGUID& id);
     virtual std::list<NF_SHARE_PTR<NFDataLink>> GetLinks(const NFGUID& logicBlockId);
 
-	virtual bool DeleteMonitor(const NFGUID& id);
-	virtual bool DeleteJudgement(const NFGUID& id);
-	virtual bool DeleteExecutor(const NFGUID& id);
+    virtual bool DeleteMonitor(const NFGUID& id);
+    virtual bool DeleteJudgement(const NFGUID& id);
+    virtual bool DeleteExecutor(const NFGUID& id);
 
 protected:
     void NodeModifyEvent(const NFGUID& id, const bool create);

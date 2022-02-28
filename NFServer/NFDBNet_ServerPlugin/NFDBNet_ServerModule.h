@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -58,7 +58,7 @@ public:
         pPluginManager = p;
     }
 
-	virtual bool Awake();
+    virtual bool Awake();
     virtual bool Init();
     virtual bool Shut();
     virtual bool Execute();
@@ -69,26 +69,26 @@ protected:
 
     void OnSocketEvent(const NFSOCK sockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
 
-	void OnClientDisconnect(const NFSOCK nAddress);
-	void OnClientConnected(const NFSOCK nAddress);
+    void OnClientDisconnect(const NFSOCK nAddress);
+    void OnClientConnected(const NFSOCK nAddress);
 
 
-	void OnRequireRoleListProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnCreateRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnDeleteRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnLoadRoleDataProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
-	void OnSaveRoleDataProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnRequireRoleListProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnCreateRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnDeleteRoleGameProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnLoadRoleDataProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
+    void OnSaveRoleDataProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len);
 
 
 protected:
-	NFIPlayerRedisModule* m_pPlayerRedisModule;
-	NFIAccountRedisModule* m_pAccountRedisModule;
+    NFIPlayerRedisModule* m_pPlayerRedisModule;
+    NFIAccountRedisModule* m_pAccountRedisModule;
     NFIElementModule* m_pElementModule;
     NFIClassModule* m_pClassModule;
     NFIKernelModule* m_pKernelModule;
     NFILogModule* m_pLogModule;
-	NFINetModule* m_pNetModule;
-	NFINetClientModule* m_pNetClientModule;
+    NFINetModule* m_pNetModule;
+    NFINetClientModule* m_pNetClientModule;
     NFIThreadPoolModule* m_pThreadPoolModule;
 };
 

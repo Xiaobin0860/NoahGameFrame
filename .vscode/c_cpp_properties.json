@@ -16,15 +16,18 @@
                 "${workspaceFolder}/Dependencies/protobuf/src",
                 "${workspaceFolder}/Dependencies/libevent/include"
             ],
-            "defines": ["DEBUG"],
+            "defines": [
+                "DEBUG"
+            ],
             "macFrameworkPath": [
                 "/System/Library/Frameworks",
                 "/Library/Frameworks"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
-            "cppStandard": "c++11",
-            "intelliSenseMode": "clang-x64"
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: Stonexin
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -83,10 +83,10 @@ public:
     virtual bool Final() = 0;
 
     virtual bool DoGet(const std::string& strUri, HTTP_RESP_FUNCTOR_PTR pCB,
-                            const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID()) = 0;
+                       const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID()) = 0;
 
     virtual bool DoPost(const std::string& strUri, const std::string& strPostData, const std::string& strMemoData, HTTP_RESP_FUNCTOR_PTR pCB,
-                             const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID()) = 0;
+                        const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID()) = 0;
 
 
 };

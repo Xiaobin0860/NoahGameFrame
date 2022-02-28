@@ -32,132 +32,132 @@
 class NFDebugger : public NFIDebugger
 {
 private:
-	NFDebugger() {}
+    NFDebugger() {}
 public:
-	NFDebugger(NFIPluginManager* p, const NFGUID& blockID, const NFGUID& id, const std::string& name)
-	{
-		this->id = id;
-		this->name = name;
-		this->pPluginManager = p;
-		this->logicBlockId = blockID;
+    NFDebugger(NFIPluginManager* p, const NFGUID& blockID, const NFGUID& id, const std::string& name)
+    {
+        this->id = id;
+        this->name = name;
+        this->pPluginManager = p;
+        this->logicBlockId = blockID;
 
-		m_pLogModule = this->pPluginManager->FindModule<NFILogModule>();
+        m_pLogModule = this->pPluginManager->FindModule<NFILogModule>();
 
-		Init();
-	}
+        Init();
+    }
 
 
-	virtual void InitInputArgs()
-	{
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::PreNode);
-			var->SetValueType(NFValueType::Node);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+    virtual void InitInputArgs()
+    {
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::PreNode);
+            var->SetValueType(NFValueType::Node);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		} 
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogLevel);
-			var->SetValueType(NFValueType::Int);
-			var->fromType = NFIODataComFromType::INTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogLevel);
+            var->SetValueType(NFValueType::Int);
+            var->fromType = NFIODataComFromType::INTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogObject);
-			var->SetValueType(NFValueType::Object);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogObject);
+            var->SetValueType(NFValueType::Object);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogString);
-			var->SetValueType(NFValueType::String);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogString);
+            var->SetValueType(NFValueType::String);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogInt);
-			var->SetValueType(NFValueType::Int);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogInt);
+            var->SetValueType(NFValueType::Int);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogFloat);
-			var->SetValueType(NFValueType::Float);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogFloat);
+            var->SetValueType(NFValueType::Float);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogVector2);
-			var->SetValueType(NFValueType::Vector2);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogVector2);
+            var->SetValueType(NFValueType::Vector2);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogVector3);
-			var->SetValueType(NFValueType::Vector3);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogVector3);
+            var->SetValueType(NFValueType::Vector3);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogDictionary);
-			var->SetValueType(NFValueType::Dictionary);
-			var->fromType = NFIODataComFromType::EXTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogDictionary);
+            var->SetValueType(NFValueType::Dictionary);
+            var->fromType = NFIODataComFromType::EXTERNAL;
 
-			inputArgs.push_back(var);
-		}
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogData);
-			var->SetValueType(NFValueType::String);
-			var->fromType = NFIODataComFromType::INTERNAL;
+            inputArgs.push_back(var);
+        }
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerInputArg::toString(NFDebuggerInputArg::LogData);
+            var->SetValueType(NFValueType::String);
+            var->fromType = NFIODataComFromType::INTERNAL;
 
-			inputArgs.push_back(var);
-		}
-	}
+            inputArgs.push_back(var);
+        }
+    }
 
-	virtual void InitOutputArgs()
-	{
-		{
-			NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
-			var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
-			var->name = NFDebuggerOutputArg::toString(NFDebuggerOutputArg::NextNode);
-			var->SetValueType(NFValueType::Node);
+    virtual void InitOutputArgs()
+    {
+        {
+            NF_SHARE_PTR<NFIOData> var = NF_SHARE_PTR<NFIOData>(NF_NEW NFIOData());
+            var->id = this->pPluginManager->FindModule<NFIKernelModule>()->CreateGUID();
+            var->name = NFDebuggerOutputArg::toString(NFDebuggerOutputArg::NextNode);
+            var->SetValueType(NFValueType::Node);
 
-			outputArgs.push_back(var);
-		}
-	}
+            outputArgs.push_back(var);
+        }
+    }
 
-	virtual void UpdateOutputData(const NFGUID& runTimeOwner) override;
+    virtual void UpdateOutputData(const NFGUID& runTimeOwner) override;
 
-	virtual NF_SHARE_PTR<NFIOData> FindOutputNodeIOData() override;
+    virtual NF_SHARE_PTR<NFIOData> FindOutputNodeIOData() override;
 
 private:
 
-	NFILogModule* m_pLogModule;
+    NFILogModule* m_pLogModule;
 };

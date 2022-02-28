@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -56,7 +56,7 @@ const int NFGameServerPlugin::GetPluginVersion()
 
 const std::string NFGameServerPlugin::GetPluginName()
 {
-	return GET_CLASS_NAME(NFGameServerPlugin);
+    return GET_CLASS_NAME(NFGameServerPlugin);
 }
 
 void NFGameServerPlugin::Install()
@@ -66,17 +66,17 @@ void NFGameServerPlugin::Install()
     REGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFSceneProcessModule)
     REGISTER_MODULE(pPluginManager, NFIPropertyModule, NFPropertyModule)
     REGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFPropertyConfigModule)
-	REGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFNPCRefreshModule)
-	REGISTER_MODULE(pPluginManager, NFISyncPosModule, NFSyncPosModule)
-	REGISTER_MODULE(pPluginManager, NFICreateRoleModule, NFCreateRoleModule)
+    REGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFNPCRefreshModule)
+    REGISTER_MODULE(pPluginManager, NFISyncPosModule, NFSyncPosModule)
+    REGISTER_MODULE(pPluginManager, NFICreateRoleModule, NFCreateRoleModule)
 }
 
 void NFGameServerPlugin::Uninstall()
 {
-	UNREGISTER_MODULE(pPluginManager, NFICreateRoleModule, NFCreateRoleModule)
-	UNREGISTER_MODULE(pPluginManager, NFISyncPosModule, NFSyncModule)
-	UNREGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFNPCRefreshModule)
-	UNREGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFPropertyConfigModule)
+    UNREGISTER_MODULE(pPluginManager, NFICreateRoleModule, NFCreateRoleModule)
+    UNREGISTER_MODULE(pPluginManager, NFISyncPosModule, NFSyncModule)
+    UNREGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFNPCRefreshModule)
+    UNREGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFPropertyConfigModule)
     UNREGISTER_MODULE(pPluginManager, NFIPropertyModule, NFPropertyModule)
     UNREGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFSceneProcessModule)
     UNREGISTER_MODULE(pPluginManager, NFIGameServerModule, NFGameServerModule)

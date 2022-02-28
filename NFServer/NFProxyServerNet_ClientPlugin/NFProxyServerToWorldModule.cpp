@@ -1,12 +1,12 @@
 /*
-            This file is part of: 
+            This file is part of:
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
    Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
-   
+
    NoahFrame is open-source software and you can redistribute it and/or modify
    it under the terms of the License; besides, anyone who use this file/software must include this copyright announcement.
 
@@ -30,14 +30,14 @@
 
 bool NFProxyServerToWorldModule::Init()
 {
-	m_pSecurityModule = pPluginManager->FindModule<NFISecurityModule>();
-	m_pProxyLogicModule = pPluginManager->FindModule<NFIProxyLogicModule>();
-	m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-	m_pProxyServerNet_ServerModule = pPluginManager->FindModule<NFIProxyServerNet_ServerModule>();
-	m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-	m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-	m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-	m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
+    m_pSecurityModule = pPluginManager->FindModule<NFISecurityModule>();
+    m_pProxyLogicModule = pPluginManager->FindModule<NFIProxyLogicModule>();
+    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pProxyServerNet_ServerModule = pPluginManager->FindModule<NFIProxyServerNet_ServerModule>();
+    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pNetClientModule = pPluginManager->FindModule<NFINetClientModule>();
 
     return true;
 }
@@ -51,15 +51,15 @@ bool NFProxyServerToWorldModule::Shut()
 
 bool NFProxyServerToWorldModule::Execute()
 {
-	ServerReport();
-	return true;
+    ServerReport();
+    return true;
 }
 
 void NFProxyServerToWorldModule::OnServerInfoProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
     NFGUID nPlayerID;
     NFMsg::ServerInfoReportList xMsg;
-    if (!NFINetModule::ReceivePB( msgID, msg, len, xMsg, nPlayerID))
+    if (!NFINetModule::ReceivePB(msgID, msg, len, xMsg, nPlayerID))
     {
         return;
     }
@@ -75,7 +75,7 @@ void NFProxyServerToWorldModule::OnServerInfoProcess(const NFSOCK sockIndex, con
         xServerData.ip = xData.server_ip();
         xServerData.nPort = xData.server_port();
         xServerData.name = xData.server_name();
-		xServerData.nWorkLoad = xData.server_cur_count();
+        xServerData.nWorkLoad = xData.server_cur_count();
         xServerData.eServerType = (NF_SERVER_TYPES)xData.server_type();
 
         switch (xServerData.eServerType)
@@ -87,7 +87,7 @@ void NFProxyServerToWorldModule::OnServerInfoProcess(const NFSOCK sockIndex, con
             break;
             case NF_SERVER_TYPES::NF_ST_WORLD:
             {
-				m_pNetClientModule->AddServer(xServerData);
+                m_pNetClientModule->AddServer(xServerData);
             }
             break;
             default:
@@ -123,10 +123,10 @@ void NFProxyServerToWorldModule::Register(NFINet* pNet)
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Server::ThisName());
     if (xLogicClass)
     {
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
 
             const int serverType = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Type());
             const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::ServerID());
@@ -154,7 +154,7 @@ void NFProxyServerToWorldModule::Register(NFINet* pNet)
                 if (pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
-					GetClusterModule()->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::PTWG_PROXY_REGISTERED, xMsg);
+                    GetClusterModule()->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::PTWG_PROXY_REGISTERED, xMsg);
 
                     m_pLogModule->LogInfo(NFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
@@ -165,88 +165,88 @@ void NFProxyServerToWorldModule::Register(NFINet* pNet)
 
 void NFProxyServerToWorldModule::ServerReport()
 {
-	if (mLastReportTime + 10 > pPluginManager->GetNowTime())
-	{
-		return;
-	}
-	mLastReportTime = pPluginManager->GetNowTime();
-	std::shared_ptr<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Server::ThisName());
-	if (xLogicClass)
-	{
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
+    if (mLastReportTime + 10 > pPluginManager->GetNowTime())
+    {
+        return;
+    }
+    mLastReportTime = pPluginManager->GetNowTime();
+    std::shared_ptr<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Server::ThisName());
+    if (xLogicClass)
+    {
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
 
-			const int serverType = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Type());
-			const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::ServerID());
-			if ( pPluginManager->GetAppID() == serverID)
-			{
-				const int nPort = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Port());
-				const int maxConnect = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::MaxOnline());
-				const std::string& name = m_pElementModule->GetPropertyString(strId, NFrame::Server::ID());
-				const std::string& ip = m_pElementModule->GetPropertyString(strId, NFrame::Server::IP());
+            const int serverType = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Type());
+            const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::ServerID());
+            if (pPluginManager->GetAppID() == serverID)
+            {
+                const int nPort = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Port());
+                const int maxConnect = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::MaxOnline());
+                const std::string& name = m_pElementModule->GetPropertyString(strId, NFrame::Server::ID());
+                const std::string& ip = m_pElementModule->GetPropertyString(strId, NFrame::Server::IP());
 
-				NFMsg::ServerInfoReport reqMsg;
+                NFMsg::ServerInfoReport reqMsg;
 
-				reqMsg.set_server_id(serverID);
-				reqMsg.set_server_name(strId);
+                reqMsg.set_server_id(serverID);
+                reqMsg.set_server_name(strId);
                 ////////cur count
-				reqMsg.set_server_cur_count(0);
-				reqMsg.set_server_ip(ip);
-				reqMsg.set_server_port(nPort);
-				reqMsg.set_server_max_online(maxConnect);
-				reqMsg.set_server_state(NFMsg::EST_NARMAL);
-				reqMsg.set_server_type(serverType);
+                reqMsg.set_server_cur_count(0);
+                reqMsg.set_server_ip(ip);
+                reqMsg.set_server_port(nPort);
+                reqMsg.set_server_max_online(maxConnect);
+                reqMsg.set_server_state(NFMsg::EST_NARMAL);
+                reqMsg.set_server_type(serverType);
 
 
-				m_pNetClientModule->SendToAllServerByPB(NF_SERVER_TYPES::NF_ST_WORLD, NFMsg::STS_SERVER_REPORT, reqMsg, NFGUID());
-		
-			}
-		}
-	}
+                m_pNetClientModule->SendToAllServerByPB(NF_SERVER_TYPES::NF_ST_WORLD, NFMsg::STS_SERVER_REPORT, reqMsg, NFGUID());
+
+            }
+        }
+    }
 }
 
 bool NFProxyServerToWorldModule::AfterInit()
 {
-	m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, NFMsg::ACK_CONNECT_WORLD, this, &NFProxyServerToWorldModule::OnSelectServerResultProcess);
-	m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, NFMsg::STS_NET_INFO, this, &NFProxyServerToWorldModule::OnServerInfoProcess);
-	m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFProxyServerToWorldModule::OnOtherMessage);
+    m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, NFMsg::ACK_CONNECT_WORLD, this, &NFProxyServerToWorldModule::OnSelectServerResultProcess);
+    m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, NFMsg::STS_NET_INFO, this, &NFProxyServerToWorldModule::OnServerInfoProcess);
+    m_pNetClientModule->AddReceiveCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFProxyServerToWorldModule::OnOtherMessage);
 
-	m_pNetClientModule->AddEventCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFProxyServerToWorldModule::OnSocketWSEvent);
-	m_pNetClientModule->ExpandBufferSize();
+    m_pNetClientModule->AddEventCallBack(NF_SERVER_TYPES::NF_ST_WORLD, this, &NFProxyServerToWorldModule::OnSocketWSEvent);
+    m_pNetClientModule->ExpandBufferSize();
 
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement(NFrame::Server::ThisName());
     if (xLogicClass)
     {
-		const std::vector<std::string>& strIdList = xLogicClass->GetIDList(); 
-		
-		const int nCurAppID = pPluginManager->GetAppID();
-		std::vector<std::string>::const_iterator itr =
-			std::find_if(strIdList.begin(), strIdList.end(), [&](const std::string& strConfigId)
-		{
-			return nCurAppID == m_pElementModule->GetPropertyInt32(strConfigId, NFrame::Server::ServerID());
-		});
+        const std::vector<std::string>& strIdList = xLogicClass->GetIDList();
 
-		if (strIdList.end() == itr)
-		{
-			std::ostringstream strLog;
-			strLog << "Cannot find current server, AppID = " << nCurAppID;
-			m_pLogModule->LogError(NULL_OBJECT, strLog, __FILE__, __LINE__);
-			NFASSERT(-1, "Cannot find current server", __FILE__, __FUNCTION__);
-			exit(0);
-		}
+        const int nCurAppID = pPluginManager->GetAppID();
+        std::vector<std::string>::const_iterator itr =
+            std::find_if(strIdList.begin(), strIdList.end(), [&](const std::string & strConfigId)
+        {
+            return nCurAppID == m_pElementModule->GetPropertyInt32(strConfigId, NFrame::Server::ServerID());
+        });
 
-		const int nCurArea = m_pElementModule->GetPropertyInt32(*itr, NFrame::Server::Area());
+        if (strIdList.end() == itr)
+        {
+            std::ostringstream strLog;
+            strLog << "Cannot find current server, AppID = " << nCurAppID;
+            m_pLogModule->LogError(NULL_OBJECT, strLog, __FILE__, __LINE__);
+            NFASSERT(-1, "Cannot find current server", __FILE__, __FUNCTION__);
+            exit(0);
+        }
 
-		for (int i = 0; i < strIdList.size(); ++i)
-		{
-			const std::string& strId = strIdList[i];
+        const int nCurArea = m_pElementModule->GetPropertyInt32(*itr, NFrame::Server::Area());
+
+        for (int i = 0; i < strIdList.size(); ++i)
+        {
+            const std::string& strId = strIdList[i];
 
             const int serverType = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Type());
             const int serverID = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::ServerID());
-			const int nServerArea = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Area());
-			if (serverType == NF_SERVER_TYPES::NF_ST_WORLD && nCurArea == nServerArea)
+            const int nServerArea = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Area());
+            if (serverType == NF_SERVER_TYPES::NF_ST_WORLD && nCurArea == nServerArea)
             {
                 const int nPort = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::Port());
                 //const int maxConnect = m_pElementModule->GetPropertyInt32(strId, NFrame::Server::MaxOnline());
@@ -262,7 +262,7 @@ bool NFProxyServerToWorldModule::AfterInit()
                 xServerData.nPort = nPort;
                 xServerData.name = strId;
 
-				m_pNetClientModule->AddServer(xServerData);
+                m_pNetClientModule->AddServer(xServerData);
             }
         }
     }
@@ -273,10 +273,10 @@ bool NFProxyServerToWorldModule::AfterInit()
 
 void NFProxyServerToWorldModule::OnSelectServerResultProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
-    
+
     NFGUID nPlayerID;
     NFMsg::AckConnectWorldResult xMsg;
-    if (!NFINetModule::ReceivePB( msgID, msg, len, xMsg, nPlayerID))
+    if (!NFINetModule::ReceivePB(msgID, msg, len, xMsg, nPlayerID))
     {
         return;
     }
@@ -296,7 +296,7 @@ void NFProxyServerToWorldModule::OnSelectServerResultProcess(const NFSOCK sockIn
 
 NFINetClientModule* NFProxyServerToWorldModule::GetClusterModule()
 {
-	return m_pNetClientModule;
+    return m_pNetClientModule;
 }
 
 bool NFProxyServerToWorldModule::VerifyConnectData(const std::string& account, const std::string& strKey)
@@ -317,7 +317,7 @@ void NFProxyServerToWorldModule::LogServerInfo(const std::string& strServerInfo)
     m_pLogModule->LogInfo(NFGUID(), strServerInfo, "");
 }
 
-void NFProxyServerToWorldModule::OnOtherMessage(const NFSOCK sockIndex, const int msgID, const char * msg, const uint32_t len)
+void NFProxyServerToWorldModule::OnOtherMessage(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)
 {
-	m_pProxyServerNet_ServerModule->Transport(sockIndex, msgID, msg, len);
+    m_pProxyServerNet_ServerModule->Transport(sockIndex, msgID, msg, len);
 }
